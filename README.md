@@ -34,7 +34,7 @@ lake build depviz
 Clone this repository and build:
 
 ```bash
-git clone https://github.com/[username]/LeanDepViz.git
+git clone https://github.com/cameronfreer/LeanDepViz.git
 cd LeanDepViz
 lake build
 ```
