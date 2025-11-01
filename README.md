@@ -1,0 +1,409 @@
+# LeanDepViz
+
+A dependency visualization and verification tool for Lean 4 projects. LeanDepViz extracts declaration dependencies from your project and generates dependency graphs in DOT, SVG, PNG, or JSON formats. It integrates with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) for policy-based code verification.
+
+## Features
+
+- **Smart Filtering**: By default, keeps only declarations from your project's root modules, producing manageable graph sizes
+- **Flexible Whitelisting**: Include additional module prefixes (e.g., `Std`, `Init`) as needed
+- **Multiple Output Formats**: Generate DOT files, JSON for verification, or render directly to SVG/PNG via Graphviz
+- **Edge Consistency**: Automatically filters edges to match the surviving nodes
+- **Policy-Based Verification**: Integrate with LeanParanoia to enforce code quality standards
+- **Interactive Viewer**: Web-based dashboard for exploring results
+
+## Installation
+
+### As a Lake Dependency (Recommended)
+
+Add to your project's `lakefile.lean`:
+
+```lean
+require LeanDepViz from git
+  "https://github.com/[username]/LeanDepViz.git" @ "main"
+```
+
+Then:
+
+```bash
+lake update LeanDepViz
+lake build depviz
+```
+
+### Manual Installation
+
+Clone this repository and build:
+
+```bash
+git clone https://github.com/[username]/LeanDepViz.git
+cd LeanDepViz
+lake build
+```
+
+## Quick Start
+
+### 1. Generate Dependency Graph
+
+From your project directory:
+
+```bash
+lake exe depviz --roots MyProject --json-out depgraph.json --dot-out depgraph.dot
+```
+
+This creates:
+- `depgraph.json` - Machine-readable format for verification
+- `depgraph.dot` - GraphViz format for visualization
+
+### 2. (Optional) Run Policy-Based Verification
+
+If you want to verify code quality with LeanParanoia:
+
+```bash
+# Install Python dependencies
+pip install pyyaml
+
+# Copy example policy
+cp .lake/packages/LeanDepViz/examples/policy.yaml ./my-policy.yaml
+# Edit my-policy.yaml to match your project structure
+
+# Run checks
+python .lake/packages/LeanDepViz/scripts/paranoia_runner.py \
+  --depgraph depgraph.json \
+  --policy my-policy.yaml \
+  --out paranoia_report.json \
+  --jobs 8
+```
+
+### 3. View Results
+
+Open the interactive viewer:
+
+```bash
+# Copy viewer to your project (one-time)
+cp .lake/packages/LeanDepViz/viewer/paranoia-viewer.html ./
+
+# Open in browser
+open paranoia-viewer.html
+# Load depgraph.json and (optionally) paranoia_report.json
+```
+
+## Usage
+
+### Basic Commands
+
+Generate a filtered dependency graph:
+
+```bash
+lake exe depviz --roots MyProject --dot-out depgraph.dot
+```
+
+Include additional module prefixes:
+
+```bash
+lake exe depviz --roots MyProject --include-prefix Std,Init --dot-out depgraph.dot
+```
+
+Generate both DOT and JSON:
+
+```bash
+lake exe depviz --roots MyProject --dot-out depgraph.dot --json-out depgraph.json
+```
+
+Render directly to SVG/PNG (requires Graphviz):
+
+```bash
+lake exe depviz --roots MyProject --svg-out depgraph.svg --png-out depgraph.png
+```
+
+### CLI Options
+
+- `--roots <name>`: Project root name(s) for filtering (required)
+- `--dot-out <file>`: Output DOT file path
+- `--json-out <file>`: Output JSON file path (for LeanParanoia integration)
+- `--svg-out <file>`: Output SVG file path (requires Graphviz)
+- `--png-out <file>`: Output PNG file path (requires Graphviz)
+- `--include-prefix <prefixes>`: Comma-separated list of additional module prefixes to include
+- `--keep-all`: Disable filtering entirely (include all declarations)
+
+## LeanParanoia Integration
+
+LeanDepViz can be integrated with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) to verify that specific parts of your codebase are free of `sorry`, unapproved axioms, or other undesirable constructs.
+
+### Setup
+
+1. **Add LeanParanoia to your project** (in `lakefile.lean`):
+   ```lean
+   require paranoia from git
+     "https://github.com/oOo0oOo/LeanParanoia.git" @ "main"
+   ```
+
+2. **Update and build dependencies**:
+   ```bash
+   lake update paranoia
+   lake build paranoia
+   ```
+   
+   Note: If you get toolchain mismatches, sync your `lean-toolchain` with Mathlib:
+   ```bash
+   cp .lake/packages/mathlib/lean-toolchain ./lean-toolchain
+   lake clean
+   lake build
+   ```
+
+3. **Install Python dependencies**:
+   ```bash
+   pip install pyyaml
+   ```
+
+### Workflow
+
+1. **Generate dependency graph**:
+   ```bash
+   lake exe depviz --roots MyProject --json-out depgraph.json
+   ```
+
+2. **Create a policy file** (copy and customize an example):
+   ```bash
+   cp .lake/packages/LeanDepViz/examples/policy.yaml ./my-policy.yaml
+   ```
+   
+   Edit `my-policy.yaml` to define zones matching your project structure.
+
+3. **Run policy checks**:
+   ```bash
+   python .lake/packages/LeanDepViz/scripts/paranoia_runner.py \
+     --depgraph depgraph.json \
+     --policy my-policy.yaml \
+     --out paranoia_report.json \
+     --jobs 8
+   ```
+
+4. **View results** in the interactive viewer:
+   ```bash
+   open paranoia-viewer.html
+   # Load depgraph.json and paranoia_report.json in the browser
+   ```
+
+### Policy Files
+
+The repository includes three example policy configurations in the `examples/` directory:
+
+- **`policy.yaml`**: Balanced policy for production code with multiple zones
+- **`policy-strict.yaml`**: Ultra-strict (constructive-only, no Classical.choice)
+- **`policy-dev.yaml`**: Lenient policy for development (only tracks `sorry`)
+
+Edit these files to define zones with different verification requirements for your project.
+
+### Policy File Structure
+
+```yaml
+zones:
+  - name: "Zone Name"
+    include: ["MyProject.Module.**"]     # Which modules to check
+    exclude: ["MyProject.Module.Skip"]   # Exceptions
+    allowed_axioms:                      # Whitelist of axioms
+      - "propext"
+      - "Classical.choice"
+      - "Quot.sound"
+    forbid:                              # What to forbid
+      - "sorry"
+      - "metavariables"
+      - "unsafe"
+    trust_modules:                       # Don't re-verify these
+      - "Std"
+      - "Mathlib"
+```
+
+### What Gets Verified
+
+For each declaration, LeanParanoia can check:
+
+- **Sorry/Admit**: Incomplete proofs
+- **Axioms**: Use of axioms beyond your whitelist
+- **Metavariables**: Partially elaborated terms
+- **Unsafe**: Unsafe constructs
+- **Extern**: External (FFI) declarations
+
+Each zone in your policy can have different rules.
+
+## Interactive Viewer
+
+The `viewer/paranoia-viewer.html` file provides a web-based interface to:
+- View all declarations with their verification status
+- Filter by pass/fail, zone, or search text
+- See detailed error messages for failing checks
+- Identify which axioms are used by each declaration
+
+No server required - pure client-side JavaScript that works offline.
+
+## Installing Graphviz
+
+Graphviz is required for SVG/PNG output formats.
+
+### macOS (Homebrew)
+```bash
+brew install graphviz
+```
+
+### Ubuntu/Debian
+```bash
+sudo apt-get install graphviz
+```
+
+### Fedora
+```bash
+sudo dnf install graphviz
+```
+
+### Arch Linux
+```bash
+sudo pacman -S graphviz
+```
+
+### Windows
+```bash
+choco install graphviz
+```
+
+Or download the MSI installer from [graphviz.org](https://graphviz.org/download/)
+
+## Viewing DOT Files
+
+If you generate a `.dot` file, you can render it manually with Graphviz:
+
+```bash
+dot -Tsvg depgraph.dot -o depgraph.svg
+dot -Tpng depgraph.dot -o depgraph.png
+```
+
+Or open it with visualization tools like:
+- [Graphviz Online](https://dreampuf.github.io/GraphvizOnline/)
+- VS Code extensions (e.g., Graphviz Preview)
+- Desktop viewers (e.g., xdot, gvedit)
+
+## Example: Complete Workflow
+
+```bash
+# 1. Add LeanDepViz to your project's lakefile.lean
+# 2. Update dependencies
+lake update LeanDepViz
+lake build depviz
+
+# 3. Generate graph
+lake exe depviz --roots MyProject --json-out depgraph.json
+
+# 4. (Optional) Set up verification
+lake update paranoia
+lake build paranoia
+pip install pyyaml
+
+# 5. Create and customize policy
+cp .lake/packages/LeanDepViz/examples/policy.yaml ./my-policy.yaml
+# Edit my-policy.yaml with your project's module structure
+
+# 6. Run verification
+python .lake/packages/LeanDepViz/scripts/paranoia_runner.py \
+  --depgraph depgraph.json \
+  --policy my-policy.yaml \
+  --out report.json \
+  --jobs 8
+
+# 7. View results
+cp .lake/packages/LeanDepViz/viewer/paranoia-viewer.html ./
+open paranoia-viewer.html
+```
+
+## Use Cases
+
+### Find All Sorries Before PR
+
+```bash
+python scripts/paranoia_runner.py \
+  --policy examples/policy-dev.yaml \
+  --depgraph depgraph.json \
+  --out report.json
+```
+
+Exit code will be 1 if any sorries are found - perfect for CI.
+
+### Identify Classical Logic Dependencies
+
+```bash
+python scripts/paranoia_runner.py \
+  --policy examples/policy-strict.yaml \
+  --depgraph depgraph.json \
+  --out strict-report.json
+```
+
+See which theorems require Classical.choice.
+
+### Enforce Different Standards per Module
+
+Edit `policy.yaml` to define zones with different rules for core vs. experimental code.
+
+## Performance Tips
+
+1. **Parallel execution**: Use `--jobs` equal to your CPU count
+2. **Trust Mathlib/Std**: Always include in `trust_modules`
+3. **Filter the graph**: Only check relevant modules
+4. **Use dev policy first**: Quick sorry check before full verification
+
+## Troubleshooting
+
+### "lake exe depviz: command not found"
+
+Build the executable:
+```bash
+lake build depviz
+```
+
+### "failed to read file ... incompatible header"
+
+Toolchain mismatch. Sync with Mathlib:
+```bash
+cp .lake/packages/mathlib/lean-toolchain ./lean-toolchain
+lake clean
+lake build
+```
+
+### "No module named 'yaml'"
+
+Install PyYAML:
+```bash
+pip install pyyaml
+```
+
+### Script runs very slowly
+
+1. Use more parallel jobs: `--jobs 16`
+2. Ensure `trust_modules` includes Std and Mathlib
+3. Consider filtering to specific modules
+
+## Implementation Details
+
+The filtering logic:
+
+1. **Node Filtering**: Keeps only declarations from modules matching your specified root prefix(es)
+2. **Edge Filtering**: Removes edges where either endpoint was filtered out
+3. **Consistent Output**: Ensures the resulting DOT/JSON references only existing nodes
+
+Default behavior produces graphs with hundreds to thousands of nodes instead of millions, making them practical to visualize with standard tools.
+
+The JSON output includes full declaration names, module paths, kinds (theorem/def), and metadata about `sorry`, axioms, and unsafe constructs - everything needed for policy-based verification.
+
+## Contributing
+
+Contributions are welcome! Please:
+- Open an issue for bugs or feature requests
+- Submit pull requests with clear descriptions
+- Follow the existing code style
+- Add tests for new features
+
+## License
+
+[MIT License](LICENSE)
+
+## Links
+
+- [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) - Policy-driven verifier
+- [lean4checker](https://github.com/leanprover/lean4checker) - Environment replay tool
+- [Graphviz](https://graphviz.org/) - Graph visualization software

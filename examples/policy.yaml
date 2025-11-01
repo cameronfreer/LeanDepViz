@@ -1,0 +1,76 @@
+# LeanDepViz Policy Configuration Example
+#
+# This file defines verification zones with different strictness levels.
+# Copy this to your project root and customize for your modules.
+
+zones:
+  # Core module - strict verification
+  - name: "Core - Strict"
+    include:
+      - "MyProject.Core.**"
+    exclude: []
+    # Allow standard constructive + classical axioms
+    allowed_axioms:
+      - "propext"
+      - "Classical.choice"
+      - "Quot.sound"
+    # Forbid incomplete proofs and unsafe constructs
+    forbid:
+      - "sorry"
+      - "metavariables"
+      - "unsafe"
+    # Trust standard libraries - don't re-verify their internals
+    trust_modules:
+      - "Std"
+      - "Mathlib"
+      - "Init"
+
+  # Main theorems - production quality
+  - name: "Main Theorems"
+    include:
+      - "MyProject.Theorems.**"
+    exclude: []
+    allowed_axioms:
+      - "propext"
+      - "Classical.choice"
+      - "Quot.sound"
+    forbid:
+      - "sorry"
+      - "metavariables"
+      - "unsafe"
+    trust_modules:
+      - "Std"
+      - "Mathlib"
+      - "Init"
+
+  # Utilities - slightly more lenient
+  - name: "Utilities"
+    include:
+      - "MyProject.Util.**"
+    exclude: []
+    allowed_axioms:
+      - "propext"
+      - "Classical.choice"
+      - "Quot.sound"
+    forbid:
+      - "sorry"
+    trust_modules:
+      - "Std"
+      - "Mathlib"
+      - "Init"
+
+  # Experimental - development mode
+  - name: "Experimental"
+    include:
+      - "MyProject.Experiments.**"
+    exclude: []
+    allowed_axioms:
+      - "propext"
+      - "Classical.choice"
+      - "Quot.sound"
+    forbid:
+      - "sorry"  # Still track incomplete proofs
+    trust_modules:
+      - "Std"
+      - "Mathlib"
+      - "Init"

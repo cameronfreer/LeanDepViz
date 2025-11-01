@@ -1,0 +1,30 @@
+# Lean 4 build artifacts
+/build/
+/.lake/
+lake-manifest.json
+
+# Generated files
+*.dot
+*.svg
+*.png
+depgraph.json
+paranoia_report.json
+*-report.json
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
