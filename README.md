@@ -19,7 +19,7 @@ Add to your project's `lakefile.lean`:
 
 ```lean
 require LeanDepViz from git
-  "https://github.com/[username]/LeanDepViz.git" @ "main"
+  "https://github.com/cameronfreer/LeanDepViz.git" @ "main"
 ```
 
 Then:
