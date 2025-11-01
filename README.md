@@ -235,6 +235,37 @@ The `viewer/paranoia-viewer.html` file provides a web-based interface to:
 
 No server required - pure client-side JavaScript that works offline.
 
+### Hosted Viewer
+
+**Try it live**: [https://cameronfreer.github.io/LeanDepViz/](https://cameronfreer.github.io/LeanDepViz/)
+
+Visit the URL, load your JSON files, and explore your project's dependencies. All processing happens in your browser - no data is sent to any server.
+
+### Sharing Your Results
+
+#### Option 1: Share JSON Files
+
+Share your `depgraph.json` and `paranoia_report.json` files via GitHub Gist or email. Recipients can load them into the hosted viewer.
+
+#### Option 2: Standalone HTML with Embedded Data
+
+Create a self-contained HTML file with your data embedded:
+
+```bash
+python .lake/packages/LeanDepViz/scripts/embed_data.py \
+  --depgraph depgraph.json \
+  --report paranoia_report.json \
+  --output my-project-report.html
+```
+
+This creates a single HTML file that:
+- Contains all your data embedded
+- Can be opened directly in any browser
+- Can be hosted on GitHub Pages, Vercel, Netlify, or any static hosting
+- Requires no server - works completely offline
+
+Share the HTML file or host it anywhere!
+
 ## Installing Graphviz
 
 Graphviz is required for SVG/PNG output formats.
