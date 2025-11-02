@@ -1,15 +1,15 @@
 # LeanDepViz
 
-A dependency visualization and verification tool for Lean 4 projects. LeanDepViz extracts declaration dependencies from your project and generates dependency graphs in DOT, SVG, PNG, or JSON formats. It integrates with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) for policy-based code verification.
+A dependency visualization and **multi-checker verification tool** for Lean 4 projects. LeanDepViz extracts declaration dependencies and provides a unified framework for running multiple independent verification tools, giving you defense-in-depth assurance for your Lean code.
 
 ## Features
 
+- **Multi-Checker Verification** (v0.3.0): Run multiple independent verifiers (LeanParanoia, lean4checker, SafeVerify) with unified reporting
+- **Defense in Depth**: Different checkers catch different issues - policy violations, kernel corruption, statement changes
+- **Interactive Viewer**: Sortable table with per-tool columns, embedded dependency graph, failures sorted to top
 - **Smart Filtering**: By default, keeps only declarations from your project's root modules, producing manageable graph sizes
-- **Flexible Whitelisting**: Include additional module prefixes (e.g., `Std`, `Init`) as needed
 - **Multiple Output Formats**: Generate DOT files, JSON for verification, or render directly to SVG/PNG via Graphviz
-- **Edge Consistency**: Automatically filters edges to match the surviving nodes
-- **Policy-Based Verification**: Integrate with LeanParanoia to enforce code quality standards
-- **Interactive Viewer**: Web-based dashboard for exploring results
+- **Unified Report Format**: Easy to integrate new verification tools with consistent JSON schema
 
 ## Installation
 
@@ -165,6 +165,29 @@ lake exe depviz --roots MyProject --svg-out depgraph.svg --png-out depgraph.png
 - `--png-out <file>`: Output PNG file path (requires Graphviz)
 - `--include-prefix <prefixes>`: Comma-separated list of additional module prefixes to include
 - `--keep-all`: Disable filtering entirely (include all declarations)
+
+### Multi-Checker Workflow (v0.3.0)
+
+For defense-in-depth verification, run multiple checkers and merge their results:
+
+```bash
+# 1. Extract dependency graph
+lake exe depviz --roots MyProject --json-out depgraph.json --dot-out depgraph.dot
+
+# 2. Run individual checkers
+python scripts/paranoia_runner.py --depgraph depgraph.json --policy policy.yaml --out paranoia.json
+python scripts/lean4checker_adapter.py --depgraph depgraph.json --out kernel.json
+python scripts/safeverify_adapter.py --depgraph depgraph.json --target-dir /path/to/baseline --submit-dir .lake/build --out safeverify.json
+
+# 3. Merge results
+python scripts/merge_reports.py --reports paranoia.json kernel.json safeverify.json --out unified.json
+
+# 4. View in interactive viewer
+python scripts/embed_data.py --viewer viewer/paranoia-viewer.html --depgraph depgraph.json --dot depgraph.dot --report unified.json --output review.html
+open review.html
+```
+
+See [MULTI_CHECKER.md](MULTI_CHECKER.md) for complete documentation.
 
 ## LeanParanoia Integration ⚠️ EXPERIMENTAL
 
