@@ -225,6 +225,25 @@
             background: #2d2d30;
             font-weight: 600;
             color: #fff;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        th:hover {
+            background: #383838;
+        }
+        
+        th.sorted-asc::after {
+            content: ' ▲';
+            color: #4ec9b0;
+            font-size: 0.7em;
+        }
+        
+        th.sorted-desc::after {
+            content: ' ▼';
+            color: #4ec9b0;
+            font-size: 0.7em;
         }
         
         tr:hover {
@@ -470,8 +489,8 @@
         let currentTab = 'table';
         let availableTools = [];
         let isMultiChecker = false;
-        let sortColumn = null;
-        let sortDirection = 'asc';
+        let sortColumn = 'status';  // Default sort by status
+        let sortDirection = 'asc';  // asc = failed first (0 < 1 < 2)
         
         // Render graph automatically when DOT data is loaded
         function maybeRenderGraph() {
