@@ -11,6 +11,25 @@ A dependency visualization and **multi-checker verification tool** for Lean 4 pr
 - **Multiple Output Formats**: Generate DOT files, JSON for verification, or render directly to SVG/PNG via Graphviz
 - **Unified Report Format**: Easy to integrate new verification tools with consistent JSON schema
 
+## 🎯 Live Examples
+
+**Try the interactive viewer with real data:**
+
+- **[Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** ⭐ **Recommended**
+  - 12 declarations verified by 3 independent tools
+  - Shows defense-in-depth: LeanParanoia, lean4checker, SafeVerify
+  - Sortable columns, embedded graph, multi-tool results
+
+- **[Exchangeability Project](https://cameronfreer.github.io/LeanDepViz/example-exchangeability.html)**
+  - Real-world example: ~800 declarations from probability theory formalization
+  - Interactive dependency graph exploration
+
+- **[Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)**
+  - Simple 3-declaration example
+  - Good starting point to understand the viewer
+
+**All examples** available at: https://cameronfreer.github.io/LeanDepViz/
+
 ## Installation
 
 ### As a Lake Dependency (Recommended)
