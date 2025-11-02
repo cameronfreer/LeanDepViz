@@ -1,4 +1,5 @@
 {
+  "_comment": "DEMONSTRATION DATA - This report contains manually crafted verification results for UI demonstration purposes. SafeVerify results are entirely mock (SafeVerify requires two versions to compare, but these test files exist in only one version). LeanParanoia and lean4checker results are plausible but not from actual tool execution. This showcases what a multi-tool verification report would look like.",
   "merged_report": true,
   "version": "1.0.0",
   "tools": [

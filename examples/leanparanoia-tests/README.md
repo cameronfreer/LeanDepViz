@@ -7,18 +7,18 @@ These examples demonstrate various exploits that LeanParanoia is designed to det
 ## Live Demos
 
 ### 🎯 **Comprehensive Verification Demo** (Recommended)
-**[View Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** - All LeanParanoia examples with multi-checker verification
+**[View Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** - All LeanParanoia examples with multi-checker UI
 
-Shows **12 declarations** with **3 verification tools**:
+Shows **17 declarations** with **3 verification tool columns**:
 - ✅ **2 Pass**: Valid code passing all checks
-- ❌ **10 Fail**: Various exploits caught by multiple checkers
+- ❌ **15 Fail**: Various exploits caught by checkers
 
-**Verification Tools**:
+**Verification Tools Demonstrated**:
 - **LeanParanoia**: Policy enforcement (sorry, axioms, unsafe, partial)
 - **lean4checker**: Kernel replay verification
-- **SafeVerify**: Reference vs implementation comparison *(mock data for UI demonstration)*
+- **SafeVerify**: Reference vs implementation comparison
 
-> **Note**: The verification results shown are for demonstration purposes. LeanParanoia and lean4checker results are plausible based on the exploit files, while SafeVerify results are mock data (SafeVerify requires two versions to compare, but these test files exist in only one version).
+> **⚠️ Important - Demonstration Data**: This demo showcases the multi-checker UI with **demonstration/mock data** to illustrate capabilities. The verification results are **manually crafted** based on known issues in the LeanParanoia test files. SafeVerify results are **entirely mock** because SafeVerify requires comparing two versions (baseline vs implementation), but these test files exist in only one version. The demo illustrates what a complete multi-tool verification workflow would look like when all tools are actually run.
 
 **Categories Demonstrated**:
 - 🔴 **Custom Axioms**: bad_axiom, custom_false

@@ -16,9 +16,10 @@ A dependency visualization and **multi-checker verification tool** for Lean 4 pr
 **Try the interactive viewer with real data:**
 
 - **[Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** ⭐ **Recommended**
-  - 12 declarations verified by 3 independent tools
+  - 17 declarations with 3 verification tool columns
   - Shows defense-in-depth: LeanParanoia, lean4checker, SafeVerify
   - Sortable columns, embedded graph, multi-tool results
+  - *Note: Demonstration data showcasing UI capabilities (SafeVerify column uses mock data)*
 
 - **[Exchangeability Project](https://cameronfreer.github.io/LeanDepViz/example-exchangeability.html)**
   - Real-world example: ~800 declarations from probability theory formalization
@@ -41,7 +42,7 @@ The verification demo uses test files from [LeanParanoia](https://github.com/oOo
 
 **Interactive Table View:**
 ![Verification Demo Table](docs/verification-demo-table.png)
-*17 declarations verified by LeanParanoia, lean4checker, and SafeVerify. Red ✗ = failed, Green ✓ = passed, — = not checked.*
+*17 declarations with 3 verification tool columns. Red ✗ = failed, Green ✓ = passed, — = not checked.*
 
 **Dependency Graph:**
 ![Verification Demo Graph](docs/verification-demo-graph.png)
@@ -52,6 +53,8 @@ Examples include:
 - ❌ `bad_axiom` - Custom axiom (caught by all 3 tools)
 - ❌ `exploit_theorem` - Uses unsafe code (caught by all 3 tools)
 - ❌ Various sorry, unsafe, and partial function violations
+
+> **Important**: This demo showcases the multi-checker UI with demonstration data. The verification results are based on known issues in the LeanParanoia test files, with SafeVerify results being mock data (SafeVerify requires comparing two versions, but these test files exist in only one version). The demo illustrates what a complete multi-tool verification workflow would look like.
 
 **Credit**: Example declarations from [LeanParanoia test suite](https://github.com/oOo0oOo/LeanParanoia/tree/main/tests/lean_exploit_files)
 

@@ -13,7 +13,7 @@ All notable changes to LeanDepViz will be documented in this file.
   - `MULTI_CHECKER.md` - Architecture overview (486 lines)
   - `scripts/checkers/README.md` - Detailed checker guide (377 lines)
   - `.github/workflows/multi-checker-verify.yml.example` - CI template
-- **Verification demo** (`docs/verification-demo.html`) - 12 declarations with 3 tools
+- **Verification demo** (`docs/verification-demo.html`) - 17 declarations with 3 tools (demonstration data)
 - **Favicon support** - SVG, ICO, and PNG favicon files
 
 ### Changed - Major UI Overhaul (v0.3.0)
