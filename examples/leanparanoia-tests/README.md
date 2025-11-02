@@ -4,16 +4,29 @@ These examples demonstrate various exploits that LeanParanoia is designed to det
 
 ⚠️ **Warning**: These files contain intentionally unsound code! They demonstrate what LeanParanoia should catch, not safe coding practices.
 
-## Live Demo
+## Live Demos
 
-**Interactive Example**: [View Live Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)
+### 🎯 All Examples Combined
+**[View All Examples Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - Comprehensive demo with all exploit categories
 
-This embedded HTML shows:
-- ✅ **good_theorem**: Passes verification (uses only standard axioms)
-- ❌ **bad_theorem**: Fails verification (uses custom axiom `bad_axiom`)
-- ❌ **bad_axiom**: Custom axiom that proves False
+Shows 12 declarations:
+- ✅ **2 Pass**: Valid code with standard axioms only
+- ❌ **10 Fail**: Various exploits (custom axioms, sorry, unsafe, partial)
 
-Open the demo to see LeanParanoia detection in action! The viewer shows which declarations pass/fail and why.
+Categories demonstrated:
+- 🔴 **Custom Axioms**: bad_axiom, exploit_axiom
+- 🟡 **Sorry Usage**: exploit_theorem (from SorryDirect)
+- 🟠 **Unsafe Code**: unsafeProof, unsafeAddImpl, seeminglySafeAdd
+- 🟣 **Partial Functions**: loop (non-terminating)
+- 🟢 **Valid Code**: good_theorem, simple_theorem
+
+### 📊 Original Basic Demo
+**[View Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration demo
+
+Shows:
+- ✅ **good_theorem**: Passes (uses standard axioms)
+- ❌ **bad_theorem**: Fails (uses custom axiom)
+- ❌ **bad_axiom**: Custom axiom proving False
 
 ## Output Files
 

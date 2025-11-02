@@ -101,12 +101,19 @@ Want to see what LeanDepViz produces? Check out the examples:
 - See `examples/output/README.md` for details about each format and file sizes
 
 ### LeanParanoia Test Cases
-`examples/leanparanoia-tests/` - Small test files demonstrating exploits that LeanParanoia can detect:
+`examples/leanparanoia-tests/` - Test files demonstrating exploits that LeanParanoia can detect:
 
-- **Live Demo**: [Interactive Example](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html) - See LeanParanoia in action!
-- **ProveFalse.lean**: Custom axiom proving False
-- **ProveAnything.lean**: Using False to prove arbitrary statements
-- See `examples/leanparanoia-tests/README.md` for testing instructions
+- **🎯 [All Examples Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - 12 declarations showing all exploit categories
+- **📊 [Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration demo
+
+**Example Files**:
+- **Custom Axioms**: ProveFalse.lean, ProveAnything.lean
+- **Sorry Usage**: SorryDirect.lean
+- **Unsafe Code**: UnsafeDefinition.lean
+- **Partial Functions**: PartialNonTerminating.lean
+- **Valid Code**: ValidSimple.lean, Basic.lean
+
+See `examples/leanparanoia-tests/README.md` for details and testing instructions
 
 ## Usage
 
