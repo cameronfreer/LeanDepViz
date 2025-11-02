@@ -2,6 +2,27 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.2.0] - 2024-11-01
+
+### Added
+- **Verification status now shows error details inline** in table view
+- Error messages displayed directly under "✗ Fail" badge
+- Example: "Uses disallowed axioms: bad_axiom"
+- Table header changed to "Verification Status" for clarity
+
+### Changed
+- Status column now multi-line: badge + error message
+- Error text in red color (0.85em font size) for readability
+- Better UX: See why something failed without clicking
+
+**Example Display**:
+```
+✗ Fail
+Uses disallowed axioms: bad_axiom
+```
+
+**Why this matters**: Users can immediately see WHY something failed without needing to click for details!
+
 ## [0.1.9] - 2024-11-01
 
 ### Changed

@@ -301,7 +301,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.9</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.2.0</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -377,7 +377,7 @@
                 <table id="nodes-table" class="hidden">
                     <thead>
                         <tr>
-                            <th>Status</th>
+                            <th>Verification Status</th>
                             <th>Declaration</th>
                             <th>Module</th>
                             <th>Kind</th>
@@ -410,8 +410,8 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.1.9
-        const VIEWER_VERSION = '0.1.9';
+        // LeanDepViz Viewer v0.2.0
+        const VIEWER_VERSION = '0.2.0';
         
         // Check library loading on page load
         window.addEventListener('DOMContentLoaded', function() {
@@ -648,9 +648,16 @@
             
             tbody.innerHTML = nodes.map(n => {
                 const status = n.status;
-                const statusBadge = status 
-                    ? (status.ok ? '<span class="badge passed">✓ Pass</span>' : '<span class="badge failed">✗ Fail</span>')
-                    : '<span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span>';
+                let statusBadge;
+                if (!status) {
+                    statusBadge = '<span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span>';
+                } else if (status.ok) {
+                    statusBadge = '<span class="badge passed">✓ Pass</span>';
+                } else {
+                    // Show error message with fail badge
+                    const errorMsg = status.error ? escapeHtml(status.error) : 'Failed';
+                    statusBadge = `<span class="badge failed">✗ Fail</span><br><span style="font-size: 0.85em; color: #f48771;">${errorMsg}</span>`;
+                }
                 
                 const flags = [];
                 if (n.hasSorry) flags.push('<span class="badge sorry">Sorry</span>');
