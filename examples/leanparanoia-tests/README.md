@@ -45,25 +45,63 @@ This directory includes complete output from the test project in all formats:
 
 **Total**: ~42KB for complete verification demo
 
-## Examples
+## Example Files
 
-### ProveFalse.lean
-Demonstrates a custom axiom that directly proves `False`:
+### Custom Axioms
+
+**ProveFalse.lean** - Custom axiom proving False:
 ```lean
 axiom exploit_axiom : False
 theorem exploit_theorem : False := exploit_axiom
 ```
+**Detected**: Uses disallowed axiom `exploit_axiom`
 
-**What LeanParanoia detects**: Uses disallowed axiom `exploit_axiom`
-
-### ProveAnything.lean
-Shows how an axiom proving False can prove any statement:
+**ProveAnything.lean** - Using False to prove anything:
 ```lean
 axiom falseAxiom : False
 theorem proveAnything (P : Prop) : P := False.elim falseAxiom
 ```
+**Detected**: Uses disallowed axiom `falseAxiom`
 
-**What LeanParanoia detects**: Uses disallowed axiom `falseAxiom`
+### Sorry Usage
+
+**SorryDirect.lean** - Direct sorry bypasses proof verification:
+```lean
+theorem exploit_theorem : False := sorry
+```
+**Detected**: Uses `sorry` (incomplete proof)
+
+### Unsafe Declarations
+
+**UnsafeDefinition.lean** - Unsafe code bypasses kernel verification:
+```lean
+unsafe def unsafeProof : 1 + 1 = 3 := unsafeProof
+unsafe def unsafeAddImpl (n m : Nat) : Nat := n + m + 1
+
+@[implemented_by unsafeAddImpl]
+def seeminglySafeAdd (n m : Nat) : Nat := n + m
+
+axiom exploit_axiom : seeminglySafeAdd 1 1 = 3
+theorem exploit_theorem : 1 + 1 = 3 := exploit_axiom
+```
+**Detected**: Uses `unsafe` declarations and unsafe `@[implemented_by]`
+
+### Partial Functions
+
+**PartialNonTerminating.lean** - Non-terminating function:
+```lean
+partial def loop (n : Nat) : Nat := loop (n + 1)
+theorem exploit_theorem : loop 0 = 42 := by sorry
+```
+**Detected**: Uses `partial` function (bypasses termination checker) and `sorry`
+
+### Valid Code
+
+**ValidSimple.lean** - Clean, verified code:
+```lean
+theorem simple_theorem : True := trivial
+```
+**Passes**: No exploits, standard axioms only
 
 ## Testing with LeanParanoia
 
