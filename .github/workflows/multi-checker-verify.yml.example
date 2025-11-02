@@ -1,0 +1,245 @@
+name: Multi-Checker Verification
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:  # Manual trigger
+
+permissions:
+  contents: read
+  pull-requests: write  # For commenting on PRs
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for SafeVerify baseline comparison
+      
+      - name: Set up Lean/Lake
+        uses: leanprover/lean-action@v1
+        with:
+          lean-version: 'v4.24.0-rc1'
+      
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+      
+      # ========================================
+      # Build submission version
+      # ========================================
+      
+      - name: Build project
+        run: |
+          lake exe cache get || true  # Try to get cached olean files
+          lake build
+      
+      # ========================================
+      # Extract dependency graph
+      # ========================================
+      
+      - name: Extract dependency graph
+        run: |
+          lake exe leandepviz extract MyProject \
+            -o depgraph.json \
+            --zones zones.yaml
+      
+      # ========================================
+      # Checker 1: LeanParanoia (Policy)
+      # ========================================
+      
+      - name: '📋 Policy Check (LeanParanoia)'
+        id: paranoia
+        continue-on-error: true  # Don't stop on failure
+        run: |
+          python scripts/paranoia_runner.py \
+            --depgraph depgraph.json \
+            --policy policy.yaml \
+            --out paranoia_report.json \
+            --jobs 4
+      
+      # ========================================
+      # Checker 2: lean4checker (Kernel)
+      # ========================================
+      
+      - name: '⚙️ Kernel Replay (lean4checker)'
+        id: kernel
+        continue-on-error: true
+        run: |
+          python scripts/lean4checker_adapter.py \
+            --depgraph depgraph.json \
+            --out kernel_report.json
+      
+      # Optional: Deep kernel check (nightly only)
+      - name: '⚙️ Deep Kernel Check (lean4checker --fresh)'
+        if: github.event_name == 'schedule'
+        continue-on-error: true
+        run: |
+          python scripts/lean4checker_adapter.py \
+            --depgraph depgraph.json \
+            --out kernel_fresh_report.json \
+            --fresh
+      
+      # ========================================
+      # Checker 3: SafeVerify (Ref vs Impl) - PR only
+      # ========================================
+      
+      - name: '🔬 Reference Check (SafeVerify) - Build baseline'
+        if: github.event_name == 'pull_request'
+        id: safeverify-baseline
+        continue-on-error: true
+        run: |
+          # Save current state
+          CURRENT_BRANCH=$(git branch --show-current)
+          
+          # Build baseline (target)
+          git checkout ${{ github.base_ref }}
+          lake clean
+          lake build
+          mkdir -p /tmp/target_build
+          cp -r .lake/build /tmp/target_build/
+          
+          # Return to PR branch
+          git checkout $CURRENT_BRANCH
+      
+      - name: '🔬 Reference Check (SafeVerify) - Compare'
+        if: github.event_name == 'pull_request' && steps.safeverify-baseline.outcome == 'success'
+        id: safeverify
+        continue-on-error: true
+        run: |
+          python scripts/safeverify_adapter.py \
+            --depgraph depgraph.json \
+            --target-dir /tmp/target_build/build \
+            --submit-dir .lake/build \
+            --out safeverify_report.json
+      
+      # ========================================
+      # Merge all reports
+      # ========================================
+      
+      - name: Merge verification reports
+        run: |
+          REPORTS="paranoia_report.json kernel_report.json"
+          
+          # Add SafeVerify report if it exists (PR only)
+          if [ -f safeverify_report.json ]; then
+            REPORTS="$REPORTS safeverify_report.json"
+          fi
+          
+          python scripts/merge_reports.py \
+            --reports $REPORTS \
+            --out unified_report.json
+      
+      # ========================================
+      # Generate HTML report
+      # ========================================
+      
+      - name: Generate verification HTML
+        run: |
+          python scripts/embed_data.py \
+            --viewer viewer/paranoia-viewer.html \
+            --depgraph depgraph.json \
+            --report unified_report.json \
+            --output verification_report.html
+      
+      # ========================================
+      # Upload artifacts
+      # ========================================
+      
+      - name: Upload verification reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-reports
+          path: |
+            depgraph.json
+            paranoia_report.json
+            kernel_report.json
+            safeverify_report.json
+            unified_report.json
+            verification_report.html
+          retention-days: 30
+      
+      # ========================================
+      # Post PR comment with summary
+      # ========================================
+      
+      - name: Post verification summary to PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Read unified report
+            const report = JSON.parse(fs.readFileSync('unified_report.json', 'utf8'));
+            const summary = report.summary;
+            
+            // Build comment
+            let comment = '## 🔍 Verification Results\n\n';
+            
+            if (summary.failed_any === 0) {
+              comment += '✅ **All verification checks passed!**\n\n';
+            } else {
+              comment += `❌ **Verification failed: ${summary.failed_any} declaration(s)**\n\n`;
+            }
+            
+            comment += '| Checker | Status | Passed | Failed |\n';
+            comment += '|---------|--------|--------|--------|\n';
+            
+            for (const [tool, toolSummary] of Object.entries(summary.by_tool)) {
+              const icon = toolSummary.failed === 0 ? '✅' : '❌';
+              comment += `| ${tool} | ${icon} | ${toolSummary.passed} | ${toolSummary.failed} |\n`;
+            }
+            
+            comment += '\n📊 [Download full report](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\n';
+            
+            // Post comment
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      # ========================================
+      # Fail if verification failed
+      # ========================================
+      
+      - name: Check verification status
+        run: |
+          FAILED=$(jq '.summary.failed_any' unified_report.json)
+          
+          if [ "$FAILED" -gt 0 ]; then
+            echo "❌ Verification failed: $FAILED declaration(s) failed checks"
+            echo ""
+            echo "See artifacts for detailed reports:"
+            echo "  • verification_report.html - Interactive viewer"
+            echo "  • unified_report.json - Merged results"
+            echo ""
+            exit 1
+          fi
+          
+          echo "✅ All verification checks passed!"
+
+# Optional: Nightly deep verification
+  nightly-deep-check:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deep kernel verification
+        run: |
+          # Run lean4checker --fresh on critical modules
+          python scripts/lean4checker_adapter.py \
+            --depgraph depgraph.json \
+            --modules MyProject.Core MyProject.Kernel \
+            --fresh \
+            --out kernel_deep_report.json
