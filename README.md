@@ -149,14 +149,18 @@ lake exe depviz --roots MyProject --svg-out depgraph.svg --png-out depgraph.png
 
 LeanDepViz can be integrated with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) to verify that specific parts of your codebase are free of `sorry`, unapproved axioms, or other undesirable constructs.
 
-### ⚠️ Status: Experimental
+### ⚠️ Status: Experimental - LIMITED COMPATIBILITY
 
-**Known Limitations**:
-- ⚠️ **Toolchain compatibility**: Only works with Lean **v4.24.0-rc1**
-- ⚠️ Newer toolchains (v4.24.0+, v4.25.0+) have linker errors
+**Critical Limitations**:
+- ⚠️ **Only works with Lean v4.24.0-rc1**
+- ❌ **Does NOT work with Mathlib/Batteries** (requires v4.24.0+ or v4.25.0+)
+- ❌ Most real-world Lean projects use Mathlib → **LeanParanoia won't work for them**
+- ✅ Works for simple standalone projects (see `examples/leanparanoia-tests/`)
 - ⚠️ In active development, API may change
 
-**Recommendation**: For most users, the dependency graph JSON already provides useful verification metadata (sorry flags, axiom usage, unsafe declarations) without requiring LeanParanoia. Consider LeanParanoia for advanced use cases only.
+**Catch-22**: LeanParanoia requires v4.24.0-rc1, but Mathlib requires v4.24.0+. You cannot use both.
+
+**Recommendation**: For almost all users, the dependency graph JSON already provides useful verification metadata (sorry flags, axiom usage, unsafe declarations) without requiring LeanParanoia. Only consider LeanParanoia if you have a Mathlib-free project on v4.24.0-rc1.
 
 **See also**: `examples/leanparanoia-tests/` for test examples demonstrating what LeanParanoia can detect.
 
