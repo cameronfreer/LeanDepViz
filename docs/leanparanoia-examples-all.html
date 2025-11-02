@@ -301,7 +301,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.2.1</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.2.2</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -410,8 +410,8 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.2.1
-        const VIEWER_VERSION = '0.2.1';
+        // LeanDepViz Viewer v0.2.2
+        const VIEWER_VERSION = '0.2.2';
         
         // Check library loading on page load
         window.addEventListener('DOMContentLoaded', function() {
@@ -751,21 +751,15 @@
         };
     </script>
     
-    <!-- Load d3-graphviz libraries from vendor/ (same-origin, no CDN issues) -->
+    <!-- Load d3-graphviz libraries from CDN (pinned versions) -->
     <!-- D3 v7.9.0 -->
-    <script src="vendor/d3.min.js" 
-            onload="console.log('✓ vendor/d3.min.js loaded')"
-            onerror="console.error('✗ Failed to load vendor/d3.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'; s.onload=function(){console.log('✓ D3 loaded from CDN fallback')}; document.body.appendChild(s);"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
     
     <!-- HPCC Graphviz WASM v2.20.0 -->
-    <script src="vendor/graphviz.umd.js"
-            onload="console.log('✓ vendor/graphviz.umd.js loaded')"
-            onerror="console.error('✗ Failed to load vendor/graphviz.umd.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js'; s.onload=function(){console.log('✓ GraphViz WASM loaded from CDN fallback')}; document.body.appendChild(s);"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js"></script>
     
     <!-- d3-graphviz v5.6.0 -->
-    <script src="vendor/d3-graphviz.min.js"
-            onload="console.log('✓ vendor/d3-graphviz.min.js loaded')"
-            onerror="console.error('✗ Failed to load vendor/d3-graphviz.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js'; s.onload=function(){console.log('✓ d3-graphviz loaded from CDN fallback')}; document.body.appendChild(s);"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js"></script>
     
     <script>
         // Manual attachment: d3-graphviz creates window["d3-graphviz"] but we need d3.graphviz
@@ -776,22 +770,16 @@
         
         // Wait a moment for scripts to execute, then verify
         setTimeout(function() {
-            console.log('=== Final library check (vendored assets) ===');
+            console.log('=== Library verification ===');
             console.log('window.d3:', typeof window.d3);
-            console.log('d3.select:', typeof (window.d3 && window.d3.select));
-            console.log('window.d3.graphviz:', typeof (window.d3 && window.d3.graphviz));
+            console.log('d3.graphviz:', typeof (window.d3 && window.d3.graphviz));
             console.log('window.hpccWasm:', typeof window.hpccWasm);
             
             if (window.d3 && typeof d3.graphviz === 'function') {
-                console.log('✅ SUCCESS: All libraries loaded successfully');
-            } else if (window.d3 && !window.d3.graphviz) {
-                console.error('❌ FAILED: d3 loaded but d3.graphviz missing');
-                console.log('Note: If opening file:// directly, try using http://localhost instead');
-                console.log('Run: python serve.py');
-                console.log('Then open: http://localhost:8000/docs/');
+                console.log('✅ All libraries loaded successfully');
             } else {
-                console.error('❌ FAILED: d3 not loaded at all');
-                console.log('Check browser console for script loading errors');
+                console.error('❌ Library loading failed');
+                console.log('Check network tab for CDN request errors');
             }
         }, 100);  // Small delay to let scripts execute
     </script>

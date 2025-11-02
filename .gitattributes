@@ -1,7 +1,3 @@
-# Vendor JS libraries: treat as binary (no diffs)
-viewer/vendor/*.js binary
-docs/vendor/*.js binary
-
 # Embedded HTML files: treat as binary (no diffs, too large)
 docs/*.html binary
 examples/**/*.html binary

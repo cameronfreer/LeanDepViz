@@ -2,6 +2,23 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.2.2] - 2024-11-01
+
+### Changed
+- **Switched back to CDN loading** (removed vendor/ directories)
+- Manual attachment fix works with CDN, no need for local files
+- Smaller repository (~1.7MB reduction)
+- Simpler maintenance (no manual library updates needed)
+
+### Removed
+- `viewer/vendor/` directory and all bundled libraries
+- `docs/vendor/` directory
+- `.gitattributes` vendor rules
+
+**Why**: The manual attachment script (`window.d3.graphviz = window["d3-graphviz"].graphviz`) works regardless of whether libraries are loaded from CDN or locally. CDN is simpler and keeps the repo smaller.
+
+**The fix that matters**: Manual attachment after d3-graphviz loads, not where it loads from.
+
 ## [0.2.1] - 2024-11-01
 
 ### Fixed
