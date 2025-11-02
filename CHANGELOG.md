@@ -2,6 +2,24 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.1.6] - 2024-11-01
+
+### Fixed
+- **Critical**: Fixed d3-graphviz library loading issues on GitHub Pages
+- Switched to pinned, stable CDN versions (jsDelivr + unpkg)
+- Updated D3 to v7.9.0, @hpcc-js/wasm to v2.20.0
+- Proper script loading order: D3 first, then WASM, then d3-graphviz
+- Changed from `load` event to `DOMContentLoaded` for better timing
+- Added robust library presence check: `window.d3 && d3.graphviz && typeof d3.graphviz === 'function'`
+- Better error messages with diagnostic info
+
+### Changed
+- Script tags now use `defer` attribute for proper async loading
+- WASM script uses `type="application/javascript"` (UMD mode)
+- Improved console logging with detailed library status
+
+**Why this matters**: Graph View now actually works! Previous versions had CDN/timing issues causing "d3.graphviz is not a function" errors.
+
 ## [0.1.5] - 2024-11-01
 
 ### Changed

@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeanDepViz</title>
-    <script src="https://d3js.org/d3.v7.min.js" onerror="console.error('Failed to load d3.js')"></script>
-    <script src="https://unpkg.com/@hpcc-js/wasm@2.16.2/dist/graphviz.umd.js" onerror="console.error('Failed to load GraphViz WASM')"></script>
-    <script src="https://unpkg.com/d3-graphviz@5.6.0/build/d3-graphviz.js" onerror="console.error('Failed to load d3-graphviz')"></script>
+    <!-- D3 (must load first) -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js" defer></script>
+    
+    <!-- HPCC Graphviz WASM UMD (pinned version) -->
+    <script src="https://unpkg.com/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js" 
+            type="application/javascript"></script>
+    
+    <!-- d3-graphviz plugin (must load after D3) -->
+    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js" defer></script>
     <style>
         * {
             margin: 0;
@@ -272,7 +278,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.5</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.6</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -378,18 +384,22 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.1.5
-        const VIEWER_VERSION = '0.1.5';
+        // LeanDepViz Viewer v0.1.6
+        const VIEWER_VERSION = '0.1.6';
         
         // Check library loading on page load
-        window.addEventListener('load', function() {
+        window.addEventListener('DOMContentLoaded', function() {
             console.log('LeanDepViz Viewer v' + VIEWER_VERSION);
             console.log('Libraries loaded:');
-            console.log('- d3:', typeof d3 !== 'undefined' ? 'OK' : 'FAILED');
-            console.log('- d3.graphviz:', typeof d3 !== 'undefined' && typeof d3.graphviz !== 'undefined' ? 'OK' : 'FAILED');
+            console.log('- window.d3:', typeof window.d3 !== 'undefined' ? 'OK' : 'FAILED');
+            console.log('- d3.graphviz:', typeof window.d3 !== 'undefined' && typeof d3.graphviz === 'function' ? 'OK' : 'FAILED');
+            console.log('- typeof d3.graphviz:', typeof window.d3 !== 'undefined' ? typeof d3.graphviz : 'N/A');
             
-            if (typeof d3 === 'undefined' || typeof d3.graphviz === 'undefined') {
-                console.warn('Graph view will not work - d3-graphviz libraries failed to load from CDN');
+            if (!(window.d3 && d3.graphviz && typeof d3.graphviz === 'function')) {
+                console.error('d3-graphviz library not loaded correctly');
+                console.log('Check: window.d3 =', !!window.d3, ', d3.graphviz =', typeof (window.d3 && d3.graphviz));
+            } else {
+                console.log('✓ Graph view ready');
             }
         });
         
@@ -465,12 +475,12 @@
             // Give the UI a moment to update
             setTimeout(() => {
                 try {
-                // Check if d3 and graphviz are loaded
-                if (typeof d3 === 'undefined' || typeof d3.graphviz === 'undefined') {
-                    throw new Error('d3-graphviz library not loaded');
+                // Check if d3-graphviz is loaded correctly
+                if (!(window.d3 && d3.graphviz && typeof d3.graphviz === 'function')) {
+                    throw new Error('d3-graphviz library not loaded (d3=' + (!!window.d3) + ', d3.graphviz=' + typeof (window.d3 && d3.graphviz) + ')');
                 }
                 
-                console.log('Rendering graph...');
+                console.log('Rendering graph with d3-graphviz...');
                 d3.select("#graph-viz")
                     .graphviz()
                     .zoom(true)
