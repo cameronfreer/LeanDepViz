@@ -461,6 +461,8 @@
         let currentTab = 'table';
         let availableTools = [];
         let isMultiChecker = false;
+        let sortColumn = null;
+        let sortDirection = 'asc';
         
         // Render graph automatically when DOT data is loaded
         function maybeRenderGraph() {
@@ -654,12 +656,19 @@
             document.getElementById('stat-passed').textContent = passed;
             document.getElementById('stat-failed').textContent = failed;
             
+            // Sort nodes
+            const sorted = sortNodes(filtered);
+            
             // Render table
-            renderTable(filtered);
+            renderTable(sorted);
+            
+            // Update sort indicators
+            updateSortIndicators();
         }
         
         function updateTableHeaders() {
             const thead = document.querySelector('#nodes-table thead tr');
+            const headers = [];
             
             if (isMultiChecker && availableTools.length > 0) {
                 // Multi-checker mode: separate column for each tool at the END
@@ -672,14 +681,21 @@
                     return `<th>${toolName}</th>`;
                 }).join('');
                 
-                thead.innerHTML = `
-                    <th>Declaration</th>
-                    <th>Module</th>
-                    <th>Kind</th>
-                    <th>Zone</th>
-                    <th>Flags</th>
-                    ${toolHeaders}
-                `;
+                headers.push(
+                    '<th data-sort="decl">Declaration</th>',
+                    '<th data-sort="module">Module</th>',
+                    '<th data-sort="kind">Kind</th>',
+                    '<th data-sort="zone">Zone</th>',
+                    '<th data-sort="flags">Flags</th>'
+                );
+                availableTools.forEach((tool, idx) => {
+                    headers.push(`<th data-sort="tool-${idx}">${tool === 'paranoia' ? 'LeanParanoia' :
+                                    tool === 'lean4checker' ? 'lean4checker' :
+                                    tool === 'lean4checker-fresh' ? 'lean4checker (fresh)' :
+                                    tool === 'safeverify' ? 'SafeVerify' :
+                                    tool.charAt(0).toUpperCase() + tool.slice(1)}</th>`);
+                });
+                thead.innerHTML = headers.join('');
             } else if (availableTools.length === 1) {
                 // Single checker mode: one status column at the END
                 const toolName = availableTools[0] === 'paranoia' ? 'LeanParanoia Status' :
@@ -687,24 +703,99 @@
                                 availableTools[0] === 'safeverify' ? 'SafeVerify Status' :
                                 'Verification Status';
                 thead.innerHTML = `
-                    <th>Declaration</th>
-                    <th>Module</th>
-                    <th>Kind</th>
-                    <th>Zone</th>
-                    <th>Flags</th>
-                    <th>${toolName}</th>
+                    <th data-sort="decl">Declaration</th>
+                    <th data-sort="module">Module</th>
+                    <th data-sort="kind">Kind</th>
+                    <th data-sort="zone">Zone</th>
+                    <th data-sort="flags">Flags</th>
+                    <th data-sort="status">${toolName}</th>
                 `;
             } else {
                 // Legacy mode
                 thead.innerHTML = `
-                    <th>Declaration</th>
-                    <th>Module</th>
-                    <th>Kind</th>
-                    <th>Zone</th>
-                    <th>Flags</th>
-                    <th>Verification Status</th>
+                    <th data-sort="decl">Declaration</th>
+                    <th data-sort="module">Module</th>
+                    <th data-sort="kind">Kind</th>
+                    <th data-sort="zone">Zone</th>
+                    <th data-sort="flags">Flags</th>
+                    <th data-sort="status">Verification Status</th>
                 `;
             }
+            
+            // Add click handlers for sorting
+            document.querySelectorAll('#nodes-table th[data-sort]').forEach(th => {
+                th.addEventListener('click', () => {
+                    const column = th.dataset.sort;
+                    if (sortColumn === column) {
+                        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortColumn = column;
+                        sortDirection = 'asc';
+                    }
+                    updateView();
+                });
+            });
+        }
+        
+        function sortNodes(nodes) {
+            if (!sortColumn) return nodes;
+            
+            return [...nodes].sort((a, b) => {
+                let aVal, bVal;
+                
+                // Handle different column types
+                if (sortColumn === 'decl') {
+                    aVal = a.fullName || '';
+                    bVal = b.fullName || '';
+                } else if (sortColumn === 'module') {
+                    aVal = a.module || '';
+                    bVal = b.module || '';
+                } else if (sortColumn === 'kind') {
+                    aVal = a.kind || '';
+                    bVal = b.kind || '';
+                } else if (sortColumn === 'zone') {
+                    aVal = a.zone || a.status?.zone || '';
+                    bVal = b.zone || b.status?.zone || '';
+                } else if (sortColumn === 'flags') {
+                    // Count flags for sorting
+                    aVal = (a.hasSorry ? 1 : 0) + (a.axioms?.length || 0) + (a.isUnsafe ? 1 : 0);
+                    bVal = (b.hasSorry ? 1 : 0) + (b.axioms?.length || 0) + (b.isUnsafe ? 1 : 0);
+                } else if (sortColumn === 'status') {
+                    // Sort by status: failed first, then not checked, then passed
+                    aVal = a.status ? (a.status.ok ? 2 : 0) : 1;
+                    bVal = b.status ? (b.status.ok ? 2 : 0) : 1;
+                } else if (sortColumn.startsWith('tool-')) {
+                    // Sort by specific tool status
+                    const toolIdx = parseInt(sortColumn.split('-')[1]);
+                    const tool = availableTools[toolIdx];
+                    const aStatus = a.status?.tools?.[tool];
+                    const bStatus = b.status?.tools?.[tool];
+                    aVal = aStatus ? (aStatus.ok ? 2 : 0) : 1;
+                    bVal = bStatus ? (bStatus.ok ? 2 : 0) : 1;
+                }
+                
+                // String comparison
+                if (typeof aVal === 'string') {
+                    const cmp = aVal.localeCompare(bVal);
+                    return sortDirection === 'asc' ? cmp : -cmp;
+                }
+                
+                // Numeric comparison
+                if (sortDirection === 'asc') {
+                    return aVal - bVal;
+                } else {
+                    return bVal - aVal;
+                }
+            });
+        }
+        
+        function updateSortIndicators() {
+            document.querySelectorAll('#nodes-table th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+                if (th.dataset.sort === sortColumn) {
+                    th.classList.add(sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+                }
+            });
         }
         
         function renderToolStatus(tool, toolData) {
