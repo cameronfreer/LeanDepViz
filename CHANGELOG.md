@@ -2,6 +2,34 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.2.1] - 2024-11-01
+
+### Fixed
+- **Critical: Graph View now works!** Switched from CDN to vendored libraries
+- Libraries now loaded from `vendor/` directory (same-origin)
+- Eliminates CORS, CSP, and CDN reliability issues
+- No more "d3.graphviz is undefined" errors
+
+### Added
+- `viewer/vendor/` directory with bundled libraries:
+  - d3.min.js (v7.9.0, 273KB)
+  - graphviz.umd.js (v2.20.0, 716KB)
+  - d3-graphviz.min.js (v5.6.0, 744KB)
+- `docs/vendor/` copy for GitHub Pages
+- CDN fallback if vendor files fail to load
+
+### Changed
+- Script loading: vendor/ → CDN fallback (was: CDN only)
+- Console message: "vendored assets" instead of CDN
+- Success message: "✅ SUCCESS: All libraries loaded from vendor/"
+
+**Why this matters**: Same-origin loading eliminates:
+- ❌ CDN downtime/blocking
+- ❌ Cross-origin security issues  
+- ❌ Content Security Policy problems
+- ❌ Network-dependent loading
+- ✅ Reliable, fast, offline-capable!
+
 ## [0.2.0] - 2024-11-01
 
 ### Added
