@@ -13,6 +13,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeanDepViz + LeanParanoia Viewer</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@2.5.0/dist/index.min.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@5.0.2/build/d3-graphviz.js"></script>
     <style>
         * {
             margin: 0;
@@ -79,10 +82,45 @@
             background: #1177bb;
         }
         
+        button.secondary {
+            background: #3c3c3c;
+        }
+        
+        button.secondary:hover {
+            background: #4c4c4c;
+        }
+        
         select {
             background: #3c3c3c;
             color: #d4d4d4;
             padding: 0.4rem 0.8rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+        
+        .tab:hover {
+            color: #d4d4d4;
+            background: #2d2d30;
+        }
+        
+        .tab.active {
+            color: #fff;
+            border-bottom-color: #0e639c;
         }
         
         .stats {
@@ -126,11 +164,32 @@
             overflow: hidden;
         }
         
-        #graph-container {
+        #content-area {
             flex: 1;
             overflow: auto;
             padding: 2rem;
             background: #1e1e1e;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        #graph-viz {
+            width: 100%;
+            height: calc(100vh - 300px);
+            background: #fff;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        
+        #graph-viz svg {
+            max-width: 100%;
+            height: auto;
         }
         
         #sidebar {
@@ -139,92 +198,6 @@
             border-left: 1px solid #3c3c3c;
             overflow-y: auto;
             padding: 1rem;
-        }
-        
-        .node-item {
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            background: #2d2d30;
-            border-radius: 4px;
-            border-left: 3px solid #888;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .node-item:hover {
-            background: #333337;
-        }
-        
-        .node-item.passed {
-            border-left-color: #4ec9b0;
-        }
-        
-        .node-item.failed {
-            border-left-color: #f48771;
-        }
-        
-        .node-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-        }
-        
-        .node-info {
-            font-size: 0.75rem;
-            color: #888;
-        }
-        
-        .node-details {
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid #3c3c3c;
-            font-size: 0.8rem;
-        }
-        
-        .error-msg {
-            color: #f48771;
-            margin-top: 0.5rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            background: #1e1e1e;
-            padding: 0.5rem;
-            border-radius: 3px;
-            overflow-x: auto;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.15rem 0.4rem;
-            border-radius: 3px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-right: 0.25rem;
-        }
-        
-        .badge.passed {
-            background: #4ec9b044;
-            color: #4ec9b0;
-        }
-        
-        .badge.failed {
-            background: #f4877144;
-            color: #f48771;
-        }
-        
-        .badge.sorry {
-            background: #d7371544;
-            color: #f48771;
-        }
-        
-        .badge.axiom {
-            background: #e6972b44;
-            color: #e6972b;
-        }
-        
-        .badge.unsafe {
-            background: #55555544;
-            color: #aaa;
         }
         
         table {
@@ -269,6 +242,41 @@
             border-radius: 4px;
             align-items: center;
         }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 0.25rem;
+        }
+        
+        .badge.passed {
+            background: #4ec9b044;
+            color: #4ec9b0;
+        }
+        
+        .badge.failed {
+            background: #f4877144;
+            color: #f48771;
+        }
+        
+        .badge.sorry {
+            background: #d7371544;
+            color: #f48771;
+        }
+        
+        .badge.axiom {
+            background: #e6972b44;
+            color: #e6972b;
+        }
+        
+        .badge.unsafe {
+            background: #55555544;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
@@ -282,9 +290,19 @@
             </div>
             
             <div class="file-input">
+                <label for="dot-file">DOT File (for graph view):</label>
+                <input type="file" id="dot-file" accept=".dot">
+            </div>
+            
+            <div class="file-input">
                 <label for="report-file">Paranoia Report:</label>
                 <input type="file" id="report-file" accept=".json">
             </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('table')">📊 Table View</button>
+            <button class="tab" onclick="switchTab('graph')">🕸️ Graph View</button>
         </div>
         
         <div class="filter-bar">
@@ -327,23 +345,37 @@
     </header>
     
     <main>
-        <div id="graph-container">
-            <div class="empty-state">
-                <p>Load a dependency graph JSON file and paranoia report to begin.</p>
+        <div id="content-area">
+            <!-- Table View -->
+            <div id="table-view" class="view active">
+                <div class="empty-state">
+                    <p>Load a dependency graph JSON file to begin.</p>
+                </div>
+                <table id="nodes-table" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Declaration</th>
+                            <th>Module</th>
+                            <th>Kind</th>
+                            <th>Zone</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nodes-tbody"></tbody>
+                </table>
             </div>
-            <table id="nodes-table" class="hidden">
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Declaration</th>
-                        <th>Module</th>
-                        <th>Kind</th>
-                        <th>Zone</th>
-                        <th>Flags</th>
-                    </tr>
-                </thead>
-                <tbody id="nodes-tbody"></tbody>
-            </table>
+            
+            <!-- Graph View -->
+            <div id="graph-view" class="view">
+                <div class="empty-state">
+                    <p>Load a DOT file to visualize the dependency graph.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                        Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
+                    </p>
+                </div>
+                <div id="graph-viz" class="hidden"></div>
+            </div>
         </div>
         
         <div id="sidebar">
@@ -357,8 +389,24 @@
     <script>
         let graphData = null;
         let reportData = null;
+        let dotData = null;
         let statusMap = new Map();
         let zones = new Set();
+        let currentTab = 'table';
+        
+        // Tab switching
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tab}-view`).classList.add('active');
+            
+            if (tab === 'graph' && dotData) {
+                renderGraph();
+            }
+        }
         
         // File loading
         document.getElementById('graph-file').addEventListener('change', async (e) => {
@@ -367,6 +415,16 @@
                 const text = await file.text();
                 graphData = JSON.parse(text);
                 updateView();
+            }
+        });
+        
+        document.getElementById('dot-file').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                dotData = await file.text();
+                if (currentTab === 'graph') {
+                    renderGraph();
+                }
             }
         });
         
@@ -383,6 +441,24 @@
         document.getElementById('status-filter').addEventListener('change', updateView);
         document.getElementById('zone-filter').addEventListener('change', updateView);
         document.getElementById('search-box').addEventListener('input', updateView);
+        
+        // Render graph with d3-graphviz
+        function renderGraph() {
+            if (!dotData) return;
+            
+            const graphViz = document.getElementById('graph-viz');
+            const emptyState = document.querySelector('#graph-view .empty-state');
+            
+            emptyState.classList.add('hidden');
+            graphViz.classList.remove('hidden');
+            graphViz.innerHTML = ''; // Clear previous
+            
+            d3.select("#graph-viz")
+                .graphviz()
+                .zoom(true)
+                .fit(true)
+                .renderDot(dotData);
+        }
         
         function updateView() {
             if (!graphData) return;
@@ -425,18 +501,12 @@
             const searchText = document.getElementById('search-box').value.toLowerCase();
             
             const filtered = nodes.filter(n => {
-                // Status filter
                 if (statusFilter === 'failed' && (!n.status || n.status.ok)) return false;
                 if (statusFilter === 'passed' && (!n.status || !n.status.ok)) return false;
                 if (statusFilter === 'sorry' && !n.hasSorry) return false;
                 if (statusFilter === 'axiom' && (!n.axioms || n.axioms.length === 0)) return false;
-                
-                // Zone filter
                 if (zoneFilterVal !== 'all' && (!n.status || n.status.zone !== zoneFilterVal)) return false;
-                
-                // Search filter
                 if (searchText && !n.fullName.toLowerCase().includes(searchText)) return false;
-                
                 return true;
             });
             
@@ -457,7 +527,7 @@
         function renderTable(nodes) {
             const table = document.getElementById('nodes-table');
             const tbody = document.getElementById('nodes-tbody');
-            const emptyState = document.querySelector('.empty-state');
+            const emptyState = document.querySelector('#table-view .empty-state');
             
             if (nodes.length === 0) {
                 table.classList.add('hidden');
@@ -532,16 +602,7 @@
                 
                 if (!status.ok) {
                     const error = status.error || status.stderr || status.stdout || 'Unknown error';
-                    html += `<div class="error-msg">${escapeHtml(error)}</div>`;
-                }
-                
-                if (status.cmd) {
-                    html += `
-                        <details style="margin-top: 1rem;">
-                            <summary style="cursor: pointer; color: #888;">Command</summary>
-                            <pre style="margin-top: 0.5rem; padding: 0.5rem; background: #1e1e1e; border-radius: 3px; overflow-x: auto; font-size: 0.75rem;">${escapeHtml(status.cmd)}</pre>
-                        </details>
-                    `;
+                    html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
                 }
             } else {
                 html += `
@@ -4296,2329 +4357,7 @@
   {"target": "Exchangeability.prefixCylinder_inter",
    "source": "Exchangeability.takePrefix_prefixProj",
    "kind": "value"}]};
-        window.EMBEDDED_REPORT = {
-  "results": [
-    {
-      "decl": "Exchangeability.Probability.condExpWith",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.IntegrationHelpers.eLpNorm_one_eq_integral_abs",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.IntegrationHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.IntegrationHelpers.abs_integral_mul_le_L2",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.IntegrationHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.IntegrationHelpers.integral_pushforward_id",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.IntegrationHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.IntegrationHelpers.integral_pushforward_continuous",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.IntegrationHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condExp_L1_lipschitz",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.IntegrationHelpers.integral_pushforward_sq_diff",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.IntegrationHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.IntegrationHelpers.L2_tendsto_implies_L1_tendsto_of_bounded",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.IntegrationHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condExp_abs_le_of_abs_le",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condExp_indicator_mul_indicator_of_condIndep",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condExp_mul_pullout",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condIndep_of_indicator_condexp_eq",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb_ae_nonneg_le_one",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb.congr_simp",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb_ae_bound_one",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb_compl",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb_def",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb_univ",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condexp_indicator_eq_of_agree_on_future_rectangles",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb_empty",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condexp_indicator_eq_of_pair_law_eq",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condProb_integral_eq",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondProb",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.condexp_indicator_inter_bridge",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.cylinder",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProduct",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProduct.cylinder_finset",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProduct.cylinder_fintype",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProduct.instIsProbabilityMeasureForallNat",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProduct.perm_eq",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProjectiveFamily",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProduct_isProjectiveLimit",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.iidProjectiveFamily_projective",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.indicator_iUnion_tsum_of_pairwise_disjoint",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExpBasic",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.integrable_indicator_comp",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.integrable_of_bounded",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.integrable_of_bounded_mul",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.isFiniteMeasure_trim",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.setIntegral_congr_ae'",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExpBasic",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.setIntegral_congr_ae_of_ae",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExpBasic",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.sigmaFinite_trim",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExp",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Probability.sigmaFinite_trim_of_le",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.CondExpBasic",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.Measure.infinitePi.congr_simp",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.InfiniteProduct",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.eLpNorm_lt_of_integral_sq_lt",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.LpNormHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.eLpNorm_two_sq_eq_integral_sq",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.LpNormHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.memLp_of_abs_le_const",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.LpNormHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "aemeasurable_measure_pi",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.MeasureKernels",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.memLp_two_of_bounded",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.LpNormHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "measurable_measure_pi",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.MeasureKernels",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "measurable_prod_ennreal",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.MeasureKernels",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "rectangles_generate_pi_sigma",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.MeasureKernels",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "rectangles_isPiSystem",
-      "zone": "Probability Core",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Probability.MeasureKernels",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.IsAlmostShiftInvariant",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.IsAlmostTailMeasurable",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.IsTailMeasurable",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.bind_pi_apply",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.complete_from_directing_measure",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.conditional_iid_from_directing_measure",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.fidi_eq_avg_product",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.indicator_bounded",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.indicator_le_one",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.indicator_mem_zero_one",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.invariantSigmaField",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.map_coords_apply",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.measurable_indicator_comp",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.measure_eq_of_agree_on_pi_system",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.monotone_class_theorem",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.prod_eq_one_iff_of_zero_one",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.prod_eq_zero_iff",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.prod_le_one_of_le_one",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.product_bounded",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.CommonEnding.tailSigmaAlgebra",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.CommonEnding",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Approach.covariance_formula_zero_sum",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Approach.double_sum_covariance_formula",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Approach.integral_sq_weighted_sum_eq_centered",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Approach.l2_bound_from_steps",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Approach.integral_sq_weighted_sum_eq_double_sum",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Approach.l2_contractability_bound",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Approach.sum_sq_le_sum_abs_mul_sup",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.FinIndexHelpers.card_filter_fin_val_ge_two_mul",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.FinIndexHelpers.card_filter_fin_val_lt_two_mul",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.FinIndexHelpers.sum_filter_fin_val_ge_eq_sum_fin",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.FinIndexHelpers.sum_filter_fin_val_lt_eq_sum_fin",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.FinIndexHelpers.sum_last_block_eq_sum_fin",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.contractable_comp",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.contractable_map_pair",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.contractable_single_marginal_eq",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.contractable_map_single",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.dist_toLp_eq_eLpNorm_sub",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.eLpNorm_two_from_integral_sq_le",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.sqrt_div_lt_half_eps_of_nat",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.sqrt_div_lt_third_eps_of_nat",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.L2Helpers.toReal_lt_of_lt_ofReal",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.L2Helpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.abs_clip01_sub_le",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.blockAvg",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.cesaro_to_condexp_L1",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.cesaro_to_condexp_L2",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.clip01",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.clip01_1Lipschitz",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.clip01_range",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.kallenberg_L2_bound",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.l1_convergence_under_clip01",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.subseq_ae_of_L1",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.Helpers.tendsto_integral_indicator_Iic",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.TailSigma.antitone_tailFamily",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.TailSigma.tailFamily",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.TailSigma.tailSigma",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.TailSigma.tailSigma_le",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.TailSigma.tailSigma_le_tailFamily",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIic",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIic.congr_simp",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE_L1_tendsto_one_atTop",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE.congr_simp",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE_L1_tendsto_zero_atBot",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE_ae_tendsto_one_atTop",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE_ae_tendsto_zero_atBot",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE_measurable",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE_mono",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIicCE_nonneg_le_one",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIic_bound",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIic_ae_eq_alphaIicCE",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alphaIic_measurable",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.alpha_is_conditional_expectation",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.cdf_from_alpha",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.cdf_from_alpha.congr_simp",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.cdf_from_alpha_bounds",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.cdf_from_alpha_limits",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.cdf_from_alpha_rightContinuous",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.cdf_from_alpha_mono",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.contractable_covariance_structure",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure.congr_simp",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure_bridge",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure_eval_Iic_measurable",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure_integral",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure_isProbabilityMeasure",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure_satisfies_requirements",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.directing_measure_measurable",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.l2_bound_two_windows",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.l2_bound_two_windows_uniform",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.mem_window_iff",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.reverse_martingale_subsequence_convergence",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.subsequence_criterion_convergence_in_probability",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.sum_window_eq_sum_fin",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.window",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.weighted_sums_converge_L1",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.ViaL2.window_card",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.ViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.conditionallyIID_of_contractable",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.TheoremViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.deFinetti",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.TheoremViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.DeFinetti.deFinetti_RyllNardzewski_equivalence",
-      "zone": "De Finetti Theorem",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.DeFinetti.TheoremViaL2",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.MeasurableSpace.map_comap_eq_of_surjective",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.MeasurableSpace.preimage_injective_of_surjective",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.ShiftInvariance.cesaro_convergence_all_shifts",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.ShiftInvariance",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.ShiftInvariance.tailSigma_shift_invariant_for_contractable",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.ShiftInvariance",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.comap_iInf_le",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.comap_path_tailShift_le_tailProcess",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.comap_shift_eq_iSup_comap_coords",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.iInf_comap_eq_comap_iInf_of_surjective",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.nat_add_assoc",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailFamily",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailFamily_antitone",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailFamily_eq_comap_sample_path_shift",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailProcess",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailProcess_def",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailProcess_coords_eq_tailShift",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailProcess_eq_comap_path_of_surjective",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailProcess_eq_iInf_revFiltration",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailProcess_le_ambient",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailProcess_le_tailFamily",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Tail.tailShift",
-      "zone": "Tail Sigma-Algebra",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Tail.TailSigma",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Util.StrictMono.fin_val_strictMono",
-      "zone": "Utilities - Development",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Util.StrictMono",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Util.StrictMono.strictMono_Fin_ge_id",
-      "zone": "Utilities - Development",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Util.StrictMono",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Util.StrictMono.strictMono_add_left",
-      "zone": "Utilities - Development",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Util.StrictMono",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Util.StrictMono.strictMono_add_right",
-      "zone": "Utilities - Development",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Util.StrictMono",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Util.StrictMono.strictMono_comp",
-      "zone": "Utilities - Development",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Util.StrictMono",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Finset.filter_val_lt_card",
-      "zone": "Utilities - Development",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Util.FinsetHelpers",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.ConditionallyIID",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.ConditionallyIID",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable.allStrictMono_eq",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable.determined_by_increasing",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable.prefix",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable.shift_and_select",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable.shift_segment_eq",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable.subsequence_eq",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Contractable.symm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Exchangeable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Exchangeable.comp",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.Exchangeable.refl",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.ExchangeableAt",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.ExchangeableAt.apply",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.FullyExchangeable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.FullyExchangeable.exchangeable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.MixtureOfIID",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.ConditionallyIID",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.PathSpace.IsShiftInvariant",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.PathSpace.Shift",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.PathSpace.isShiftInvariant_iff",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.PathSpace.Shift",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.PathSpace.measurable_shift",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.PathSpace.Shift",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.PathSpace.shift",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.PathSpace.Shift",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.PathSpace.shift_apply",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.PathSpace.Shift",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.PathSpace.shift_comp_shift",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.PathSpace.Shift",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.PathSpace.shift_measurable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.PathSpace.Shift",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.approxEquiv",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.approxPerm_apply_cast",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.approxPerm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.approxPerm_apply_cast_coe",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.castLE_coe_nat",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.contractable_of_exchangeable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.contractable_same_range",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.cylinder_subset_prefixCylinders",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.exchangeable_iff_forall_exchangeableAt",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.exchangeable_iff_fullyExchangeable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.exchangeable_of_conditionallyIID",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.ConditionallyIID",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.exists_perm_extending_strictMono",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.extendSet",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.extendFinPerm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.extendSet_measurable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.fullyExchangeable_iff_pathLaw_invariant",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.generateFrom_prefixCylinders",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.iidProduct_exists",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.iidProduct_perm_invariant",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.isPiSystem_prefixCylinders",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.le_permBound",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.lt_permBound_fin",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.lt_permBound_of_lt",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.marginals_perm_eq",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.measurable_of_mem_prefixCylinders",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.measurable_perm_map",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.measurable_prefixProj",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.measurable_reindex",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.measure_eq_of_fin_marginals_eq",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.measure_eq_of_fin_marginals_eq_prob",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.measure_map_comp_perm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.mem_prefixCylinder",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.pathLaw",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.pathLaw_map_prefix",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.pathLaw_map_prefix_perm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.permBound",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.perm_range_eq",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Contractability",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.pi_perm_comm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.ConditionallyIID",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixCylinder",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixCylinder_empty",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixCylinder_inter",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixCylinder_mem_prefixCylinders",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixCylinder_univ",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixCylinders",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixProj",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.prefixProj_apply",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.reindex",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.reindex_apply",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.takePrefix",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "def",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.takePrefix.congr_simp",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.takePrefix_apply",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.takePrefix_measurable",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "Exchangeability.takePrefix_prefixProj",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.Core",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.Measure.bind_map_comm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.ConditionallyIID",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.Measure.pi_comp_perm",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.ConditionallyIID",
-      "exit": 1,
-      "error": "info: stderr:"
-    },
-    {
-      "decl": "MeasureTheory.Measure.pi_isProbabilityMeasure",
-      "zone": "Root Definitions",
-      "ok": false,
-      "kind": "thm",
-      "module": "Exchangeability.ConditionallyIID",
-      "exit": 1,
-      "error": "info: stderr:"
-    }
-  ],
-  "summary": {
-    "total": 257,
-    "passed": 0,
-    "failed": 257,
-    "mode": "summary"
-  }
-};
+        window.EMBEDDED_REPORT = null;
         
         // Auto-load embedded data on page load
         document.addEventListener('DOMContentLoaded', function() {

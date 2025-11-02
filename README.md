@@ -140,6 +140,8 @@ lake exe depviz --roots MyProject --svg-out depgraph.svg --png-out depgraph.png
 
 LeanDepViz can be integrated with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) to verify that specific parts of your codebase are free of `sorry`, unapproved axioms, or other undesirable constructs.
 
+**Note**: LeanParanoia is in early development and may have compatibility issues with certain Lean toolchains. The dependency graph JSON already provides useful verification metadata (sorry flags, axiom usage, unsafe declarations) without requiring LeanParanoia.
+
 ### Setup
 
 1. **Add LeanParanoia to your project** (in `lakefile.lean`):
