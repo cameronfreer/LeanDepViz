@@ -5,9 +5,10 @@ All notable changes to LeanDepViz will be documented in this file.
 ## [0.2.1] - 2024-11-01
 
 ### Fixed
-- **Critical: Graph View now works!** Switched from CDN to vendored libraries
-- Libraries now loaded from `vendor/` directory (same-origin)
-- Eliminates CORS, CSP, and CDN reliability issues
+- **Critical: Graph View now works!** Fixed d3-graphviz module attachment issue
+- Root cause: d3-graphviz UMD wrapper creates `window["d3-graphviz"]` instead of `d3.graphviz`
+- Solution: Manual attachment script after library loads
+- Switched from CDN to vendored libraries (same-origin, eliminates CORS/CSP)
 - No more "d3.graphviz is undefined" errors
 
 ### Added

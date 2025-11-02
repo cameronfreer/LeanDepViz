@@ -4,17 +4,22 @@ This directory contains third-party JavaScript libraries bundled with LeanDepViz
 
 ## Why Vendored?
 
-**Problem**: Loading libraries from CDNs (jsdelivr, unpkg, etc.) caused issues:
+**Problem 1**: Loading libraries from CDNs (jsdelivr, unpkg, etc.) caused issues:
 - CORS (Cross-Origin Resource Sharing) restrictions
 - Content Security Policy (CSP) blocking
 - CDN downtime or blocking
 - Network-dependent reliability
+
+**Problem 2**: d3-graphviz UMD wrapper issue:
+- The library creates `window["d3-graphviz"]` instead of `d3.graphviz`
+- Required manual attachment: `d3.graphviz = window["d3-graphviz"].graphviz`
 
 **Solution**: Bundle libraries locally and serve from same origin (GitHub Pages)
 - ✅ No cross-origin issues
 - ✅ No CSP problems
 - ✅ Works offline (once loaded)
 - ✅ Consistent, reliable loading
+- ✅ Manual attachment script ensures proper d3 integration
 
 ## Libraries
 
