@@ -768,6 +768,12 @@
             onerror="console.error('✗ Failed to load vendor/d3-graphviz.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js'; s.onload=function(){console.log('✓ d3-graphviz loaded from CDN fallback')}; document.body.appendChild(s);"></script>
     
     <script>
+        // Manual attachment: d3-graphviz creates window["d3-graphviz"] but we need d3.graphviz
+        if (window["d3-graphviz"] && window.d3 && !window.d3.graphviz) {
+            console.log('Manually attaching d3-graphviz to d3.graphviz');
+            window.d3.graphviz = window["d3-graphviz"].graphviz;
+        }
+        
         // Wait a moment for scripts to execute, then verify
         setTimeout(function() {
             console.log('=== Final library check (vendored assets) ===');
