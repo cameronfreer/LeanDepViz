@@ -1,7 +1,7 @@
 {
   "results": [
     {
-      "decl": "Test.Basic.bad_theorem",
+      "decl": "bad_theorem",
       "zone": "Test",
       "ok": false,
       "kind": "thm",
@@ -10,7 +10,7 @@
       "error": "Uses disallowed axioms: bad_axiom"
     },
     {
-      "decl": "Test.Basic.bad_axiom",
+      "decl": "bad_axiom",
       "zone": "Test",
       "ok": false,
       "kind": "axiom",
@@ -19,7 +19,7 @@
       "error": "Custom axiom (proves False)"
     },
     {
-      "decl": "Test.Basic.good_theorem",
+      "decl": "good_theorem",
       "zone": "Test",
       "ok": true,
       "kind": "thm",
