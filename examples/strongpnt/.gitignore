@@ -1,0 +1,7 @@
+# Exclude StrongPNT source code - only keep extracted data
+*.lean
+lakefile.toml
+lean-toolchain
+.lake/
+StrongPNT/
+PrimeNumberTheoremAnd/
