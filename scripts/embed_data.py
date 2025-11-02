@@ -67,8 +67,12 @@ def embed_data(viewer_path: Path, depgraph_path: Path, report_path: Path, dot_pa
     </script>
     """
     
-    # Insert embedded data script before closing </body> tag
-    if '</body>' in viewer_html:
+    # Insert embedded data script before library scripts (they must load last)
+    library_marker = '    <!-- Load d3-graphviz libraries at end of body'
+    if library_marker in viewer_html:
+        output_html = viewer_html.replace(library_marker, f'{embedded_script}\n    {library_marker}')
+    elif '</body>' in viewer_html:
+        # Fallback: insert before </body> if marker not found
         output_html = viewer_html.replace('</body>', f'{embedded_script}\n</body>')
     else:
         output_html = viewer_html + embedded_script
