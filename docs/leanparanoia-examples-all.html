@@ -726,9 +726,9 @@
                 thead.innerHTML = headers.join('');
             } else if (availableTools.length === 1) {
                 // Single checker mode: one status column at the END
-                const toolName = availableTools[0] === 'paranoia' ? 'LeanParanoia Status' :
-                                availableTools[0] === 'lean4checker' ? 'lean4checker Status' :
-                                availableTools[0] === 'safeverify' ? 'SafeVerify Status' :
+                const toolName = availableTools[0] === 'paranoia' ? 'LeanParanoia' :
+                                availableTools[0] === 'lean4checker' ? 'lean4checker' :
+                                availableTools[0] === 'safeverify' ? 'SafeVerify' :
                                 'Verification Status';
                 thead.innerHTML = `
                     <th data-sort="decl">Declaration</th>
