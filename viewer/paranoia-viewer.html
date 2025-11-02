@@ -720,8 +720,8 @@
                 return '<span class="badge passed" style="font-size: 0.85em;">✓</span>';
             } else {
                 const errorMsg = toolData.error ? escapeHtml(toolData.error) : 'Failed';
-                const shortError = errorMsg.length > 60 ? errorMsg.substring(0, 60) + '...' : errorMsg;
-                return `<span class="badge failed" style="font-size: 0.85em;" title="${errorMsg}">✗</span><br><span style="font-size: 0.75em; color: #f48771;">${shortError}</span>`;
+                const shortError = errorMsg.length > 120 ? errorMsg.substring(0, 120) + '...' : errorMsg;
+                return `<div style="display: flex; align-items: start; gap: 0.5rem;"><span class="badge failed" style="font-size: 0.85em; flex-shrink: 0;" title="${errorMsg}">✗</span><span style="font-size: 0.75em; color: #f48771; text-align: left;">${shortError}</span></div>`;
             }
         }
         
@@ -752,7 +752,7 @@
                     // Multi-checker mode: one cell per tool
                     statusCells = availableTools.map(tool => {
                         const toolData = status.tools[tool];
-                        return `<td style="text-align: center;">${renderToolStatus(tool, toolData)}</td>`;
+                        return `<td style="vertical-align: top;">${renderToolStatus(tool, toolData)}</td>`;
                     }).join('');
                 } else if (status) {
                     // Single checker or legacy mode
@@ -768,7 +768,7 @@
                     // Not checked
                     if (isMultiChecker) {
                         statusCells = availableTools.map(() => 
-                            '<td style="text-align: center;"><span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span></td>'
+                            '<td style="vertical-align: top;"><span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span></td>'
                         ).join('');
                     } else {
                         statusCells = '<td><span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span></td>';
@@ -817,22 +817,59 @@
             }
             
             if (status) {
-                html += `
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
-                        <h4 style="margin-bottom: 0.5rem;">Paranoia Check Result</h4>
-                        <div><strong>Zone:</strong> ${status.zone}</div>
-                        <div><strong>Status:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ Passed</span>' : '<span style="color: #f48771;">✗ Failed</span>'}</div>
-                    </div>
-                `;
-                
-                if (!status.ok) {
-                    const error = status.error || status.stderr || status.stdout || 'Unknown error';
-                    html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
+                // Check if multi-checker report
+                if (isMultiChecker && status.tools) {
+                    html += `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
+                            <h4 style="margin-bottom: 0.5rem;">Verification Results</h4>
+                            <div><strong>Zone:</strong> ${status.zone}</div>
+                            <div><strong>Overall:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ All Passed</span>' : '<span style="color: #f48771;">✗ Some Failed</span>'}</div>
+                        </div>
+                    `;
+                    
+                    // Show results from each tool as bullet points
+                    html += '<div style="margin-top: 1rem;"><strong>Tool Results:</strong><ul style="margin-left: 1.5rem; margin-top: 0.5rem;">';
+                    availableTools.forEach(tool => {
+                        const toolData = status.tools[tool];
+                        if (toolData) {
+                            const toolName = tool === 'paranoia' ? 'LeanParanoia' :
+                                           tool === 'lean4checker' ? 'lean4checker' :
+                                           tool === 'safeverify' ? 'SafeVerify' :
+                                           tool;
+                            if (toolData.ok) {
+                                html += `<li><span style="color: #4ec9b0;">✓</span> <strong>${toolName}:</strong> <span style="color: #4ec9b0;">Passed</span></li>`;
+                            } else {
+                                const error = toolData.error ? escapeHtml(toolData.error) : 'Failed';
+                                html += `<li><span style="color: #f48771;">✗</span> <strong>${toolName}:</strong> <span style="color: #f48771;">${error}</span></li>`;
+                            }
+                        }
+                    });
+                    html += '</ul></div>';
+                } else {
+                    // Single checker or legacy format
+                    const title = availableTools.length === 1 ? 
+                                 (availableTools[0] === 'paranoia' ? 'LeanParanoia Check Result' :
+                                  availableTools[0] === 'lean4checker' ? 'lean4checker Result' :
+                                  availableTools[0] === 'safeverify' ? 'SafeVerify Result' :
+                                  'Verification Result') :
+                                 'Paranoia Check Result';
+                    html += `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
+                            <h4 style="margin-bottom: 0.5rem;">${title}</h4>
+                            <div><strong>Zone:</strong> ${status.zone}</div>
+                            <div><strong>Status:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ Passed</span>' : '<span style="color: #f48771;">✗ Failed</span>'}</div>
+                        </div>
+                    `;
+                    
+                    if (!status.ok) {
+                        const error = status.error || status.stderr || status.stdout || 'Unknown error';
+                        html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
+                    }
                 }
             } else {
                 html += `
                     <div style="margin-top: 1rem; padding: 1rem; background: #2d2d30; border-radius: 4px; color: #888;">
-                        This declaration was not checked by LeanParanoia.
+                        This declaration has not been verified.
                     </div>
                 `;
             }
