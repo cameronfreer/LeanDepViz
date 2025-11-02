@@ -16,7 +16,9 @@ Shows **12 declarations** with **3 verification tools**:
 **Verification Tools**:
 - **LeanParanoia**: Policy enforcement (sorry, axioms, unsafe, partial)
 - **lean4checker**: Kernel replay verification
-- **SafeVerify**: Reference vs implementation comparison
+- **SafeVerify**: Reference vs implementation comparison *(mock data for UI demonstration)*
+
+> **Note**: The verification results shown are for demonstration purposes. LeanParanoia and lean4checker results are plausible based on the exploit files, while SafeVerify results are mock data (SafeVerify requires two versions to compare, but these test files exist in only one version).
 
 **Categories Demonstrated**:
 - 🔴 **Custom Axioms**: bad_axiom, custom_false
