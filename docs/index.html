@@ -286,19 +286,19 @@
             <div class="file-input">
                 <label for="graph-file">Dependency Graph:</label>
                 <input type="file" id="graph-file" accept=".json">
-                <span id="graph-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
+                <span id="graph-file-status"></span>
             </div>
             
             <div class="file-input">
                 <label for="dot-file">DOT File (for graph view):</label>
                 <input type="file" id="dot-file" accept=".dot">
-                <span id="dot-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
+                <span id="dot-file-status"></span>
             </div>
             
             <div class="file-input">
-                <label for="report-file">Paranoia Report:</label>
+                <label for="report-file">Verification Report:</label>
                 <input type="file" id="report-file" accept=".json">
-                <span id="report-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
+                <span id="report-file-status"></span>
             </div>
         </div>
         
@@ -413,25 +413,34 @@
             const graphStatus = document.getElementById('graph-file-status');
             const dotStatus = document.getElementById('dot-file-status');
             const reportStatus = document.getElementById('report-file-status');
+            const graphInput = document.getElementById('graph-file');
+            const dotInput = document.getElementById('dot-file');
+            const reportInput = document.getElementById('report-file');
             
             // Load embedded graph data
             if (typeof window.EMBEDDED_DEPGRAPH !== 'undefined' && window.EMBEDDED_DEPGRAPH) {
+                graphInput.style.display = 'none';
                 graphStatus.textContent = '✓ Embedded data loaded';
                 graphStatus.style.color = '#4ec9b0';
+                graphStatus.style.fontSize = '0.85rem';
                 graphData = window.EMBEDDED_DEPGRAPH;
             }
             
             // Load embedded DOT data
             if (typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT) {
+                dotInput.style.display = 'none';
                 dotStatus.textContent = '✓ Embedded DOT loaded';
                 dotStatus.style.color = '#4ec9b0';
+                dotStatus.style.fontSize = '0.85rem';
                 dotData = window.EMBEDDED_DOT;
             }
             
             // Load embedded report data
             if (typeof window.EMBEDDED_REPORT !== 'undefined' && window.EMBEDDED_REPORT) {
+                reportInput.style.display = 'none';
                 reportStatus.textContent = '✓ Embedded report loaded';
                 reportStatus.style.color = '#4ec9b0';
+                reportStatus.style.fontSize = '0.85rem';
                 reportData = window.EMBEDDED_REPORT;
             }
             
