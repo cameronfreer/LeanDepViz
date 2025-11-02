@@ -99,31 +99,17 @@
             padding: 0.4rem 0.8rem;
         }
         
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
             border-bottom: 1px solid #3c3c3c;
         }
         
-        .tab {
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: none;
-            color: #888;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            font-size: 0.95rem;
-        }
-        
-        .tab:hover {
-            color: #d4d4d4;
-            background: #2d2d30;
-        }
-        
-        .tab.active {
-            color: #fff;
-            border-bottom-color: #0e639c;
+        .section-title:first-child {
+            margin-top: 0;
         }
         
         .stats {
@@ -175,19 +161,15 @@
         }
         
         .view {
-            display: none;
-        }
-        
-        .view.active {
             display: block;
         }
         
         #graph-viz {
-            width: 100%;
-            height: calc(100vh - 300px);
-            background: #fff;
-            border-radius: 4px;
+            max-height: 500px;
             overflow: auto;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            background: #252526;
         }
         
         #graph-viz svg {
@@ -329,10 +311,6 @@
             </div>
         </div>
         
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('table')">📊 Table View</button>
-            <button class="tab" onclick="switchTab('graph')">🕸️ Graph View</button>
-        </div>
         
         <div class="filter-bar">
             <label>Filter:</label>
@@ -376,7 +354,8 @@
     <main>
         <div id="content-area">
             <!-- Table View -->
-            <div id="table-view" class="view active">
+            <div id="table-view" class="view">
+                <h2 class="section-title">📊 Declarations</h2>
                 <div class="empty-state">
                     <p>Load a dependency graph JSON file to begin.</p>
                 </div>
@@ -397,7 +376,8 @@
             
             <!-- Graph View -->
             <div id="graph-view" class="view">
-                <div class="empty-state">
+                <h2 class="section-title">🕸️ Dependency Graph</h2>
+                <div id="graph-empty" class="empty-state">
                     <p>Load a DOT file to visualize the dependency graph.</p>
                     <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
                         Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
@@ -468,16 +448,9 @@
         let availableTools = [];
         let isMultiChecker = false;
         
-        // Tab switching
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(`${tab}-view`).classList.add('active');
-            
-            if (tab === 'graph' && dotData) {
+        // Render graph automatically when DOT data is loaded
+        function maybeRenderGraph() {
+            if (dotData && graphData) {
                 renderGraph();
             }
         }
@@ -497,9 +470,7 @@
             if (file) {
                 dotData = await file.text();
                 console.log('DOT file loaded, size:', dotData.length, 'bytes');
-                if (currentTab === 'graph') {
-                    renderGraph();
-                }
+                maybeRenderGraph();
             }
         });
         
@@ -522,7 +493,7 @@
             if (!dotData) return;
             
             const graphViz = document.getElementById('graph-viz');
-            const emptyState = document.querySelector('#graph-view .empty-state');
+            const emptyState = document.getElementById('graph-empty');
             
             emptyState.classList.add('hidden');
             graphViz.classList.remove('hidden');
@@ -541,6 +512,8 @@
                 console.log('Rendering graph with d3-graphviz...');
                 d3.select("#graph-viz")
                     .graphviz()
+                    .width("100%")
+                    .height(500)
                     .zoom(true)
                     .fit(true)
                     .on("initEnd", () => {
@@ -752,8 +725,8 @@
             tbody.innerHTML = nodes.map(n => {
                 const status = n.status;
                 const flags = [];
-                if (n.hasSorry) flags.push('<span class="badge sorry">Sorry</span>');
-                if (n.axioms && n.axioms.length > 0) flags.push('<span class="badge axiom">Axiom</span>');
+                if (n.hasSorry) flags.push('<span class="badge sorry">Has Sorry</span>');
+                if (n.axioms && n.axioms.length > 0) flags.push('<span class="badge axiom">Uses Axiom</span>');
                 if (n.isUnsafe) flags.push('<span class="badge unsafe">Unsafe</span>');
                 
                 let statusCells;
