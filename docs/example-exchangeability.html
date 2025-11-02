@@ -301,7 +301,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.8</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.9</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -410,8 +410,8 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.1.8
-        const VIEWER_VERSION = '0.1.8';
+        // LeanDepViz Viewer v0.1.9
+        const VIEWER_VERSION = '0.1.9';
         
         // Check library loading on page load
         window.addEventListener('DOMContentLoaded', function() {
@@ -4504,13 +4504,36 @@
     </script>
     
         <!-- Load d3-graphviz libraries at end of body for proper initialization -->
-    <!-- D3 (must load first) -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <!-- D3 v7 -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js" crossorigin="anonymous"></script>
     
-    <!-- HPCC Graphviz WASM UMD (pinned version) -->
-    <script src="https://unpkg.com/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js"></script>
+    <!-- HPCC Graphviz WASM -->
+    <script src="https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js" crossorigin="anonymous"></script>
     
-    <!-- d3-graphviz plugin (must load AFTER D3 is ready) - use non-minified for better compatibility -->
-    <script src="https://unpkg.com/d3-graphviz@5.6.0/build/d3-graphviz.js"></script>
+    <!-- d3-graphviz UMD bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js" crossorigin="anonymous"></script>
+    
+    <script>
+        // Verify libraries loaded after all scripts
+        console.log('=== Final library check ===');
+        console.log('window.d3:', typeof window.d3);
+        console.log('d3.select:', typeof (window.d3 && window.d3.select));
+        console.log('window.d3.graphviz:', typeof (window.d3 && window.d3.graphviz));
+        console.log('window.hpccWasm:', typeof window.hpccWasm);
+        
+        if (window.d3 && !window.d3.graphviz) {
+            console.error('CRITICAL: d3 loaded but d3.graphviz missing!');
+            console.log('This usually means d3-graphviz script failed to attach');
+            console.log('Trying manual attach...');
+            
+            // Try to force reload d3-graphviz
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/d3-graphviz@5.6.0/build/d3-graphviz.js';
+            script.onload = function() {
+                console.log('Manual reload: d3.graphviz =', typeof d3.graphviz);
+            };
+            document.body.appendChild(script);
+        }
+    </script>
 </body>
 </html>

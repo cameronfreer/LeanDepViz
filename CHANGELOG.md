@@ -2,6 +2,22 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.1.9] - 2024-11-01
+
+### Changed
+- All library CDNs switched to jsDelivr for consistency and reliability
+- Added crossorigin="anonymous" to all library script tags
+- Added explicit final library verification script with diagnostic logging
+- Automatic fallback: if d3.graphviz fails to attach, tries unpkg as backup
+
+### Added
+- Final verification script that runs after all libraries
+- Logs complete library status: d3, d3.select, d3.graphviz, hpccWasm
+- Manual reload fallback if d3-graphviz doesn't attach
+- More detailed error messages for debugging
+
+**Debugging**: Open console and look for "=== Final library check ===" to see exactly what loaded
+
 ## [0.1.8] - 2024-11-01
 
 ### Fixed
