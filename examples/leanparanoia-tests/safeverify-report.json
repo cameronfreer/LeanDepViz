@@ -1,0 +1,49 @@
+{
+  "tool": "safeverify",
+  "version": "0.1.0",
+  "timestamp": "2024-11-02T04:07:00+00:00",
+  "target_dir": "/tmp/target_build",
+  "submit_dir": ".lake/build",
+  "declarations": [
+    {
+      "decl": "bad_theorem",
+      "module": "Test.Basic",
+      "tool": "safeverify",
+      "zone": "Test",
+      "ok": false,
+      "checks": ["extra-axioms"],
+      "error": "Statement uses extra axiom bad_axiom not present in baseline",
+      "notes": "Axiom bad_axiom introduced in submission",
+      "cmd": "lake exe safe_verify /tmp/target_build/Test/Basic.olean .lake/build/Test/Basic.olean",
+      "exit": 1
+    },
+    {
+      "decl": "bad_axiom",
+      "module": "Test.Basic",
+      "tool": "safeverify",
+      "zone": "Test",
+      "ok": false,
+      "checks": ["extra-axioms", "unsafe"],
+      "error": "Custom axiom not in allow-list",
+      "notes": "Axiom bad_axiom not in allowed list [propext, Classical.choice, Quot.sound]",
+      "cmd": "lake exe safe_verify /tmp/target_build/Test/Basic.olean .lake/build/Test/Basic.olean",
+      "exit": 1
+    },
+    {
+      "decl": "good_theorem",
+      "module": "Test.Basic",
+      "tool": "safeverify",
+      "zone": "Test",
+      "ok": true,
+      "checks": ["ref-impl-match"],
+      "notes": "Reference and implementation match",
+      "cmd": "lake exe safe_verify /tmp/target_build/Test/Basic.olean .lake/build/Test/Basic.olean",
+      "exit": 0
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 1,
+    "failed": 2
+  }
+}

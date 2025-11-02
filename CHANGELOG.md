@@ -2,6 +2,41 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.3.0] - 2024-11-02
+
+### Added - Multi-Checker Verification Architecture
+- **3 new verification adapters** for defense-in-depth
+  - `scripts/lean4checker_adapter.py` - Kernel replay verification
+  - `scripts/safeverify_adapter.py` - Reference vs implementation comparison
+  - `scripts/merge_reports.py` - Unified report merging
+- **Comprehensive documentation**
+  - `MULTI_CHECKER.md` - Architecture overview (486 lines)
+  - `scripts/checkers/README.md` - Detailed checker guide (377 lines)
+  - `.github/workflows/multi-checker-verify.yml.example` - CI template
+- **Verification demo** (`docs/verification-demo.html`) - 12 declarations with 3 tools
+- **Favicon support** - SVG, ICO, and PNG favicon files
+
+### Changed - Major UI Overhaul (v0.3.0)
+- **Sortable columns** - Click any header to sort (▲▼ indicators)
+- **Default sort by status** - Failures shown first automatically
+- **Multi-tool columns** - Separate column for each verification tool
+- **Column order** - Declaration info first, then tool results
+- **Embedded graph** - No more tab switching, graph on main page
+- **Section titles** - "📊 Declarations" and "🕸️ Dependency Graph"
+- **Clear flag names** - "Has Sorry", "Uses Axiom" (not just "Sorry", "Axiom")
+- **Clean file inputs** - Hidden when embedded data loaded
+- **Details panel** - Bullet-point errors for multi-tool results
+- **Compact status display** - Left-aligned with badges, 120 char limit
+
+### Fixed
+- **Embedded data loading** - Now actually loads on page load (critical bug)
+- **Column header naming** - Consistent "LeanParanoia" not "LeanParanoia Status"
+
+### Removed
+- `viewer/paranoia-viewer-simple.html` - Outdated, superseded by main viewer
+
+**Why**: Defense in depth with multiple independent verifiers catches different classes of issues. LeanParanoia (policy), lean4checker (kernel), and SafeVerify (ref-impl) together provide comprehensive verification coverage.
+
 ## [0.2.2] - 2024-11-01
 
 ### Changed

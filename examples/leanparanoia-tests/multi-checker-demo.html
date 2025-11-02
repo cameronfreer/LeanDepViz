@@ -1,0 +1,1265 @@
+<!--
+    Standalone LeanDepViz Report
+    Generated with embedded dependency graph and verification results.
+    
+    This file is self-contained and can be opened directly in a browser
+    or hosted on any static file server (GitHub Pages, Vercel, Netlify, etc.)
+    
+    No backend required - all processing happens client-side.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeanDepViz</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="favicon-256.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background: #252526;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .file-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        label {
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+        
+        input[type="file"] {
+            font-size: 0.85rem;
+            color: #d4d4d4;
+        }
+        
+        button, select {
+            background: #0e639c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        button:hover, select:hover {
+            background: #1177bb;
+        }
+        
+        button.secondary {
+            background: #3c3c3c;
+        }
+        
+        button.secondary:hover {
+            background: #4c4c4c;
+        }
+        
+        select {
+            background: #3c3c3c;
+            color: #d4d4d4;
+            padding: 0.4rem 0.8rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        
+        .section-title:first-child {
+            margin-top: 0;
+        }
+        
+        .stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #2d2d30;
+            border-radius: 4px;
+        }
+        
+        .stat {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+        
+        .stat-value.passed {
+            color: #4ec9b0;
+        }
+        
+        .stat-value.failed {
+            color: #f48771;
+        }
+        
+        main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        #content-area {
+            flex: 1;
+            overflow: auto;
+            padding: 2rem;
+            background: #1e1e1e;
+        }
+        
+        .view {
+            display: block;
+        }
+        
+        #graph-viz {
+            max-height: 500px;
+            overflow: auto;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            background: #252526;
+        }
+        
+        #graph-viz svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        #sidebar {
+            width: 350px;
+            background: #252526;
+            border-left: 1px solid #3c3c3c;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+            
+            #sidebar {
+                width: 100%;
+                max-height: 300px;
+                border-left: none;
+                border-top: 1px solid #3c3c3c;
+            }
+            
+            .stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .file-input {
+                min-width: 200px;
+            }
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #3c3c3c;
+            font-size: 0.85rem;
+        }
+        
+        th {
+            background: #2d2d30;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        th:hover {
+            background: #383838;
+        }
+        
+        th.sorted-asc::after {
+            content: ' ▲';
+            color: #4ec9b0;
+            font-size: 0.7em;
+        }
+        
+        th.sorted-desc::after {
+            content: ' ▼';
+            color: #4ec9b0;
+            font-size: 0.7em;
+        }
+        
+        tr:hover {
+            background: #2d2d30;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+        
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 0.75rem;
+            background: #2d2d30;
+            border-radius: 4px;
+            align-items: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 0.25rem;
+        }
+        
+        .badge.passed {
+            background: #4ec9b044;
+            color: #4ec9b0;
+        }
+        
+        .badge.failed {
+            background: #f4877144;
+            color: #f48771;
+        }
+        
+        .badge.sorry {
+            background: #d7371544;
+            color: #f48771;
+        }
+        
+        .badge.axiom {
+            background: #e6972b44;
+            color: #e6972b;
+        }
+        
+        .badge.unsafe {
+            background: #55555544;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.3.0</span></h1>
+        
+        <div class="controls">
+            <div class="file-input">
+                <label for="graph-file">Dependency Graph:</label>
+                <input type="file" id="graph-file" accept=".json">
+                <span id="graph-file-status"></span>
+            </div>
+            
+            <div class="file-input">
+                <label for="dot-file">DOT File (for graph view):</label>
+                <input type="file" id="dot-file" accept=".dot">
+                <span id="dot-file-status"></span>
+            </div>
+            
+            <div class="file-input">
+                <label for="report-file">Verification Report:</label>
+                <input type="file" id="report-file" accept=".json">
+                <span id="report-file-status"></span>
+            </div>
+        </div>
+        
+        
+        <div class="filter-bar">
+            <label>Filter:</label>
+            <select id="status-filter">
+                <option value="all">All Nodes</option>
+                <option value="failed">Failed Only</option>
+                <option value="passed">Passed Only</option>
+                <option value="sorry">Has Sorry</option>
+                <option value="axiom">Uses Axioms</option>
+            </select>
+            
+            <label>Zone:</label>
+            <select id="zone-filter">
+                <option value="all">All Zones</option>
+            </select>
+            
+            <input type="text" id="search-box" placeholder="Search declarations..." 
+                   style="flex: 1; padding: 0.4rem; background: #1e1e1e; border: 1px solid #3c3c3c; color: #d4d4d4; border-radius: 3px;">
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <span class="stat-label">Total Nodes</span>
+                <span class="stat-value" id="stat-total">-</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Checked</span>
+                <span class="stat-value" id="stat-checked">-</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Passed</span>
+                <span class="stat-value passed" id="stat-passed">-</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Failed</span>
+                <span class="stat-value failed" id="stat-failed">-</span>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div id="content-area">
+            <!-- Table View -->
+            <div id="table-view" class="view">
+                <h2 class="section-title">📊 Declarations</h2>
+                <div class="empty-state">
+                    <p>Load a dependency graph JSON file to begin.</p>
+                </div>
+                <table id="nodes-table" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Verification Status</th>
+                            <th>Declaration</th>
+                            <th>Module</th>
+                            <th>Kind</th>
+                            <th>Zone</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nodes-tbody"></tbody>
+                </table>
+            </div>
+            
+            <!-- Graph View -->
+            <div id="graph-view" class="view">
+                <h2 class="section-title">🕸️ Dependency Graph</h2>
+                <div id="graph-empty" class="empty-state">
+                    <p>Load a DOT file to visualize the dependency graph.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                        Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
+                    </p>
+                </div>
+                <div id="graph-viz" class="hidden"></div>
+            </div>
+        </div>
+        
+        <div id="sidebar">
+            <h2 style="margin-bottom: 1rem; font-size: 1.1rem;">Details</h2>
+            <div id="details-content">
+                <p style="color: #888;">Select a node to view details</p>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        // LeanDepViz Viewer v0.3.0
+        const VIEWER_VERSION = '0.3.0';
+        
+        // Check library loading on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('LeanDepViz Viewer v' + VIEWER_VERSION);
+            console.log('Libraries loaded:');
+            console.log('- window.d3:', typeof window.d3 !== 'undefined' ? 'OK' : 'FAILED');
+            console.log('- d3.graphviz:', typeof window.d3 !== 'undefined' && typeof d3.graphviz === 'function' ? 'OK' : 'FAILED');
+            console.log('- typeof d3.graphviz:', typeof window.d3 !== 'undefined' ? typeof d3.graphviz : 'N/A');
+            
+            if (!(window.d3 && d3.graphviz && typeof d3.graphviz === 'function')) {
+                console.error('d3-graphviz library not loaded correctly');
+                console.log('Check: window.d3 =', !!window.d3, ', d3.graphviz =', typeof (window.d3 && d3.graphviz));
+            } else {
+                console.log('✓ Graph view ready');
+            }
+            
+            // Update file input status for embedded data
+            updateEmbeddedFileStatus();
+        });
+        
+        function updateEmbeddedFileStatus() {
+            const graphStatus = document.getElementById('graph-file-status');
+            const dotStatus = document.getElementById('dot-file-status');
+            const reportStatus = document.getElementById('report-file-status');
+            const graphInput = document.getElementById('graph-file');
+            const dotInput = document.getElementById('dot-file');
+            const reportInput = document.getElementById('report-file');
+            
+            // Load embedded graph data
+            if (typeof window.EMBEDDED_DEPGRAPH !== 'undefined' && window.EMBEDDED_DEPGRAPH) {
+                graphInput.style.display = 'none';
+                graphStatus.textContent = '✓ Embedded data loaded';
+                graphStatus.style.color = '#4ec9b0';
+                graphStatus.style.fontSize = '0.85rem';
+                graphData = window.EMBEDDED_DEPGRAPH;
+            }
+            
+            // Load embedded DOT data
+            if (typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT) {
+                dotInput.style.display = 'none';
+                dotStatus.textContent = '✓ Embedded DOT loaded';
+                dotStatus.style.color = '#4ec9b0';
+                dotStatus.style.fontSize = '0.85rem';
+                dotData = window.EMBEDDED_DOT;
+            }
+            
+            // Load embedded report data
+            if (typeof window.EMBEDDED_REPORT !== 'undefined' && window.EMBEDDED_REPORT) {
+                reportInput.style.display = 'none';
+                reportStatus.textContent = '✓ Embedded report loaded';
+                reportStatus.style.color = '#4ec9b0';
+                reportStatus.style.fontSize = '0.85rem';
+                reportData = window.EMBEDDED_REPORT;
+            }
+            
+            // Initialize views if data is loaded
+            if (graphData) {
+                updateView();
+            }
+            if (dotData && graphData) {
+                maybeRenderGraph();
+            }
+        }
+        
+        let graphData = null;
+        let reportData = null;
+        let dotData = null;
+        let statusMap = new Map();
+        let zones = new Set();
+        let currentTab = 'table';
+        let availableTools = [];
+        let isMultiChecker = false;
+        let sortColumn = 'status';  // Default sort by status
+        let sortDirection = 'asc';  // asc = failed first (0 < 1 < 2)
+        
+        // Render graph automatically when DOT data is loaded
+        function maybeRenderGraph() {
+            if (dotData && graphData) {
+                renderGraph();
+            }
+        }
+        
+        // File loading
+        document.getElementById('graph-file').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const text = await file.text();
+                graphData = JSON.parse(text);
+                updateView();
+            }
+        });
+        
+        document.getElementById('dot-file').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                dotData = await file.text();
+                console.log('DOT file loaded, size:', dotData.length, 'bytes');
+                maybeRenderGraph();
+            }
+        });
+        
+        document.getElementById('report-file').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const text = await file.text();
+                reportData = JSON.parse(text);
+                updateView();
+            }
+        });
+        
+        // Filters
+        document.getElementById('status-filter').addEventListener('change', updateView);
+        document.getElementById('zone-filter').addEventListener('change', updateView);
+        document.getElementById('search-box').addEventListener('input', updateView);
+        
+        // Render graph with d3-graphviz
+        function renderGraph() {
+            if (!dotData) return;
+            
+            const graphViz = document.getElementById('graph-viz');
+            const emptyState = document.getElementById('graph-empty');
+            
+            emptyState.classList.add('hidden');
+            graphViz.classList.remove('hidden');
+            
+            // Show loading message
+            graphViz.innerHTML = '<div id="graph-loading" style="padding: 2rem; text-align: center; color: #d4d4d4;">Loading graph... This may take a moment for large graphs.</div>';
+            
+            // Give the UI a moment to update
+            setTimeout(() => {
+                try {
+                // Check if d3-graphviz is loaded correctly
+                if (!(window.d3 && d3.graphviz && typeof d3.graphviz === 'function')) {
+                    throw new Error('d3-graphviz library not loaded (d3=' + (!!window.d3) + ', d3.graphviz=' + typeof (window.d3 && d3.graphviz) + ')');
+                }
+                
+                console.log('Rendering graph with d3-graphviz...');
+                d3.select("#graph-viz")
+                    .graphviz()
+                    .width("100%")
+                    .height(500)
+                    .zoom(true)
+                    .fit(true)
+                    .on("initEnd", () => {
+                        console.log("Graph initialized");
+                        // Clear loading message once rendering starts
+                        const loadingMsg = document.getElementById('graph-loading');
+                        if (loadingMsg) loadingMsg.remove();
+                    })
+                    .renderDot(dotData)
+                    .on("end", () => console.log("Graph rendered successfully"));
+                } catch (error) {
+                console.error('Graph rendering error:', error);
+                const hasEmbeddedDot = typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT;
+                graphViz.innerHTML = `
+                    <div style="padding: 2rem; color: #f48771; background: #2d2d30; border-radius: 4px; margin: 2rem;">
+                        <h3>Failed to render graph</h3>
+                        <p style="margin-top: 0.5rem;">Error: ${error.message}</p>
+                        ${hasEmbeddedDot ? `
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #d4d4d4;">
+                            The DOT data is embedded in this file, but the visualization library failed to load from CDN.
+                        </p>
+                        <button onclick="downloadDotFile()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #0e639c; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                            Download DOT file
+                        </button>
+                        ` : ''}
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #d4d4d4;">
+                            View the graph with:
+                        </p>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #d4d4d4;">
+                            <li><a href="https://dreampuf.github.io/GraphvizOnline/" target="_blank" style="color: #4ec9b0;">GraphvizOnline</a> (paste DOT content)</li>
+                            <li>GraphViz desktop tools</li>
+                            <li>VS Code with GraphViz extension</li>
+                        </ul>
+                    </div>
+                `;
+                }
+            }, 100);
+        }
+        
+        function updateView() {
+            if (!graphData) return;
+            
+            // Build status map
+            statusMap.clear();
+            zones.clear();
+            availableTools = [];
+            isMultiChecker = false;
+            
+            // Detect report format
+            if (reportData) {
+                // New unified format (merged multi-checker)
+                if (reportData.merged_report && reportData.declarations) {
+                    isMultiChecker = true;
+                    availableTools = reportData.tools || [];
+                    reportData.declarations.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
+                // New unified format (single tool)
+                else if (reportData.declarations) {
+                    availableTools = [reportData.tool || 'checker'];
+                    reportData.declarations.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
+                // Legacy format
+                else if (reportData.results) {
+                    availableTools = ['paranoia'];
+                    reportData.results.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
+            }
+            
+            // Update table headers
+            updateTableHeaders();
+            
+            // Update zone filter
+            const zoneFilter = document.getElementById('zone-filter');
+            const currentZone = zoneFilter.value;
+            zoneFilter.innerHTML = '<option value="all">All Zones</option>';
+            Array.from(zones).sort().forEach(zone => {
+                const opt = document.createElement('option');
+                opt.value = zone;
+                opt.textContent = zone;
+                zoneFilter.appendChild(opt);
+            });
+            zoneFilter.value = currentZone;
+            
+            // Combine graph and report data
+            const nodes = graphData.nodes.map(n => {
+                const status = statusMap.get(n.fullName);
+                return {
+                    ...n,
+                    status: status || null
+                };
+            });
+            
+            // Apply filters
+            const statusFilter = document.getElementById('status-filter').value;
+            const zoneFilterVal = document.getElementById('zone-filter').value;
+            const searchText = document.getElementById('search-box').value.toLowerCase();
+            
+            const filtered = nodes.filter(n => {
+                if (statusFilter === 'failed' && (!n.status || n.status.ok)) return false;
+                if (statusFilter === 'passed' && (!n.status || !n.status.ok)) return false;
+                if (statusFilter === 'sorry' && !n.hasSorry) return false;
+                if (statusFilter === 'axiom' && (!n.axioms || n.axioms.length === 0)) return false;
+                if (zoneFilterVal !== 'all' && (!n.status || n.status.zone !== zoneFilterVal)) return false;
+                if (searchText && !n.fullName.toLowerCase().includes(searchText)) return false;
+                return true;
+            });
+            
+            // Update stats
+            const checked = nodes.filter(n => n.status).length;
+            const passed = nodes.filter(n => n.status && n.status.ok).length;
+            const failed = nodes.filter(n => n.status && !n.status.ok).length;
+            
+            document.getElementById('stat-total').textContent = nodes.length;
+            document.getElementById('stat-checked').textContent = checked;
+            document.getElementById('stat-passed').textContent = passed;
+            document.getElementById('stat-failed').textContent = failed;
+            
+            // Sort nodes
+            const sorted = sortNodes(filtered);
+            
+            // Render table
+            renderTable(sorted);
+            
+            // Update sort indicators
+            updateSortIndicators();
+        }
+        
+        function updateTableHeaders() {
+            const thead = document.querySelector('#nodes-table thead tr');
+            const headers = [];
+            
+            if (isMultiChecker && availableTools.length > 0) {
+                // Multi-checker mode: separate column for each tool at the END
+                const toolHeaders = availableTools.map(tool => {
+                    const toolName = tool === 'paranoia' ? 'LeanParanoia' :
+                                    tool === 'lean4checker' ? 'lean4checker' :
+                                    tool === 'lean4checker-fresh' ? 'lean4checker (fresh)' :
+                                    tool === 'safeverify' ? 'SafeVerify' :
+                                    tool.charAt(0).toUpperCase() + tool.slice(1);
+                    return `<th>${toolName}</th>`;
+                }).join('');
+                
+                headers.push(
+                    '<th data-sort="decl">Declaration</th>',
+                    '<th data-sort="module">Module</th>',
+                    '<th data-sort="kind">Kind</th>',
+                    '<th data-sort="zone">Zone</th>',
+                    '<th data-sort="flags">Flags</th>'
+                );
+                availableTools.forEach((tool, idx) => {
+                    headers.push(`<th data-sort="tool-${idx}">${tool === 'paranoia' ? 'LeanParanoia' :
+                                    tool === 'lean4checker' ? 'lean4checker' :
+                                    tool === 'lean4checker-fresh' ? 'lean4checker (fresh)' :
+                                    tool === 'safeverify' ? 'SafeVerify' :
+                                    tool.charAt(0).toUpperCase() + tool.slice(1)}</th>`);
+                });
+                thead.innerHTML = headers.join('');
+            } else if (availableTools.length === 1) {
+                // Single checker mode: one status column at the END
+                const toolName = availableTools[0] === 'paranoia' ? 'LeanParanoia' :
+                                availableTools[0] === 'lean4checker' ? 'lean4checker' :
+                                availableTools[0] === 'safeverify' ? 'SafeVerify' :
+                                'Verification Status';
+                thead.innerHTML = `
+                    <th data-sort="decl">Declaration</th>
+                    <th data-sort="module">Module</th>
+                    <th data-sort="kind">Kind</th>
+                    <th data-sort="zone">Zone</th>
+                    <th data-sort="flags">Flags</th>
+                    <th data-sort="status">${toolName}</th>
+                `;
+            } else {
+                // Legacy mode
+                thead.innerHTML = `
+                    <th data-sort="decl">Declaration</th>
+                    <th data-sort="module">Module</th>
+                    <th data-sort="kind">Kind</th>
+                    <th data-sort="zone">Zone</th>
+                    <th data-sort="flags">Flags</th>
+                    <th data-sort="status">Verification Status</th>
+                `;
+            }
+            
+            // Add click handlers for sorting
+            document.querySelectorAll('#nodes-table th[data-sort]').forEach(th => {
+                th.addEventListener('click', () => {
+                    const column = th.dataset.sort;
+                    if (sortColumn === column) {
+                        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortColumn = column;
+                        sortDirection = 'asc';
+                    }
+                    updateView();
+                });
+            });
+        }
+        
+        function sortNodes(nodes) {
+            if (!sortColumn) return nodes;
+            
+            return [...nodes].sort((a, b) => {
+                let aVal, bVal;
+                
+                // Handle different column types
+                if (sortColumn === 'decl') {
+                    aVal = a.fullName || '';
+                    bVal = b.fullName || '';
+                } else if (sortColumn === 'module') {
+                    aVal = a.module || '';
+                    bVal = b.module || '';
+                } else if (sortColumn === 'kind') {
+                    aVal = a.kind || '';
+                    bVal = b.kind || '';
+                } else if (sortColumn === 'zone') {
+                    aVal = a.zone || a.status?.zone || '';
+                    bVal = b.zone || b.status?.zone || '';
+                } else if (sortColumn === 'flags') {
+                    // Count flags for sorting
+                    aVal = (a.hasSorry ? 1 : 0) + (a.axioms?.length || 0) + (a.isUnsafe ? 1 : 0);
+                    bVal = (b.hasSorry ? 1 : 0) + (b.axioms?.length || 0) + (b.isUnsafe ? 1 : 0);
+                } else if (sortColumn === 'status') {
+                    // Sort by status: failed first, then not checked, then passed
+                    aVal = a.status ? (a.status.ok ? 2 : 0) : 1;
+                    bVal = b.status ? (b.status.ok ? 2 : 0) : 1;
+                } else if (sortColumn.startsWith('tool-')) {
+                    // Sort by specific tool status
+                    const toolIdx = parseInt(sortColumn.split('-')[1]);
+                    const tool = availableTools[toolIdx];
+                    const aStatus = a.status?.tools?.[tool];
+                    const bStatus = b.status?.tools?.[tool];
+                    aVal = aStatus ? (aStatus.ok ? 2 : 0) : 1;
+                    bVal = bStatus ? (bStatus.ok ? 2 : 0) : 1;
+                }
+                
+                // String comparison
+                if (typeof aVal === 'string') {
+                    const cmp = aVal.localeCompare(bVal);
+                    return sortDirection === 'asc' ? cmp : -cmp;
+                }
+                
+                // Numeric comparison
+                if (sortDirection === 'asc') {
+                    return aVal - bVal;
+                } else {
+                    return bVal - aVal;
+                }
+            });
+        }
+        
+        function updateSortIndicators() {
+            document.querySelectorAll('#nodes-table th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+                if (th.dataset.sort === sortColumn) {
+                    th.classList.add(sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+                }
+            });
+        }
+        
+        function renderToolStatus(tool, toolData) {
+            if (!toolData) {
+                return '<span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span>';
+            }
+            
+            if (toolData.ok) {
+                return '<span class="badge passed" style="font-size: 0.85em;">✓</span>';
+            } else {
+                const errorMsg = toolData.error ? escapeHtml(toolData.error) : 'Failed';
+                const shortError = errorMsg.length > 120 ? errorMsg.substring(0, 120) + '...' : errorMsg;
+                return `<div style="display: flex; align-items: start; gap: 0.5rem;"><span class="badge failed" style="font-size: 0.85em; flex-shrink: 0;" title="${errorMsg}">✗</span><span style="font-size: 0.75em; color: #f48771; text-align: left;">${shortError}</span></div>`;
+            }
+        }
+        
+        function renderTable(nodes) {
+            const table = document.getElementById('nodes-table');
+            const tbody = document.getElementById('nodes-tbody');
+            const emptyState = document.querySelector('#table-view .empty-state');
+            
+            if (nodes.length === 0) {
+                table.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                emptyState.innerHTML = '<p>No nodes match the current filters.</p>';
+                return;
+            }
+            
+            emptyState.classList.add('hidden');
+            table.classList.remove('hidden');
+            
+            tbody.innerHTML = nodes.map(n => {
+                const status = n.status;
+                const flags = [];
+                if (n.hasSorry) flags.push('<span class="badge sorry">Has Sorry</span>');
+                if (n.axioms && n.axioms.length > 0) flags.push('<span class="badge axiom">Uses Axiom</span>');
+                if (n.isUnsafe) flags.push('<span class="badge unsafe">Unsafe</span>');
+                
+                let statusCells;
+                if (isMultiChecker && status && status.tools) {
+                    // Multi-checker mode: one cell per tool
+                    statusCells = availableTools.map(tool => {
+                        const toolData = status.tools[tool];
+                        return `<td style="vertical-align: top;">${renderToolStatus(tool, toolData)}</td>`;
+                    }).join('');
+                } else if (status) {
+                    // Single checker or legacy mode
+                    let statusBadge;
+                    if (status.ok) {
+                        statusBadge = '<span class="badge passed">✓ Pass</span>';
+                    } else {
+                        const errorMsg = status.error ? escapeHtml(status.error) : 'Failed';
+                        statusBadge = `<span class="badge failed">✗ Fail</span><br><span style="font-size: 0.85em; color: #f48771;">${errorMsg}</span>`;
+                    }
+                    statusCells = `<td>${statusBadge}</td>`;
+                } else {
+                    // Not checked
+                    if (isMultiChecker) {
+                        statusCells = availableTools.map(() => 
+                            '<td style="vertical-align: top;"><span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span></td>'
+                        ).join('');
+                    } else {
+                        statusCells = '<td><span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span></td>';
+                    }
+                }
+                
+                return `
+                    <tr onclick="showDetails('${n.fullName}')" style="cursor: pointer;">
+                        <td><code>${escapeHtml(n.displayName || n.fullName)}</code></td>
+                        <td>${escapeHtml(n.module || '')}</td>
+                        <td>${escapeHtml(n.kind || '')}</td>
+                        <td>${escapeHtml(n.zone || '')}</td>
+                        <td>${flags.join(' ')}</td>
+                        ${statusCells}
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        window.showDetails = function(fullName) {
+            const node = graphData.nodes.find(n => n.fullName === fullName);
+            if (!node) return;
+            
+            const status = statusMap.get(fullName);
+            const details = document.getElementById('details-content');
+            
+            let html = `
+                <h3 style="margin-bottom: 1rem; word-break: break-all;">${node.fullName}</h3>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Module:</strong> ${node.module}<br>
+                    <strong>Kind:</strong> ${node.kind}<br>
+                    <strong>Has Sorry:</strong> ${node.hasSorry ? 'Yes' : 'No'}<br>
+                    <strong>Unsafe:</strong> ${node.isUnsafe ? 'Yes' : 'No'}<br>
+                </div>
+            `;
+            
+            if (node.axioms && node.axioms.length > 0) {
+                html += `
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Used Axioms:</strong><br>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            ${node.axioms.map(a => `<li>${a}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            if (status) {
+                // Check if multi-checker report
+                if (isMultiChecker && status.tools) {
+                    html += `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
+                            <h4 style="margin-bottom: 0.5rem;">Verification Results</h4>
+                            <div><strong>Zone:</strong> ${status.zone}</div>
+                            <div><strong>Overall:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ All Passed</span>' : '<span style="color: #f48771;">✗ Some Failed</span>'}</div>
+                        </div>
+                    `;
+                    
+                    // Show results from each tool as bullet points
+                    html += '<div style="margin-top: 1rem;"><strong>Tool Results:</strong><ul style="margin-left: 1.5rem; margin-top: 0.5rem;">';
+                    availableTools.forEach(tool => {
+                        const toolData = status.tools[tool];
+                        if (toolData) {
+                            const toolName = tool === 'paranoia' ? 'LeanParanoia' :
+                                           tool === 'lean4checker' ? 'lean4checker' :
+                                           tool === 'safeverify' ? 'SafeVerify' :
+                                           tool;
+                            if (toolData.ok) {
+                                html += `<li><span style="color: #4ec9b0;">✓</span> <strong>${toolName}:</strong> <span style="color: #4ec9b0;">Passed</span></li>`;
+                            } else {
+                                const error = toolData.error ? escapeHtml(toolData.error) : 'Failed';
+                                html += `<li><span style="color: #f48771;">✗</span> <strong>${toolName}:</strong> <span style="color: #f48771;">${error}</span></li>`;
+                            }
+                        }
+                    });
+                    html += '</ul></div>';
+                } else {
+                    // Single checker or legacy format
+                    const title = availableTools.length === 1 ? 
+                                 (availableTools[0] === 'paranoia' ? 'LeanParanoia Check Result' :
+                                  availableTools[0] === 'lean4checker' ? 'lean4checker Result' :
+                                  availableTools[0] === 'safeverify' ? 'SafeVerify Result' :
+                                  'Verification Result') :
+                                 'Paranoia Check Result';
+                    html += `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
+                            <h4 style="margin-bottom: 0.5rem;">${title}</h4>
+                            <div><strong>Zone:</strong> ${status.zone}</div>
+                            <div><strong>Status:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ Passed</span>' : '<span style="color: #f48771;">✗ Failed</span>'}</div>
+                        </div>
+                    `;
+                    
+                    if (!status.ok) {
+                        const error = status.error || status.stderr || status.stdout || 'Unknown error';
+                        html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
+                    }
+                }
+            } else {
+                html += `
+                    <div style="margin-top: 1rem; padding: 1rem; background: #2d2d30; border-radius: 4px; color: #888;">
+                        This declaration has not been verified.
+                    </div>
+                `;
+            }
+            
+            details.innerHTML = html;
+        };
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Download embedded DOT file
+        window.downloadDotFile = function() {
+            if (typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT) {
+                const blob = new Blob([window.EMBEDDED_DOT], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dependency-graph.dot';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        };
+    </script>
+    
+    <!-- Load d3-graphviz libraries from CDN (pinned versions) -->
+    <!-- D3 v7.9.0 -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    
+    <!-- HPCC Graphviz WASM v2.20.0 -->
+    <script src="https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js"></script>
+    
+    <!-- d3-graphviz v5.6.0 -->
+    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js"></script>
+    
+    <script>
+        // Manual attachment: d3-graphviz creates window["d3-graphviz"] but we need d3.graphviz
+        if (window["d3-graphviz"] && window.d3 && !window.d3.graphviz) {
+            console.log('Manually attaching d3-graphviz to d3.graphviz');
+            window.d3.graphviz = window["d3-graphviz"].graphviz;
+        }
+        
+        // Wait a moment for scripts to execute, then verify
+        setTimeout(function() {
+            console.log('=== Library verification ===');
+            console.log('window.d3:', typeof window.d3);
+            console.log('d3.graphviz:', typeof (window.d3 && window.d3.graphviz));
+            console.log('window.hpccWasm:', typeof window.hpccWasm);
+            
+            if (window.d3 && typeof d3.graphviz === 'function') {
+                console.log('✅ All libraries loaded successfully');
+            } else {
+                console.error('❌ Library loading failed');
+                console.log('Check network tab for CDN request errors');
+            }
+        }, 100);  // Small delay to let scripts execute
+    </script>
+
+    <script>
+        // Embedded data - generated by embed_data.py
+        window.EMBEDDED_DEPGRAPH = {"nodes":
+ [{"name": "bad_theorem",
+   "module": "Test.Basic",
+   "kind": "thm",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "bad_theorem",
+   "axioms": ["bad_axiom"]},
+  {"name": "bad_axiom",
+   "module": "Test.Basic",
+   "kind": "axiom",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "bad_axiom",
+   "axioms": []},
+  {"name": "good_theorem",
+   "module": "Test.Basic",
+   "kind": "thm",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "good_theorem",
+   "axioms": []}],
+ "edges": [{"target": "bad_theorem", "source": "bad_axiom", "kind": "value"}]};
+        window.EMBEDDED_REPORT = {
+  "merged_report": true,
+  "version": "1.0.0",
+  "tools": [
+    "paranoia",
+    "lean4checker",
+    "safeverify"
+  ],
+  "summary": {
+    "total_declarations": 3,
+    "passed_all": 1,
+    "failed_any": 2,
+    "by_tool": {
+      "paranoia": {
+        "total": 3,
+        "passed": 1,
+        "failed": 2
+      },
+      "lean4checker": {
+        "total": 3,
+        "passed": 1,
+        "failed": 2
+      },
+      "safeverify": {
+        "total": 3,
+        "passed": 1,
+        "failed": 2
+      }
+    }
+  },
+  "declarations": [
+    {
+      "decl": "bad_axiom",
+      "module": "Test.Basic",
+      "zone": "Test",
+      "kind": "axiom",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "Custom axiom (proves False)",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Custom axiom bad_axiom proves False - rejected by kernel",
+          "notes": "Axiom declaration invalid in kernel"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms",
+            "unsafe"
+          ],
+          "error": "Custom axiom not in allow-list",
+          "notes": "Axiom bad_axiom not in allowed list [propext, Classical.choice, Quot.sound]"
+        }
+      },
+      "checks": [
+        "disallowed-axioms",
+        "extra-axioms",
+        "kernel-replay",
+        "unsafe"
+      ],
+      "error": "[paranoia] Custom axiom (proves False); [lean4checker] Custom axiom bad_axiom proves False - rejected by kernel; [safeverify] Custom axiom not in allow-list",
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 0,
+        "failed_checks": 3
+      }
+    },
+    {
+      "decl": "bad_theorem",
+      "module": "Test.Basic",
+      "zone": "Test",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "Uses disallowed axioms: bad_axiom",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Module Test.Basic kernel replay failed: axiom bad_axiom not in environment",
+          "notes": "Kernel rejected bad_axiom during replay"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms"
+          ],
+          "error": "Statement uses extra axiom bad_axiom not present in baseline",
+          "notes": "Axiom bad_axiom introduced in submission"
+        }
+      },
+      "checks": [
+        "disallowed-axioms",
+        "extra-axioms",
+        "kernel-replay"
+      ],
+      "error": "[paranoia] Uses disallowed axioms: bad_axiom; [lean4checker] Module Test.Basic kernel replay failed: axiom bad_axiom not in environment; [safeverify] Statement uses extra axiom bad_axiom not present in baseline",
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 0,
+        "failed_checks": 3
+      }
+    },
+    {
+      "decl": "good_theorem",
+      "module": "Test.Basic",
+      "zone": "Test",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": "All policy checks passed"
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": true,
+          "checks": [
+            "ref-impl-match"
+          ],
+          "error": null,
+          "notes": "Reference and implementation match"
+        }
+      },
+      "checks": [
+        "policy-pass",
+        "ref-impl-match",
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 3,
+        "failed_checks": 0
+      }
+    }
+  ]
+};
+        window.EMBEDDED_DOT = "digraph DepViz {\n  rankdir=LR;\n  node [shape=ellipse, fontsize=10, fontname=\"Helvetica\"];\n  edge [arrowsize=0.8];\n  \"bad_theorem\" [label=\"bad_theorem\\nAXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"Test.Basic\"];\n  \"bad_axiom\" [label=\"bad_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Test.Basic\"];\n  \"good_theorem\" [label=\"good_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Test.Basic\"];\n  \"bad_axiom\" -> \"bad_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n}";
+        
+        // Auto-load embedded data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.EMBEDDED_DEPGRAPH) {
+                console.log('Loading embedded dependency graph...');
+                graphData = window.EMBEDDED_DEPGRAPH;
+            }
+            if (window.EMBEDDED_REPORT) {
+                console.log('Loading embedded paranoia report...');
+                reportData = window.EMBEDDED_REPORT;
+            }
+            if (window.EMBEDDED_DOT) {
+                console.log('Loading embedded DOT data...');
+                dotData = window.EMBEDDED_DOT;
+            }
+            if (window.EMBEDDED_DEPGRAPH) {
+                updateView();
+            }
+        });
+    </script>
+    
+</body>
+</html>

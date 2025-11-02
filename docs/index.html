@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeanDepViz</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="favicon-256.png">
+    
     <style>
         * {
             margin: 0;
@@ -84,31 +90,17 @@
             padding: 0.4rem 0.8rem;
         }
         
-        .tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
             border-bottom: 1px solid #3c3c3c;
         }
         
-        .tab {
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: none;
-            color: #888;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            font-size: 0.95rem;
-        }
-        
-        .tab:hover {
-            color: #d4d4d4;
-            background: #2d2d30;
-        }
-        
-        .tab.active {
-            color: #fff;
-            border-bottom-color: #0e639c;
+        .section-title:first-child {
+            margin-top: 0;
         }
         
         .stats {
@@ -160,19 +152,15 @@
         }
         
         .view {
-            display: none;
-        }
-        
-        .view.active {
             display: block;
         }
         
         #graph-viz {
-            width: 100%;
-            height: calc(100vh - 300px);
-            background: #fff;
-            border-radius: 4px;
+            max-height: 500px;
             overflow: auto;
+            border: 1px solid #3c3c3c;
+            border-radius: 4px;
+            background: #252526;
         }
         
         #graph-viz svg {
@@ -228,6 +216,25 @@
             background: #2d2d30;
             font-weight: 600;
             color: #fff;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        th:hover {
+            background: #383838;
+        }
+        
+        th.sorted-asc::after {
+            content: ' ▲';
+            color: #4ec9b0;
+            font-size: 0.7em;
+        }
+        
+        th.sorted-desc::after {
+            content: ' ▼';
+            color: #4ec9b0;
+            font-size: 0.7em;
         }
         
         tr:hover {
@@ -292,32 +299,28 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.2.2</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.3.0</span></h1>
         
         <div class="controls">
             <div class="file-input">
                 <label for="graph-file">Dependency Graph:</label>
                 <input type="file" id="graph-file" accept=".json">
-                <span id="graph-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
+                <span id="graph-file-status"></span>
             </div>
             
             <div class="file-input">
                 <label for="dot-file">DOT File (for graph view):</label>
                 <input type="file" id="dot-file" accept=".dot">
-                <span id="dot-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
+                <span id="dot-file-status"></span>
             </div>
             
             <div class="file-input">
-                <label for="report-file">Paranoia Report:</label>
+                <label for="report-file">Verification Report:</label>
                 <input type="file" id="report-file" accept=".json">
-                <span id="report-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
+                <span id="report-file-status"></span>
             </div>
         </div>
         
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('table')">📊 Table View</button>
-            <button class="tab" onclick="switchTab('graph')">🕸️ Graph View</button>
-        </div>
         
         <div class="filter-bar">
             <label>Filter:</label>
@@ -361,7 +364,8 @@
     <main>
         <div id="content-area">
             <!-- Table View -->
-            <div id="table-view" class="view active">
+            <div id="table-view" class="view">
+                <h2 class="section-title">📊 Declarations</h2>
                 <div class="empty-state">
                     <p>Load a dependency graph JSON file to begin.</p>
                 </div>
@@ -382,7 +386,8 @@
             
             <!-- Graph View -->
             <div id="graph-view" class="view">
-                <div class="empty-state">
+                <h2 class="section-title">🕸️ Dependency Graph</h2>
+                <div id="graph-empty" class="empty-state">
                     <p>Load a DOT file to visualize the dependency graph.</p>
                     <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
                         Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
@@ -401,8 +406,8 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.2.2
-        const VIEWER_VERSION = '0.2.2';
+        // LeanDepViz Viewer v0.3.0
+        const VIEWER_VERSION = '0.3.0';
         
         // Check library loading on page load
         window.addEventListener('DOMContentLoaded', function() {
@@ -427,20 +432,43 @@
             const graphStatus = document.getElementById('graph-file-status');
             const dotStatus = document.getElementById('dot-file-status');
             const reportStatus = document.getElementById('report-file-status');
+            const graphInput = document.getElementById('graph-file');
+            const dotInput = document.getElementById('dot-file');
+            const reportInput = document.getElementById('report-file');
             
+            // Load embedded graph data
             if (typeof window.EMBEDDED_DEPGRAPH !== 'undefined' && window.EMBEDDED_DEPGRAPH) {
+                graphInput.style.display = 'none';
                 graphStatus.textContent = '✓ Embedded data loaded';
                 graphStatus.style.color = '#4ec9b0';
+                graphStatus.style.fontSize = '0.85rem';
+                graphData = window.EMBEDDED_DEPGRAPH;
             }
             
+            // Load embedded DOT data
             if (typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT) {
+                dotInput.style.display = 'none';
                 dotStatus.textContent = '✓ Embedded DOT loaded';
                 dotStatus.style.color = '#4ec9b0';
+                dotStatus.style.fontSize = '0.85rem';
+                dotData = window.EMBEDDED_DOT;
             }
             
+            // Load embedded report data
             if (typeof window.EMBEDDED_REPORT !== 'undefined' && window.EMBEDDED_REPORT) {
+                reportInput.style.display = 'none';
                 reportStatus.textContent = '✓ Embedded report loaded';
                 reportStatus.style.color = '#4ec9b0';
+                reportStatus.style.fontSize = '0.85rem';
+                reportData = window.EMBEDDED_REPORT;
+            }
+            
+            // Initialize views if data is loaded
+            if (graphData) {
+                updateView();
+            }
+            if (dotData && graphData) {
+                maybeRenderGraph();
             }
         }
         
@@ -450,17 +478,14 @@
         let statusMap = new Map();
         let zones = new Set();
         let currentTab = 'table';
+        let availableTools = [];
+        let isMultiChecker = false;
+        let sortColumn = 'status';  // Default sort by status
+        let sortDirection = 'asc';  // asc = failed first (0 < 1 < 2)
         
-        // Tab switching
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(`${tab}-view`).classList.add('active');
-            
-            if (tab === 'graph' && dotData) {
+        // Render graph automatically when DOT data is loaded
+        function maybeRenderGraph() {
+            if (dotData && graphData) {
                 renderGraph();
             }
         }
@@ -480,9 +505,7 @@
             if (file) {
                 dotData = await file.text();
                 console.log('DOT file loaded, size:', dotData.length, 'bytes');
-                if (currentTab === 'graph') {
-                    renderGraph();
-                }
+                maybeRenderGraph();
             }
         });
         
@@ -505,7 +528,7 @@
             if (!dotData) return;
             
             const graphViz = document.getElementById('graph-viz');
-            const emptyState = document.querySelector('#graph-view .empty-state');
+            const emptyState = document.getElementById('graph-empty');
             
             emptyState.classList.add('hidden');
             graphViz.classList.remove('hidden');
@@ -524,6 +547,8 @@
                 console.log('Rendering graph with d3-graphviz...');
                 d3.select("#graph-viz")
                     .graphviz()
+                    .width("100%")
+                    .height(500)
                     .zoom(true)
                     .fit(true)
                     .on("initEnd", () => {
@@ -569,13 +594,40 @@
             // Build status map
             statusMap.clear();
             zones.clear();
+            availableTools = [];
+            isMultiChecker = false;
             
-            if (reportData && reportData.results) {
-                reportData.results.forEach(r => {
-                    statusMap.set(r.decl, r);
-                    if (r.zone) zones.add(r.zone);
-                });
+            // Detect report format
+            if (reportData) {
+                // New unified format (merged multi-checker)
+                if (reportData.merged_report && reportData.declarations) {
+                    isMultiChecker = true;
+                    availableTools = reportData.tools || [];
+                    reportData.declarations.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
+                // New unified format (single tool)
+                else if (reportData.declarations) {
+                    availableTools = [reportData.tool || 'checker'];
+                    reportData.declarations.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
+                // Legacy format
+                else if (reportData.results) {
+                    availableTools = ['paranoia'];
+                    reportData.results.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
             }
+            
+            // Update table headers
+            updateTableHeaders();
             
             // Update zone filter
             const zoneFilter = document.getElementById('zone-filter');
@@ -623,8 +675,160 @@
             document.getElementById('stat-passed').textContent = passed;
             document.getElementById('stat-failed').textContent = failed;
             
+            // Sort nodes
+            const sorted = sortNodes(filtered);
+            
             // Render table
-            renderTable(filtered);
+            renderTable(sorted);
+            
+            // Update sort indicators
+            updateSortIndicators();
+        }
+        
+        function updateTableHeaders() {
+            const thead = document.querySelector('#nodes-table thead tr');
+            const headers = [];
+            
+            if (isMultiChecker && availableTools.length > 0) {
+                // Multi-checker mode: separate column for each tool at the END
+                const toolHeaders = availableTools.map(tool => {
+                    const toolName = tool === 'paranoia' ? 'LeanParanoia' :
+                                    tool === 'lean4checker' ? 'lean4checker' :
+                                    tool === 'lean4checker-fresh' ? 'lean4checker (fresh)' :
+                                    tool === 'safeverify' ? 'SafeVerify' :
+                                    tool.charAt(0).toUpperCase() + tool.slice(1);
+                    return `<th>${toolName}</th>`;
+                }).join('');
+                
+                headers.push(
+                    '<th data-sort="decl">Declaration</th>',
+                    '<th data-sort="module">Module</th>',
+                    '<th data-sort="kind">Kind</th>',
+                    '<th data-sort="zone">Zone</th>',
+                    '<th data-sort="flags">Flags</th>'
+                );
+                availableTools.forEach((tool, idx) => {
+                    headers.push(`<th data-sort="tool-${idx}">${tool === 'paranoia' ? 'LeanParanoia' :
+                                    tool === 'lean4checker' ? 'lean4checker' :
+                                    tool === 'lean4checker-fresh' ? 'lean4checker (fresh)' :
+                                    tool === 'safeverify' ? 'SafeVerify' :
+                                    tool.charAt(0).toUpperCase() + tool.slice(1)}</th>`);
+                });
+                thead.innerHTML = headers.join('');
+            } else if (availableTools.length === 1) {
+                // Single checker mode: one status column at the END
+                const toolName = availableTools[0] === 'paranoia' ? 'LeanParanoia' :
+                                availableTools[0] === 'lean4checker' ? 'lean4checker' :
+                                availableTools[0] === 'safeverify' ? 'SafeVerify' :
+                                'Verification Status';
+                thead.innerHTML = `
+                    <th data-sort="decl">Declaration</th>
+                    <th data-sort="module">Module</th>
+                    <th data-sort="kind">Kind</th>
+                    <th data-sort="zone">Zone</th>
+                    <th data-sort="flags">Flags</th>
+                    <th data-sort="status">${toolName}</th>
+                `;
+            } else {
+                // Legacy mode
+                thead.innerHTML = `
+                    <th data-sort="decl">Declaration</th>
+                    <th data-sort="module">Module</th>
+                    <th data-sort="kind">Kind</th>
+                    <th data-sort="zone">Zone</th>
+                    <th data-sort="flags">Flags</th>
+                    <th data-sort="status">Verification Status</th>
+                `;
+            }
+            
+            // Add click handlers for sorting
+            document.querySelectorAll('#nodes-table th[data-sort]').forEach(th => {
+                th.addEventListener('click', () => {
+                    const column = th.dataset.sort;
+                    if (sortColumn === column) {
+                        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortColumn = column;
+                        sortDirection = 'asc';
+                    }
+                    updateView();
+                });
+            });
+        }
+        
+        function sortNodes(nodes) {
+            if (!sortColumn) return nodes;
+            
+            return [...nodes].sort((a, b) => {
+                let aVal, bVal;
+                
+                // Handle different column types
+                if (sortColumn === 'decl') {
+                    aVal = a.fullName || '';
+                    bVal = b.fullName || '';
+                } else if (sortColumn === 'module') {
+                    aVal = a.module || '';
+                    bVal = b.module || '';
+                } else if (sortColumn === 'kind') {
+                    aVal = a.kind || '';
+                    bVal = b.kind || '';
+                } else if (sortColumn === 'zone') {
+                    aVal = a.zone || a.status?.zone || '';
+                    bVal = b.zone || b.status?.zone || '';
+                } else if (sortColumn === 'flags') {
+                    // Count flags for sorting
+                    aVal = (a.hasSorry ? 1 : 0) + (a.axioms?.length || 0) + (a.isUnsafe ? 1 : 0);
+                    bVal = (b.hasSorry ? 1 : 0) + (b.axioms?.length || 0) + (b.isUnsafe ? 1 : 0);
+                } else if (sortColumn === 'status') {
+                    // Sort by status: failed first, then not checked, then passed
+                    aVal = a.status ? (a.status.ok ? 2 : 0) : 1;
+                    bVal = b.status ? (b.status.ok ? 2 : 0) : 1;
+                } else if (sortColumn.startsWith('tool-')) {
+                    // Sort by specific tool status
+                    const toolIdx = parseInt(sortColumn.split('-')[1]);
+                    const tool = availableTools[toolIdx];
+                    const aStatus = a.status?.tools?.[tool];
+                    const bStatus = b.status?.tools?.[tool];
+                    aVal = aStatus ? (aStatus.ok ? 2 : 0) : 1;
+                    bVal = bStatus ? (bStatus.ok ? 2 : 0) : 1;
+                }
+                
+                // String comparison
+                if (typeof aVal === 'string') {
+                    const cmp = aVal.localeCompare(bVal);
+                    return sortDirection === 'asc' ? cmp : -cmp;
+                }
+                
+                // Numeric comparison
+                if (sortDirection === 'asc') {
+                    return aVal - bVal;
+                } else {
+                    return bVal - aVal;
+                }
+            });
+        }
+        
+        function updateSortIndicators() {
+            document.querySelectorAll('#nodes-table th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+                if (th.dataset.sort === sortColumn) {
+                    th.classList.add(sortDirection === 'asc' ? 'sorted-asc' : 'sorted-desc');
+                }
+            });
+        }
+        
+        function renderToolStatus(tool, toolData) {
+            if (!toolData) {
+                return '<span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span>';
+            }
+            
+            if (toolData.ok) {
+                return '<span class="badge passed" style="font-size: 0.85em;">✓</span>';
+            } else {
+                const errorMsg = toolData.error ? escapeHtml(toolData.error) : 'Failed';
+                const shortError = errorMsg.length > 120 ? errorMsg.substring(0, 120) + '...' : errorMsg;
+                return `<div style="display: flex; align-items: start; gap: 0.5rem;"><span class="badge failed" style="font-size: 0.85em; flex-shrink: 0;" title="${errorMsg}">✗</span><span style="font-size: 0.75em; color: #f48771; text-align: left;">${shortError}</span></div>`;
+            }
         }
         
         function renderTable(nodes) {
@@ -644,30 +848,47 @@
             
             tbody.innerHTML = nodes.map(n => {
                 const status = n.status;
-                let statusBadge;
-                if (!status) {
-                    statusBadge = '<span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span>';
-                } else if (status.ok) {
-                    statusBadge = '<span class="badge passed">✓ Pass</span>';
-                } else {
-                    // Show error message with fail badge
-                    const errorMsg = status.error ? escapeHtml(status.error) : 'Failed';
-                    statusBadge = `<span class="badge failed">✗ Fail</span><br><span style="font-size: 0.85em; color: #f48771;">${errorMsg}</span>`;
-                }
-                
                 const flags = [];
-                if (n.hasSorry) flags.push('<span class="badge sorry">Sorry</span>');
-                if (n.axioms && n.axioms.length > 0) flags.push('<span class="badge axiom">Axiom</span>');
+                if (n.hasSorry) flags.push('<span class="badge sorry">Has Sorry</span>');
+                if (n.axioms && n.axioms.length > 0) flags.push('<span class="badge axiom">Uses Axiom</span>');
                 if (n.isUnsafe) flags.push('<span class="badge unsafe">Unsafe</span>');
+                
+                let statusCells;
+                if (isMultiChecker && status && status.tools) {
+                    // Multi-checker mode: one cell per tool
+                    statusCells = availableTools.map(tool => {
+                        const toolData = status.tools[tool];
+                        return `<td style="vertical-align: top;">${renderToolStatus(tool, toolData)}</td>`;
+                    }).join('');
+                } else if (status) {
+                    // Single checker or legacy mode
+                    let statusBadge;
+                    if (status.ok) {
+                        statusBadge = '<span class="badge passed">✓ Pass</span>';
+                    } else {
+                        const errorMsg = status.error ? escapeHtml(status.error) : 'Failed';
+                        statusBadge = `<span class="badge failed">✗ Fail</span><br><span style="font-size: 0.85em; color: #f48771;">${errorMsg}</span>`;
+                    }
+                    statusCells = `<td>${statusBadge}</td>`;
+                } else {
+                    // Not checked
+                    if (isMultiChecker) {
+                        statusCells = availableTools.map(() => 
+                            '<td style="vertical-align: top;"><span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span></td>'
+                        ).join('');
+                    } else {
+                        statusCells = '<td><span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span></td>';
+                    }
+                }
                 
                 return `
                     <tr onclick="showDetails('${n.fullName}')" style="cursor: pointer;">
-                        <td>${statusBadge}</td>
-                        <td><strong>${n.name}</strong></td>
-                        <td>${n.module}</td>
-                        <td>${n.kind}</td>
-                        <td>${status ? status.zone : '-'}</td>
+                        <td><code>${escapeHtml(n.displayName || n.fullName)}</code></td>
+                        <td>${escapeHtml(n.module || '')}</td>
+                        <td>${escapeHtml(n.kind || '')}</td>
+                        <td>${escapeHtml(n.zone || '')}</td>
                         <td>${flags.join(' ')}</td>
+                        ${statusCells}
                     </tr>
                 `;
             }).join('');
@@ -702,22 +923,59 @@
             }
             
             if (status) {
-                html += `
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
-                        <h4 style="margin-bottom: 0.5rem;">Paranoia Check Result</h4>
-                        <div><strong>Zone:</strong> ${status.zone}</div>
-                        <div><strong>Status:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ Passed</span>' : '<span style="color: #f48771;">✗ Failed</span>'}</div>
-                    </div>
-                `;
-                
-                if (!status.ok) {
-                    const error = status.error || status.stderr || status.stdout || 'Unknown error';
-                    html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
+                // Check if multi-checker report
+                if (isMultiChecker && status.tools) {
+                    html += `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
+                            <h4 style="margin-bottom: 0.5rem;">Verification Results</h4>
+                            <div><strong>Zone:</strong> ${status.zone}</div>
+                            <div><strong>Overall:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ All Passed</span>' : '<span style="color: #f48771;">✗ Some Failed</span>'}</div>
+                        </div>
+                    `;
+                    
+                    // Show results from each tool as bullet points
+                    html += '<div style="margin-top: 1rem;"><strong>Tool Results:</strong><ul style="margin-left: 1.5rem; margin-top: 0.5rem;">';
+                    availableTools.forEach(tool => {
+                        const toolData = status.tools[tool];
+                        if (toolData) {
+                            const toolName = tool === 'paranoia' ? 'LeanParanoia' :
+                                           tool === 'lean4checker' ? 'lean4checker' :
+                                           tool === 'safeverify' ? 'SafeVerify' :
+                                           tool;
+                            if (toolData.ok) {
+                                html += `<li><span style="color: #4ec9b0;">✓</span> <strong>${toolName}:</strong> <span style="color: #4ec9b0;">Passed</span></li>`;
+                            } else {
+                                const error = toolData.error ? escapeHtml(toolData.error) : 'Failed';
+                                html += `<li><span style="color: #f48771;">✗</span> <strong>${toolName}:</strong> <span style="color: #f48771;">${error}</span></li>`;
+                            }
+                        }
+                    });
+                    html += '</ul></div>';
+                } else {
+                    // Single checker or legacy format
+                    const title = availableTools.length === 1 ? 
+                                 (availableTools[0] === 'paranoia' ? 'LeanParanoia Check Result' :
+                                  availableTools[0] === 'lean4checker' ? 'lean4checker Result' :
+                                  availableTools[0] === 'safeverify' ? 'SafeVerify Result' :
+                                  'Verification Result') :
+                                 'Paranoia Check Result';
+                    html += `
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #3c3c3c;">
+                            <h4 style="margin-bottom: 0.5rem;">${title}</h4>
+                            <div><strong>Zone:</strong> ${status.zone}</div>
+                            <div><strong>Status:</strong> ${status.ok ? '<span style="color: #4ec9b0;">✓ Passed</span>' : '<span style="color: #f48771;">✗ Failed</span>'}</div>
+                        </div>
+                    `;
+                    
+                    if (!status.ok) {
+                        const error = status.error || status.stderr || status.stdout || 'Unknown error';
+                        html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
+                    }
                 }
             } else {
                 html += `
                     <div style="margin-top: 1rem; padding: 1rem; background: #2d2d30; border-radius: 4px; color: #888;">
-                        This declaration was not checked by LeanParanoia.
+                        This declaration has not been verified.
                     </div>
                 `;
             }

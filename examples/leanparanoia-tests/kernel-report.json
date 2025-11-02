@@ -1,0 +1,49 @@
+{
+  "tool": "lean4checker",
+  "version": "0.1.0",
+  "timestamp": "2024-11-02T04:06:00+00:00",
+  "modules_checked": 1,
+  "modules_passed": 0,
+  "declarations": [
+    {
+      "decl": "bad_theorem",
+      "module": "Test.Basic",
+      "tool": "lean4checker",
+      "zone": "Test",
+      "ok": false,
+      "checks": ["kernel-replay"],
+      "error": "Module Test.Basic kernel replay failed: axiom bad_axiom not in environment",
+      "notes": "Kernel rejected bad_axiom during replay",
+      "cmd": "lake exe lean4checker Test.Basic",
+      "exit": 1
+    },
+    {
+      "decl": "bad_axiom",
+      "module": "Test.Basic",
+      "tool": "lean4checker",
+      "zone": "Test",
+      "ok": false,
+      "checks": ["kernel-replay"],
+      "error": "Custom axiom bad_axiom proves False - rejected by kernel",
+      "notes": "Axiom declaration invalid in kernel",
+      "cmd": "lake exe lean4checker Test.Basic",
+      "exit": 1
+    },
+    {
+      "decl": "good_theorem",
+      "module": "Test.Basic",
+      "tool": "lean4checker",
+      "zone": "Test",
+      "ok": true,
+      "checks": ["kernel-replay"],
+      "notes": "Kernel replay successful",
+      "cmd": "lake exe lean4checker Test.Basic",
+      "exit": 0
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 1,
+    "failed": 2
+  }
+}

@@ -266,9 +266,12 @@ def main():
                 print(f"  Progress: {completed}/{total_decls}", end="\r")
         print()  # newline after progress
     
-    # Write report
+    # Write report in unified format
     report = {
-        "results": results,
+        "tool": "paranoia",
+        "version": "0.1.0",
+        "timestamp": subprocess.run(["date", "-Iseconds"], capture_output=True, text=True).stdout.strip(),
+        "declarations": results,  # Changed from "results" to "declarations"
         "summary": {
             "total": len(results),
             "passed": sum(1 for r in results if r.get("ok", False)),

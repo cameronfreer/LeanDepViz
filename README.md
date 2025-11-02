@@ -1,15 +1,15 @@
 # LeanDepViz
 
-A dependency visualization and verification tool for Lean 4 projects. LeanDepViz extracts declaration dependencies from your project and generates dependency graphs in DOT, SVG, PNG, or JSON formats. It integrates with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) for policy-based code verification.
+A dependency visualization and **multi-checker verification tool** for Lean 4 projects. LeanDepViz extracts declaration dependencies and provides a unified framework for running multiple independent verification tools, giving you defense-in-depth assurance for your Lean code.
 
 ## Features
 
+- **Multi-Checker Verification** (v0.3.0): Run multiple independent verifiers (LeanParanoia, lean4checker, SafeVerify) with unified reporting
+- **Defense in Depth**: Different checkers catch different issues - policy violations, kernel corruption, statement changes
+- **Interactive Viewer**: Sortable table with per-tool columns, embedded dependency graph, failures sorted to top
 - **Smart Filtering**: By default, keeps only declarations from your project's root modules, producing manageable graph sizes
-- **Flexible Whitelisting**: Include additional module prefixes (e.g., `Std`, `Init`) as needed
 - **Multiple Output Formats**: Generate DOT files, JSON for verification, or render directly to SVG/PNG via Graphviz
-- **Edge Consistency**: Automatically filters edges to match the surviving nodes
-- **Policy-Based Verification**: Integrate with LeanParanoia to enforce code quality standards
-- **Interactive Viewer**: Web-based dashboard for exploring results
+- **Unified Report Format**: Easy to integrate new verification tools with consistent JSON schema
 
 ## Installation
 
@@ -107,20 +107,26 @@ Want to see what LeanDepViz produces? Check out the examples:
 - **All formats**: JSON, DOT, SVG, PNG, and embedded HTML
 - See `examples/output/README.md` for details about each format and file sizes
 
-### LeanParanoia Test Cases
-`examples/leanparanoia-tests/` - Test files demonstrating exploits that LeanParanoia can detect:
+### Multi-Checker Verification Demo
+`examples/leanparanoia-tests/` - Comprehensive demo with multiple verification tools:
 
-- **🎯 [All Examples Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - 12 declarations showing all exploit categories
-- **📊 [Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration demo
+**🎯 [Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** (Recommended) - **12 declarations verified by 3 tools**
 
-**Example Files**:
-- **Custom Axioms**: ProveFalse.lean, ProveAnything.lean
-- **Sorry Usage**: SorryDirect.lean
-- **Unsafe Code**: UnsafeDefinition.lean
-- **Partial Functions**: PartialNonTerminating.lean
-- **Valid Code**: ValidSimple.lean, Basic.lean
+Shows defense-in-depth verification with:
+- **LeanParanoia**: Policy enforcement
+- **lean4checker**: Kernel replay
+- **SafeVerify**: Reference vs implementation
 
-See `examples/leanparanoia-tests/README.md` for details and testing instructions
+Results: ✅ 2 Pass (all tools) | ❌ 10 Fail (various exploits caught by multiple checkers)
+
+**Example Categories**:
+- 🔴 Custom Axioms | 🟡 Sorry Usage | 🟠 Unsafe Code | 🟣 Partial Functions | 🟢 Valid Code
+
+**Legacy Demos** (single-tool):
+- **📊 [Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - 3 declarations (LeanParanoia only)
+- **📈 [All Examples](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - 12 declarations (LeanParanoia only)
+
+See `examples/leanparanoia-tests/README.md` for details
 
 ## Usage
 
@@ -160,24 +166,91 @@ lake exe depviz --roots MyProject --svg-out depgraph.svg --png-out depgraph.png
 - `--include-prefix <prefixes>`: Comma-separated list of additional module prefixes to include
 - `--keep-all`: Disable filtering entirely (include all declarations)
 
-## LeanParanoia Integration ⚠️ EXPERIMENTAL
+### Multi-Checker Workflow (v0.3.0)
 
-LeanDepViz can be integrated with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) to verify that specific parts of your codebase are free of `sorry`, unapproved axioms, or other undesirable constructs.
+For defense-in-depth verification, run multiple checkers and merge their results:
 
-### ⚠️ Status: Experimental - LIMITED COMPATIBILITY
+```bash
+# 1. Extract dependency graph
+lake exe depviz --roots MyProject --json-out depgraph.json --dot-out depgraph.dot
 
-**Critical Limitations**:
-- ⚠️ **Only works with Lean v4.24.0-rc1**
-- ❌ **Does NOT work with Mathlib/Batteries** (requires v4.24.0+ or v4.25.0+)
-- ❌ Most real-world Lean projects use Mathlib → **LeanParanoia won't work for them**
-- ✅ Works for simple standalone projects (see `examples/leanparanoia-tests/`)
-- ⚠️ In active development, API may change
+# 2. Run individual checkers
+python scripts/paranoia_runner.py --depgraph depgraph.json --policy policy.yaml --out paranoia.json
+python scripts/lean4checker_adapter.py --depgraph depgraph.json --out kernel.json
+python scripts/safeverify_adapter.py --depgraph depgraph.json --target-dir /path/to/baseline --submit-dir .lake/build --out safeverify.json
 
-**Catch-22**: LeanParanoia requires v4.24.0-rc1, but Mathlib requires v4.24.0+. You cannot use both.
+# 3. Merge results
+python scripts/merge_reports.py --reports paranoia.json kernel.json safeverify.json --out unified.json
 
-**Recommendation**: For almost all users, the dependency graph JSON already provides useful verification metadata (sorry flags, axiom usage, unsafe declarations) without requiring LeanParanoia. Only consider LeanParanoia if you have a Mathlib-free project on v4.24.0-rc1.
+# 4. View in interactive viewer
+python scripts/embed_data.py --viewer viewer/paranoia-viewer.html --depgraph depgraph.json --dot depgraph.dot --report unified.json --output review.html
+open review.html
+```
 
-**See also**: `examples/leanparanoia-tests/` for test examples demonstrating what LeanParanoia can detect.
+See [MULTI_CHECKER.md](MULTI_CHECKER.md) for complete documentation.
+
+## Verification Tools
+
+### LeanParanoia - Policy Enforcement
+
+[LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) enforces source-level policies: no `sorry`, approved axioms only, no unsafe/extern/partial functions.
+
+**Note**: Currently has version compatibility constraints with Mathlib that are being addressed. Works well for standalone projects. See `examples/leanparanoia-tests/` for examples.
+
+**What it checks**:
+- Sorry usage
+- Custom axioms (only standard axioms allowed)
+- Unsafe declarations
+- Partial/non-terminating functions
+- Extern implementations
+
+### lean4checker - Kernel Replay
+
+[lean4checker](https://github.com/leanprover/lean4checker) independently replays your proof environment in the Lean kernel to verify correctness.
+
+**What it checks**:
+- Environment integrity
+- Kernel-level correctness
+- Declaration validity
+
+**Usage**:
+```bash
+python scripts/lean4checker_adapter.py --depgraph depgraph.json --out kernel.json
+```
+
+Use `--fresh` flag for thorough checking including imports (slower but more comprehensive).
+
+### SafeVerify - Reference vs Implementation
+
+[SafeVerify](https://github.com/Timeroot/SafeVerify) compares a reference/specification version against an implementation to ensure they match.
+
+**What it checks**:
+- Statement equality (theorems haven't changed)
+- No extra axioms in implementation
+- No unsafe/partial in implementation vs reference
+
+**Usage**:
+```bash
+# Build baseline reference
+git checkout main && lake build
+mv .lake/build /tmp/target_build
+
+# Build implementation
+git checkout feature-branch && lake build
+
+# Compare
+python scripts/safeverify_adapter.py \
+  --depgraph depgraph.json \
+  --target-dir /tmp/target_build \
+  --submit-dir .lake/build \
+  --out safeverify.json
+```
+
+Perfect for PR reviews and verifying AI-generated code.
+
+## LeanParanoia Integration
+
+LeanDepViz provides a Python wrapper for running LeanParanoia checks.
 
 ### Setup
 

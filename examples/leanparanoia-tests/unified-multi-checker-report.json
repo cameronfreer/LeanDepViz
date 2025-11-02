@@ -1,0 +1,167 @@
+{
+  "merged_report": true,
+  "version": "1.0.0",
+  "tools": [
+    "paranoia",
+    "lean4checker",
+    "safeverify"
+  ],
+  "summary": {
+    "total_declarations": 3,
+    "passed_all": 1,
+    "failed_any": 2,
+    "by_tool": {
+      "paranoia": {
+        "total": 3,
+        "passed": 1,
+        "failed": 2
+      },
+      "lean4checker": {
+        "total": 3,
+        "passed": 1,
+        "failed": 2
+      },
+      "safeverify": {
+        "total": 3,
+        "passed": 1,
+        "failed": 2
+      }
+    }
+  },
+  "declarations": [
+    {
+      "decl": "bad_axiom",
+      "module": "Test.Basic",
+      "zone": "Test",
+      "kind": "axiom",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "Custom axiom (proves False)",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Custom axiom bad_axiom proves False - rejected by kernel",
+          "notes": "Axiom declaration invalid in kernel"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms",
+            "unsafe"
+          ],
+          "error": "Custom axiom not in allow-list",
+          "notes": "Axiom bad_axiom not in allowed list [propext, Classical.choice, Quot.sound]"
+        }
+      },
+      "checks": [
+        "disallowed-axioms",
+        "extra-axioms",
+        "kernel-replay",
+        "unsafe"
+      ],
+      "error": "[paranoia] Custom axiom (proves False); [lean4checker] Custom axiom bad_axiom proves False - rejected by kernel; [safeverify] Custom axiom not in allow-list",
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 0,
+        "failed_checks": 3
+      }
+    },
+    {
+      "decl": "bad_theorem",
+      "module": "Test.Basic",
+      "zone": "Test",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "Uses disallowed axioms: bad_axiom",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Module Test.Basic kernel replay failed: axiom bad_axiom not in environment",
+          "notes": "Kernel rejected bad_axiom during replay"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms"
+          ],
+          "error": "Statement uses extra axiom bad_axiom not present in baseline",
+          "notes": "Axiom bad_axiom introduced in submission"
+        }
+      },
+      "checks": [
+        "disallowed-axioms",
+        "extra-axioms",
+        "kernel-replay"
+      ],
+      "error": "[paranoia] Uses disallowed axioms: bad_axiom; [lean4checker] Module Test.Basic kernel replay failed: axiom bad_axiom not in environment; [safeverify] Statement uses extra axiom bad_axiom not present in baseline",
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 0,
+        "failed_checks": 3
+      }
+    },
+    {
+      "decl": "good_theorem",
+      "module": "Test.Basic",
+      "zone": "Test",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": "All policy checks passed"
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": true,
+          "checks": [
+            "ref-impl-match"
+          ],
+          "error": null,
+          "notes": "Reference and implementation match"
+        }
+      },
+      "checks": [
+        "policy-pass",
+        "ref-impl-match",
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 3,
+        "failed_checks": 0
+      }
+    }
+  ]
+}
