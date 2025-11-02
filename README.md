@@ -86,6 +86,15 @@ open paranoia-viewer.html
 # Load depgraph.json and (optionally) paranoia_report.json
 ```
 
+## Example Outputs
+
+Want to see what LeanDepViz produces? Check out the `examples/output/` directory for real-world output files from the [Exchangeability project](https://github.com/cameronfreer/exchangeability) (probability theory formalization with ~800 declarations):
+
+- **Interactive viewer**: [Live Demo](https://cameronfreer.github.io/LeanDepViz/example-exchangeability.html)
+- **All formats**: JSON, DOT, SVG, PNG, and embedded HTML in `examples/output/`
+
+See `examples/output/README.md` for details about each format and file sizes.
+
 ## Usage
 
 ### Basic Commands
