@@ -189,24 +189,68 @@ open review.html
 
 See [MULTI_CHECKER.md](MULTI_CHECKER.md) for complete documentation.
 
-## LeanParanoia Integration ⚠️ EXPERIMENTAL
+## Verification Tools
 
-LeanDepViz can be integrated with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) to verify that specific parts of your codebase are free of `sorry`, unapproved axioms, or other undesirable constructs.
+### LeanParanoia - Policy Enforcement
 
-### ⚠️ Status: Experimental - LIMITED COMPATIBILITY
+[LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) enforces source-level policies: no `sorry`, approved axioms only, no unsafe/extern/partial functions.
 
-**Critical Limitations**:
-- ⚠️ **Only works with Lean v4.24.0-rc1**
-- ❌ **Does NOT work with Mathlib/Batteries** (requires v4.24.0+ or v4.25.0+)
-- ❌ Most real-world Lean projects use Mathlib → **LeanParanoia won't work for them**
-- ✅ Works for simple standalone projects (see `examples/leanparanoia-tests/`)
-- ⚠️ In active development, API may change
+**Note**: Currently has version compatibility constraints with Mathlib that are being addressed. Works well for standalone projects. See `examples/leanparanoia-tests/` for examples.
 
-**Catch-22**: LeanParanoia requires v4.24.0-rc1, but Mathlib requires v4.24.0+. You cannot use both.
+**What it checks**:
+- Sorry usage
+- Custom axioms (only standard axioms allowed)
+- Unsafe declarations
+- Partial/non-terminating functions
+- Extern implementations
 
-**Recommendation**: For almost all users, the dependency graph JSON already provides useful verification metadata (sorry flags, axiom usage, unsafe declarations) without requiring LeanParanoia. Only consider LeanParanoia if you have a Mathlib-free project on v4.24.0-rc1.
+### lean4checker - Kernel Replay
 
-**See also**: `examples/leanparanoia-tests/` for test examples demonstrating what LeanParanoia can detect.
+[lean4checker](https://github.com/leanprover/lean4checker) independently replays your proof environment in the Lean kernel to verify correctness.
+
+**What it checks**:
+- Environment integrity
+- Kernel-level correctness
+- Declaration validity
+
+**Usage**:
+```bash
+python scripts/lean4checker_adapter.py --depgraph depgraph.json --out kernel.json
+```
+
+Use `--fresh` flag for thorough checking including imports (slower but more comprehensive).
+
+### SafeVerify - Reference vs Implementation
+
+[SafeVerify](https://github.com/Timeroot/SafeVerify) compares a reference/specification version against an implementation to ensure they match.
+
+**What it checks**:
+- Statement equality (theorems haven't changed)
+- No extra axioms in implementation
+- No unsafe/partial in implementation vs reference
+
+**Usage**:
+```bash
+# Build baseline reference
+git checkout main && lake build
+mv .lake/build /tmp/target_build
+
+# Build implementation
+git checkout feature-branch && lake build
+
+# Compare
+python scripts/safeverify_adapter.py \
+  --depgraph depgraph.json \
+  --target-dir /tmp/target_build \
+  --submit-dir .lake/build \
+  --out safeverify.json
+```
+
+Perfect for PR reviews and verifying AI-generated code.
+
+## LeanParanoia Integration
+
+LeanDepViz provides a Python wrapper for running LeanParanoia checks.
 
 ### Setup
 
