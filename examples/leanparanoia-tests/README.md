@@ -198,6 +198,24 @@ The full LeanParanoia test suite includes examples of:
 
 See: https://github.com/oOo0oOo/LeanParanoia/tree/main/tests/lean_exploit_files
 
+## Regenerating the Demos
+
+The embedded HTML demos are generated automatically. To regenerate after adding new examples:
+
+```bash
+# From repo root
+python scripts/generate_paranoia_examples.py
+```
+
+This will:
+1. Build a temporary test project with all example files
+2. Generate dependency graphs
+3. Create verification reports
+4. Generate embedded HTML demos
+5. Copy outputs to `docs/` for GitHub Pages
+
+See `scripts/README.md` for details on adding new examples.
+
 ## Credits
 
 Examples adapted from the LeanParanoia project by https://github.com/oOo0oOo
