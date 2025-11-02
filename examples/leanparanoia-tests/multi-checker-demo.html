@@ -423,19 +423,33 @@
             const dotStatus = document.getElementById('dot-file-status');
             const reportStatus = document.getElementById('report-file-status');
             
+            // Load embedded graph data
             if (typeof window.EMBEDDED_DEPGRAPH !== 'undefined' && window.EMBEDDED_DEPGRAPH) {
                 graphStatus.textContent = '✓ Embedded data loaded';
                 graphStatus.style.color = '#4ec9b0';
+                graphData = window.EMBEDDED_DEPGRAPH;
             }
             
+            // Load embedded DOT data
             if (typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT) {
                 dotStatus.textContent = '✓ Embedded DOT loaded';
                 dotStatus.style.color = '#4ec9b0';
+                dotData = window.EMBEDDED_DOT;
             }
             
+            // Load embedded report data
             if (typeof window.EMBEDDED_REPORT !== 'undefined' && window.EMBEDDED_REPORT) {
                 reportStatus.textContent = '✓ Embedded report loaded';
                 reportStatus.style.color = '#4ec9b0';
+                reportData = window.EMBEDDED_REPORT;
+            }
+            
+            // Initialize views if data is loaded
+            if (graphData) {
+                updateView();
+            }
+            if (dotData && graphData) {
+                maybeRenderGraph();
             }
         }
         
