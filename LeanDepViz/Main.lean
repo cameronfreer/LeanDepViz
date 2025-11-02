@@ -150,8 +150,8 @@ private def nodeLabel (n : Node) : String :=
   let base := nodeShortName n.name
   let tags :=
     let tags := (#[] : Array String)
-    let tags := if n.hasSorry then tags.push "SORRY" else tags
-    let tags := if !n.axioms.isEmpty then tags.push "AXIOM" else tags
+    let tags := if n.hasSorry then tags.push "HAS SORRY" else tags
+    let tags := if !n.axioms.isEmpty then tags.push "USES AXIOM" else tags
     let tags := if n.isUnsafe then tags.push "UNSAFE" else tags
     let tags := if n.noncomp then tags.push "NONCOMP" else tags
     tags
