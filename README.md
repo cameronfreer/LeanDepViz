@@ -103,6 +103,7 @@ Want to see what LeanDepViz produces? Check out the examples:
 ### LeanParanoia Test Cases
 `examples/leanparanoia-tests/` - Small test files demonstrating exploits that LeanParanoia can detect:
 
+- **Live Demo**: [Interactive Example](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html) - See LeanParanoia in action!
 - **ProveFalse.lean**: Custom axiom proving False
 - **ProveAnything.lean**: Using False to prove arbitrary statements
 - See `examples/leanparanoia-tests/README.md` for testing instructions

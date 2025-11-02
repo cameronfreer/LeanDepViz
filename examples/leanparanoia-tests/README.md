@@ -4,6 +4,17 @@ These examples demonstrate various exploits that LeanParanoia is designed to det
 
 ⚠️ **Warning**: These files contain intentionally unsound code! They demonstrate what LeanParanoia should catch, not safe coding practices.
 
+## Live Demo
+
+**Interactive Example**: [View Live Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)
+
+This embedded HTML shows:
+- ✅ **good_theorem**: Passes verification (uses only standard axioms)
+- ❌ **bad_theorem**: Fails verification (uses custom axiom `bad_axiom`)
+- ❌ **bad_axiom**: Custom axiom that proves False
+
+Open the demo to see LeanParanoia detection in action! The viewer shows which declarations pass/fail and why.
+
 ## Examples
 
 ### ProveFalse.lean
