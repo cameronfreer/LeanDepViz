@@ -413,6 +413,7 @@
             const file = e.target.files[0];
             if (file) {
                 dotData = await file.text();
+                console.log('DOT file loaded, size:', dotData.length, 'bytes');
                 if (currentTab === 'graph') {
                     renderGraph();
                 }
@@ -442,13 +443,44 @@
             
             emptyState.classList.add('hidden');
             graphViz.classList.remove('hidden');
-            graphViz.innerHTML = ''; // Clear previous
             
-            d3.select("#graph-viz")
-                .graphviz()
-                .zoom(true)
-                .fit(true)
-                .renderDot(dotData);
+            // Show loading message
+            graphViz.innerHTML = '<div style="padding: 2rem; text-align: center; color: #d4d4d4;">Loading graph... This may take a moment for large graphs.</div>';
+            
+            // Give the UI a moment to update
+            setTimeout(() => {
+                try {
+                // Check if d3 and graphviz are loaded
+                if (typeof d3 === 'undefined' || typeof d3.graphviz === 'undefined') {
+                    throw new Error('d3-graphviz library not loaded');
+                }
+                
+                console.log('Rendering graph...');
+                d3.select("#graph-viz")
+                    .graphviz()
+                    .zoom(true)
+                    .fit(true)
+                    .on("initEnd", () => console.log("Graph initialized"))
+                    .renderDot(dotData)
+                    .on("end", () => console.log("Graph rendered successfully"));
+                } catch (error) {
+                console.error('Graph rendering error:', error);
+                graphViz.innerHTML = `
+                    <div style="padding: 2rem; color: #f48771; background: #2d2d30; border-radius: 4px; margin: 2rem;">
+                        <h3>Failed to render graph</h3>
+                        <p style="margin-top: 0.5rem;">Error: ${error.message}</p>
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #d4d4d4;">
+                            Try opening the DOT file with:
+                        </p>
+                        <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #d4d4d4;">
+                            <li>GraphViz desktop tools</li>
+                            <li>VS Code with GraphViz extension</li>
+                            <li>Online viewers like <a href="https://dreampuf.github.io/GraphvizOnline/" target="_blank" style="color: #4ec9b0;">GraphvizOnline</a></li>
+                        </ul>
+                    </div>
+                `;
+                }
+            }, 100);
         }
         
         function updateView() {
