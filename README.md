@@ -30,6 +30,26 @@ A dependency visualization and **multi-checker verification tool** for Lean 4 pr
 
 **All examples** available at: https://cameronfreer.github.io/LeanDepViz/
 
+### Example: Multi-Tool Verification
+
+The verification demo uses test files from [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) demonstrating various verification scenarios:
+
+**Interactive Table View:**
+![Verification Demo Table](docs/verification-demo-table.png)
+*17 declarations verified by LeanParanoia, lean4checker, and SafeVerify. Red ✗ = failed, Green ✓ = passed, — = not checked.*
+
+**Dependency Graph:**
+![Verification Demo Graph](docs/verification-demo-graph.png)
+*Dependency relationships between test declarations from LeanParanoia's test suite.*
+
+Examples include:
+- ✅ `good_theorem`, `simple_theorem` - Pass all checks
+- ❌ `bad_axiom` - Custom axiom (caught by all 3 tools)
+- ❌ `exploit_theorem` - Uses unsafe code (caught by all 3 tools)
+- ❌ Various sorry, unsafe, and partial function violations
+
+**Credit**: Example declarations from [LeanParanoia test suite](https://github.com/oOo0oOo/LeanParanoia/tree/main/tests/lean_exploit_files)
+
 ## Installation
 
 ### As a Lake Dependency (Recommended)
