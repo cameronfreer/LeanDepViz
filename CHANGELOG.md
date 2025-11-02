@@ -2,6 +2,21 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.1.7] - 2024-11-01
+
+### Fixed
+- **Mobile layout**: Sidebar now appears below content on narrow screens (< 768px) instead of overlapping
+- **Embedded file status**: File inputs now show "✓ Embedded data loaded" instead of "No file chosen" when data is embedded
+- Better responsive design with flex-wrap on stats and proper mobile breakpoints
+
+### Changed
+- Sidebar switches from side-by-side to stacked layout on mobile
+- Maximum sidebar height on mobile: 300px with scroll
+- File input status indicators added next to each file input
+- Status updates automatically on page load for embedded demos
+
+**Why this matters**: Embedded examples now clearly show what data is preloaded, and mobile users can actually see the content!
+
 ## [0.1.6] - 2024-11-01
 
 ### Fixed

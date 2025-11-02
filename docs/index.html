@@ -197,6 +197,29 @@
             padding: 1rem;
         }
         
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
+            
+            #sidebar {
+                width: 100%;
+                max-height: 300px;
+                border-left: none;
+                border-top: 1px solid #3c3c3c;
+            }
+            
+            .stats {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .file-input {
+                min-width: 200px;
+            }
+        }
+        
         table {
             width: 100%;
             border-collapse: collapse;
@@ -278,22 +301,25 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.6</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.7</span></h1>
         
         <div class="controls">
             <div class="file-input">
                 <label for="graph-file">Dependency Graph:</label>
                 <input type="file" id="graph-file" accept=".json">
+                <span id="graph-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
             </div>
             
             <div class="file-input">
                 <label for="dot-file">DOT File (for graph view):</label>
                 <input type="file" id="dot-file" accept=".dot">
+                <span id="dot-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
             </div>
             
             <div class="file-input">
                 <label for="report-file">Paranoia Report:</label>
                 <input type="file" id="report-file" accept=".json">
+                <span id="report-file-status" style="margin-left: 0.5rem; color: #888; font-size: 0.85rem;"></span>
             </div>
         </div>
         
@@ -384,8 +410,8 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.1.6
-        const VIEWER_VERSION = '0.1.6';
+        // LeanDepViz Viewer v0.1.7
+        const VIEWER_VERSION = '0.1.7';
         
         // Check library loading on page load
         window.addEventListener('DOMContentLoaded', function() {
@@ -401,7 +427,31 @@
             } else {
                 console.log('✓ Graph view ready');
             }
+            
+            // Update file input status for embedded data
+            updateEmbeddedFileStatus();
         });
+        
+        function updateEmbeddedFileStatus() {
+            const graphStatus = document.getElementById('graph-file-status');
+            const dotStatus = document.getElementById('dot-file-status');
+            const reportStatus = document.getElementById('report-file-status');
+            
+            if (typeof window.EMBEDDED_DEPGRAPH !== 'undefined' && window.EMBEDDED_DEPGRAPH) {
+                graphStatus.textContent = '✓ Embedded data loaded';
+                graphStatus.style.color = '#4ec9b0';
+            }
+            
+            if (typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT) {
+                dotStatus.textContent = '✓ Embedded DOT loaded';
+                dotStatus.style.color = '#4ec9b0';
+            }
+            
+            if (typeof window.EMBEDDED_REPORT !== 'undefined' && window.EMBEDDED_REPORT) {
+                reportStatus.textContent = '✓ Embedded report loaded';
+                reportStatus.style.color = '#4ec9b0';
+            }
+        }
         
         let graphData = null;
         let reportData = null;
