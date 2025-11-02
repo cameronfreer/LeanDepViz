@@ -14,14 +14,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeanDepViz</title>
     <!-- D3 (must load first) -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
     
     <!-- HPCC Graphviz WASM UMD (pinned version) -->
     <script src="https://unpkg.com/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js" 
             type="application/javascript"></script>
     
-    <!-- d3-graphviz plugin (must load after D3) -->
-    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js" defer></script>
+    <!-- d3-graphviz plugin (must load AFTER D3 is ready) -->
+    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js"></script>
     <style>
         * {
             margin: 0;
