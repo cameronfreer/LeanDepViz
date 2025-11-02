@@ -298,7 +298,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.2.2</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.3.0</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -407,8 +407,8 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.2.2
-        const VIEWER_VERSION = '0.2.2';
+        // LeanDepViz Viewer v0.3.0
+        const VIEWER_VERSION = '0.3.0';
         
         // Check library loading on page load
         window.addEventListener('DOMContentLoaded', function() {
@@ -456,6 +456,8 @@
         let statusMap = new Map();
         let zones = new Set();
         let currentTab = 'table';
+        let availableTools = [];
+        let isMultiChecker = false;
         
         // Tab switching
         function switchTab(tab) {
@@ -575,13 +577,40 @@
             // Build status map
             statusMap.clear();
             zones.clear();
+            availableTools = [];
+            isMultiChecker = false;
             
-            if (reportData && reportData.results) {
-                reportData.results.forEach(r => {
-                    statusMap.set(r.decl, r);
-                    if (r.zone) zones.add(r.zone);
-                });
+            // Detect report format
+            if (reportData) {
+                // New unified format (merged multi-checker)
+                if (reportData.merged_report && reportData.declarations) {
+                    isMultiChecker = true;
+                    availableTools = reportData.tools || [];
+                    reportData.declarations.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
+                // New unified format (single tool)
+                else if (reportData.declarations) {
+                    availableTools = [reportData.tool || 'checker'];
+                    reportData.declarations.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
+                // Legacy format
+                else if (reportData.results) {
+                    availableTools = ['paranoia'];
+                    reportData.results.forEach(r => {
+                        statusMap.set(r.decl, r);
+                        if (r.zone) zones.add(r.zone);
+                    });
+                }
             }
+            
+            // Update table headers
+            updateTableHeaders();
             
             // Update zone filter
             const zoneFilter = document.getElementById('zone-filter');
@@ -633,6 +662,69 @@
             renderTable(filtered);
         }
         
+        function updateTableHeaders() {
+            const thead = document.querySelector('#nodes-table thead tr');
+            
+            if (isMultiChecker && availableTools.length > 0) {
+                // Multi-checker mode: separate column for each tool
+                const toolHeaders = availableTools.map(tool => {
+                    const toolName = tool === 'paranoia' ? 'LeanParanoia' :
+                                    tool === 'lean4checker' ? 'lean4checker' :
+                                    tool === 'lean4checker-fresh' ? 'lean4checker (fresh)' :
+                                    tool === 'safeverify' ? 'SafeVerify' :
+                                    tool.charAt(0).toUpperCase() + tool.slice(1);
+                    return `<th>${toolName}</th>`;
+                }).join('');
+                
+                thead.innerHTML = `
+                    ${toolHeaders}
+                    <th>Declaration</th>
+                    <th>Module</th>
+                    <th>Kind</th>
+                    <th>Zone</th>
+                    <th>Flags</th>
+                `;
+            } else if (availableTools.length === 1) {
+                // Single checker mode: one status column
+                const toolName = availableTools[0] === 'paranoia' ? 'LeanParanoia Status' :
+                                availableTools[0] === 'lean4checker' ? 'lean4checker Status' :
+                                availableTools[0] === 'safeverify' ? 'SafeVerify Status' :
+                                'Verification Status';
+                thead.innerHTML = `
+                    <th>${toolName}</th>
+                    <th>Declaration</th>
+                    <th>Module</th>
+                    <th>Kind</th>
+                    <th>Zone</th>
+                    <th>Flags</th>
+                `;
+            } else {
+                // Legacy mode
+                thead.innerHTML = `
+                    <th>Verification Status</th>
+                    <th>Declaration</th>
+                    <th>Module</th>
+                    <th>Kind</th>
+                    <th>Zone</th>
+                    <th>Flags</th>
+                `;
+            }
+        }
+        
+        function renderToolStatus(tool, toolData) {
+            if (!toolData) {
+                return '<span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span>';
+            }
+            
+            if (toolData.ok) {
+                return '<span class="badge passed" style="font-size: 0.85em;">✓</span>';
+            } else {
+                const errorMsg = toolData.error ? escapeHtml(toolData.error) : 'Failed';
+                const shortError = errorMsg.length > 60 ? errorMsg.substring(0, 60) + '...' : errorMsg;
+                return `<span class="badge failed" style="font-size: 0.85em;" title="${errorMsg}">✗</span><br><span style="font-size: 0.75em; color: #f48771;">${shortError}</span>`;
+            }
+        }
+        
         function renderTable(nodes) {
             const table = document.getElementById('nodes-table');
             const tbody = document.getElementById('nodes-tbody');
@@ -650,29 +742,46 @@
             
             tbody.innerHTML = nodes.map(n => {
                 const status = n.status;
-                let statusBadge;
-                if (!status) {
-                    statusBadge = '<span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span>';
-                } else if (status.ok) {
-                    statusBadge = '<span class="badge passed">✓ Pass</span>';
-                } else {
-                    // Show error message with fail badge
-                    const errorMsg = status.error ? escapeHtml(status.error) : 'Failed';
-                    statusBadge = `<span class="badge failed">✗ Fail</span><br><span style="font-size: 0.85em; color: #f48771;">${errorMsg}</span>`;
-                }
-                
                 const flags = [];
                 if (n.hasSorry) flags.push('<span class="badge sorry">Sorry</span>');
                 if (n.axioms && n.axioms.length > 0) flags.push('<span class="badge axiom">Axiom</span>');
                 if (n.isUnsafe) flags.push('<span class="badge unsafe">Unsafe</span>');
                 
+                let statusCells;
+                if (isMultiChecker && status && status.tools) {
+                    // Multi-checker mode: one cell per tool
+                    statusCells = availableTools.map(tool => {
+                        const toolData = status.tools[tool];
+                        return `<td style="text-align: center;">${renderToolStatus(tool, toolData)}</td>`;
+                    }).join('');
+                } else if (status) {
+                    // Single checker or legacy mode
+                    let statusBadge;
+                    if (status.ok) {
+                        statusBadge = '<span class="badge passed">✓ Pass</span>';
+                    } else {
+                        const errorMsg = status.error ? escapeHtml(status.error) : 'Failed';
+                        statusBadge = `<span class="badge failed">✗ Fail</span><br><span style="font-size: 0.85em; color: #f48771;">${errorMsg}</span>`;
+                    }
+                    statusCells = `<td>${statusBadge}</td>`;
+                } else {
+                    // Not checked
+                    if (isMultiChecker) {
+                        statusCells = availableTools.map(() => 
+                            '<td style="text-align: center;"><span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span></td>'
+                        ).join('');
+                    } else {
+                        statusCells = '<td><span class="badge" style="background: #3c3c3c; color: #888;">Not Checked</span></td>';
+                    }
+                }
+                
                 return `
                     <tr onclick="showDetails('${n.fullName}')" style="cursor: pointer;">
-                        <td>${statusBadge}</td>
-                        <td><strong>${n.name}</strong></td>
-                        <td>${n.module}</td>
-                        <td>${n.kind}</td>
-                        <td>${status ? status.zone : '-'}</td>
+                        ${statusCells}
+                        <td><code>${escapeHtml(n.displayName || n.fullName)}</code></td>
+                        <td>${escapeHtml(n.module || '')}</td>
+                        <td>${escapeHtml(n.kind || '')}</td>
+                        <td>${escapeHtml(n.zone || '')}</td>
                         <td>${flags.join(' ')}</td>
                     </tr>
                 `;
