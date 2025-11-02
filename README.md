@@ -91,12 +91,21 @@ open paranoia-viewer.html
 
 ## Example Outputs
 
-Want to see what LeanDepViz produces? Check out the `examples/output/` directory for real-world output files from the [Exchangeability project](https://github.com/cameronfreer/exchangeability) (probability theory formalization with ~800 declarations):
+Want to see what LeanDepViz produces? Check out the examples:
+
+### Real-World Project Output
+`examples/output/` - Complete output from the [Exchangeability project](https://github.com/cameronfreer/exchangeability) (probability theory formalization with ~800 declarations):
 
 - **Interactive viewer**: [Live Demo](https://cameronfreer.github.io/LeanDepViz/example-exchangeability.html)
-- **All formats**: JSON, DOT, SVG, PNG, and embedded HTML in `examples/output/`
+- **All formats**: JSON, DOT, SVG, PNG, and embedded HTML
+- See `examples/output/README.md` for details about each format and file sizes
 
-See `examples/output/README.md` for details about each format and file sizes.
+### LeanParanoia Test Cases
+`examples/leanparanoia-tests/` - Small test files demonstrating exploits that LeanParanoia can detect:
+
+- **ProveFalse.lean**: Custom axiom proving False
+- **ProveAnything.lean**: Using False to prove arbitrary statements
+- See `examples/leanparanoia-tests/README.md` for testing instructions
 
 ## Usage
 
@@ -136,11 +145,20 @@ lake exe depviz --roots MyProject --svg-out depgraph.svg --png-out depgraph.png
 - `--include-prefix <prefixes>`: Comma-separated list of additional module prefixes to include
 - `--keep-all`: Disable filtering entirely (include all declarations)
 
-## LeanParanoia Integration
+## LeanParanoia Integration ⚠️ EXPERIMENTAL
 
 LeanDepViz can be integrated with [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) to verify that specific parts of your codebase are free of `sorry`, unapproved axioms, or other undesirable constructs.
 
-**Note**: LeanParanoia is in early development and may have compatibility issues with certain Lean toolchains. The dependency graph JSON already provides useful verification metadata (sorry flags, axiom usage, unsafe declarations) without requiring LeanParanoia.
+### ⚠️ Status: Experimental
+
+**Known Limitations**:
+- ⚠️ **Toolchain compatibility**: Only works with Lean **v4.24.0-rc1**
+- ⚠️ Newer toolchains (v4.24.0+, v4.25.0+) have linker errors
+- ⚠️ In active development, API may change
+
+**Recommendation**: For most users, the dependency graph JSON already provides useful verification metadata (sorry flags, axiom usage, unsafe declarations) without requiring LeanParanoia. Consider LeanParanoia for advanced use cases only.
+
+**See also**: `examples/leanparanoia-tests/` for test examples demonstrating what LeanParanoia can detect.
 
 ### Setup
 
