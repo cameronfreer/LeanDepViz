@@ -2,6 +2,21 @@
 
 All notable changes to LeanDepViz will be documented in this file.
 
+## [0.1.8] - 2024-11-01
+
+### Fixed
+- **Critical**: d3-graphviz library loading - moved scripts to end of <body>
+- Scripts now load AFTER DOM is ready, ensuring proper initialization
+- Switched d3-graphviz to unpkg for consistency (all libs from unpkg/jsDelivr)
+- Using non-minified d3-graphviz.js for better compatibility
+
+### Changed
+- Library scripts moved from <head> to end of <body> tag
+- Execution order: DOM loads → user scripts run → library scripts load → d3.graphviz attaches
+- This ensures window.d3 is fully initialized before d3-graphviz tries to extend it
+
+**Why this matters**: Graph View should finally work! Previous versions had timing issues where d3-graphviz tried to attach before D3 was ready.
+
 ## [0.1.7] - 2024-11-01
 
 ### Fixed

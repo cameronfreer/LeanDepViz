@@ -4,15 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeanDepViz</title>
-    <!-- D3 (must load first) -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
-    
-    <!-- HPCC Graphviz WASM UMD (pinned version) -->
-    <script src="https://unpkg.com/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js" 
-            type="application/javascript"></script>
-    
-    <!-- d3-graphviz plugin (must load AFTER D3 is ready) -->
-    <script src="https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -301,7 +292,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.7</span></h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.8</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -410,8 +401,8 @@
     </main>
     
     <script>
-        // LeanDepViz Viewer v0.1.7
-        const VIEWER_VERSION = '0.1.7';
+        // LeanDepViz Viewer v0.1.8
+        const VIEWER_VERSION = '0.1.8';
         
         // Check library loading on page load
         window.addEventListener('DOMContentLoaded', function() {
@@ -743,5 +734,15 @@
             }
         };
     </script>
+    
+    <!-- Load d3-graphviz libraries at end of body for proper initialization -->
+    <!-- D3 (must load first) -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    
+    <!-- HPCC Graphviz WASM UMD (pinned version) -->
+    <script src="https://unpkg.com/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js"></script>
+    
+    <!-- d3-graphviz plugin (must load AFTER D3 is ready) - use non-minified for better compatibility -->
+    <script src="https://unpkg.com/d3-graphviz@5.6.0/build/d3-graphviz.js"></script>
 </body>
 </html>
