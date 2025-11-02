@@ -520,7 +520,7 @@
             graphViz.classList.remove('hidden');
             
             // Show loading message
-            graphViz.innerHTML = '<div style="padding: 2rem; text-align: center; color: #d4d4d4;">Loading graph... This may take a moment for large graphs.</div>';
+            graphViz.innerHTML = '<div id="graph-loading" style="padding: 2rem; text-align: center; color: #d4d4d4;">Loading graph... This may take a moment for large graphs.</div>';
             
             // Give the UI a moment to update
             setTimeout(() => {
@@ -535,7 +535,12 @@
                     .graphviz()
                     .zoom(true)
                     .fit(true)
-                    .on("initEnd", () => console.log("Graph initialized"))
+                    .on("initEnd", () => {
+                        console.log("Graph initialized");
+                        // Clear loading message once rendering starts
+                        const loadingMsg = document.getElementById('graph-loading');
+                        if (loadingMsg) loadingMsg.remove();
+                    })
                     .renderDot(dotData)
                     .on("end", () => console.log("Graph rendered successfully"));
                 } catch (error) {
