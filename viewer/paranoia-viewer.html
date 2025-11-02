@@ -666,7 +666,7 @@
             const thead = document.querySelector('#nodes-table thead tr');
             
             if (isMultiChecker && availableTools.length > 0) {
-                // Multi-checker mode: separate column for each tool
+                // Multi-checker mode: separate column for each tool at the END
                 const toolHeaders = availableTools.map(tool => {
                     const toolName = tool === 'paranoia' ? 'LeanParanoia' :
                                     tool === 'lean4checker' ? 'lean4checker' :
@@ -677,36 +677,36 @@
                 }).join('');
                 
                 thead.innerHTML = `
-                    ${toolHeaders}
                     <th>Declaration</th>
                     <th>Module</th>
                     <th>Kind</th>
                     <th>Zone</th>
                     <th>Flags</th>
+                    ${toolHeaders}
                 `;
             } else if (availableTools.length === 1) {
-                // Single checker mode: one status column
+                // Single checker mode: one status column at the END
                 const toolName = availableTools[0] === 'paranoia' ? 'LeanParanoia Status' :
                                 availableTools[0] === 'lean4checker' ? 'lean4checker Status' :
                                 availableTools[0] === 'safeverify' ? 'SafeVerify Status' :
                                 'Verification Status';
                 thead.innerHTML = `
-                    <th>${toolName}</th>
                     <th>Declaration</th>
                     <th>Module</th>
                     <th>Kind</th>
                     <th>Zone</th>
                     <th>Flags</th>
+                    <th>${toolName}</th>
                 `;
             } else {
                 // Legacy mode
                 thead.innerHTML = `
-                    <th>Verification Status</th>
                     <th>Declaration</th>
                     <th>Module</th>
                     <th>Kind</th>
                     <th>Zone</th>
                     <th>Flags</th>
+                    <th>Verification Status</th>
                 `;
             }
         }
@@ -777,12 +777,12 @@
                 
                 return `
                     <tr onclick="showDetails('${n.fullName}')" style="cursor: pointer;">
-                        ${statusCells}
                         <td><code>${escapeHtml(n.displayName || n.fullName)}</code></td>
                         <td>${escapeHtml(n.module || '')}</td>
                         <td>${escapeHtml(n.kind || '')}</td>
                         <td>${escapeHtml(n.zone || '')}</td>
                         <td>${flags.join(' ')}</td>
+                        ${statusCells}
                     </tr>
                 `;
             }).join('');
