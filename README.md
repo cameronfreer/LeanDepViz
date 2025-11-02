@@ -24,6 +24,11 @@ A dependency visualization and **multi-checker verification tool** for Lean 4 pr
   - Real-world example: ~800 declarations from probability theory formalization
   - Interactive dependency graph exploration
 
+- **[StrongPNT Project](https://cameronfreer.github.io/LeanDepViz/strongpnt-example.html)**
+  - Strong Prime Number Theorem formalization
+  - 1129 declarations, complex analysis and number theory
+  - Demonstrates large-scale project visualization
+
 - **[Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)**
   - Simple 3-declaration example
   - Good starting point to understand the viewer
