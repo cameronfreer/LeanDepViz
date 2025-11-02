@@ -179,12 +179,18 @@ LeanDepViz can be integrated with [LeanParanoia](https://github.com/oOo0oOo/Lean
 
 3. **Run policy checks**:
    ```bash
+   # Recommended: Use --summary-only for large projects (smaller output)
    python .lake/packages/LeanDepViz/scripts/paranoia_runner.py \
      --depgraph depgraph.json \
      --policy my-policy.yaml \
      --out paranoia_report.json \
+     --summary-only \
      --jobs 8
+   
+   # Or without --summary-only for detailed output (larger files)
    ```
+   
+   **Performance tip**: The `--summary-only` flag captures only error summaries instead of full output, reducing report size from gigabytes to megabytes for large projects.
 
 4. **View results** in the interactive viewer:
    ```bash

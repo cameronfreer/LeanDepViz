@@ -59,11 +59,17 @@ def decls_for_zone(depgraph: Dict[str, Any], include: List[str], exclude: List[s
     return sorted(decls, key=lambda x: x["fullName"])
 
 
-def run_one(decl: Dict[str, Any], zone: Dict[str, Any], project_root: Path) -> Dict[str, Any]:
+def run_one(decl: Dict[str, Any], zone: Dict[str, Any], project_root: Path, summary_only: bool = False) -> Dict[str, Any]:
     """
     Run LeanParanoia on a single declaration with zone-specific flags.
     
-    Returns status dict with 'ok', 'stdout', 'stderr', etc.
+    Args:
+        decl: Declaration info
+        zone: Policy zone
+        project_root: Project directory
+        summary_only: If True, only capture first error line (much smaller output)
+    
+    Returns status dict with 'ok', error summary, etc.
     """
     full_name = decl["fullName"]
     allowed = zone.get("allowed_axioms", ["propext", "Quot.sound", "Classical.choice"])
@@ -131,17 +137,39 @@ def run_one(decl: Dict[str, Any], zone: Dict[str, Any], project_root: Path) -> D
         
         ok = (p.returncode == 0)
         
-        return {
+        # Extract error summary (first non-empty line of stderr or stdout)
+        error_summary = ""
+        if not ok:
+            # Try stderr first, then stdout
+            error_lines = [l.strip() for l in (p.stderr or p.stdout or "").split('\n') if l.strip()]
+            if error_lines:
+                # Get first meaningful error line (skip info lines)
+                for line in error_lines:
+                    if line and not line.startswith('ℹ') and not line.startswith('✔'):
+                        error_summary = line[:200]  # Limit to 200 chars
+                        break
+        
+        result = {
             "decl": full_name,
             "zone": zone["name"],
             "ok": ok,
-            "cmd": " ".join(shlex.quote(c) for c in cmd),
-            "stdout": p.stdout.strip(),
-            "stderr": p.stderr.strip(),
-            "exit": p.returncode,
             "kind": decl["kind"],
-            "module": decl["module"]
+            "module": decl["module"],
+            "exit": p.returncode
         }
+        
+        # Add detailed output only if not in summary mode
+        if not summary_only:
+            result["cmd"] = " ".join(shlex.quote(c) for c in cmd)
+            # Limit output to first 1000 chars to prevent massive files
+            result["stdout"] = p.stdout.strip()[:1000] if p.stdout else ""
+            result["stderr"] = p.stderr.strip()[:1000] if p.stderr else ""
+        
+        # Always include error summary for failed checks
+        if not ok and error_summary:
+            result["error"] = error_summary
+        
+        return result
     except subprocess.TimeoutExpired:
         return {
             "decl": full_name,
@@ -175,7 +203,9 @@ def main():
     ap.add_argument("--jobs", type=int, default=os.cpu_count() or 4,
                     help="Number of parallel jobs")
     ap.add_argument("--project-root", default=".",
-                    help="Project root directory (where lakefile.toml lives)")
+                    help="Project root directory (where lakefile.lean lives)")
+    ap.add_argument("--summary-only", action="store_true",
+                    help="Only capture error summaries (much smaller output, recommended for large projects)")
     args = ap.parse_args()
     
     # Resolve paths
@@ -222,7 +252,7 @@ def main():
             total_decls += len(decls)
             
             for decl in decls:
-                future = executor.submit(run_one, decl, zone, project_root)
+                future = executor.submit(run_one, decl, zone, project_root, args.summary_only)
                 futures.append(future)
         
         # Collect results with progress
@@ -242,12 +272,18 @@ def main():
         "summary": {
             "total": len(results),
             "passed": sum(1 for r in results if r.get("ok", False)),
-            "failed": sum(1 for r in results if not r.get("ok", False))
+            "failed": sum(1 for r in results if not r.get("ok", False)),
+            "mode": "summary" if args.summary_only else "detailed"
         }
     }
     
     with open(out_path, "w") as f:
         json.dump(report, f, indent=2)
+    
+    # Report file size
+    file_size = out_path.stat().st_size
+    size_mb = file_size / (1024 * 1024)
+    print(f"Report size: {size_mb:.1f}MB", end="")
     
     # Print summary
     passed = report["summary"]["passed"]
