@@ -12,10 +12,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeanDepViz + LeanParanoia Viewer</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://unpkg.com/@hpcc-js/wasm@2.5.0/dist/index.min.js"></script>
-    <script src="https://unpkg.com/d3-graphviz@5.0.2/build/d3-graphviz.js"></script>
+    <title>LeanDepViz</title>
+    <script src="https://d3js.org/d3.v7.min.js" onerror="console.error('Failed to load d3.js')"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@2.16.2/dist/graphviz.umd.js" onerror="console.error('Failed to load GraphViz WASM')"></script>
+    <script src="https://unpkg.com/d3-graphviz@5.6.0/build/d3-graphviz.js" onerror="console.error('Failed to load d3-graphviz')"></script>
     <style>
         * {
             margin: 0;
@@ -281,7 +281,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz + LeanParanoia Viewer</h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.5</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -387,6 +387,21 @@
     </main>
     
     <script>
+        // LeanDepViz Viewer v0.1.5
+        const VIEWER_VERSION = '0.1.5';
+        
+        // Check library loading on page load
+        window.addEventListener('load', function() {
+            console.log('LeanDepViz Viewer v' + VIEWER_VERSION);
+            console.log('Libraries loaded:');
+            console.log('- d3:', typeof d3 !== 'undefined' ? 'OK' : 'FAILED');
+            console.log('- d3.graphviz:', typeof d3 !== 'undefined' && typeof d3.graphviz !== 'undefined' ? 'OK' : 'FAILED');
+            
+            if (typeof d3 === 'undefined' || typeof d3.graphviz === 'undefined') {
+                console.warn('Graph view will not work - d3-graphviz libraries failed to load from CDN');
+            }
+        });
+        
         let graphData = null;
         let reportData = null;
         let dotData = null;
@@ -474,17 +489,26 @@
                     .on("end", () => console.log("Graph rendered successfully"));
                 } catch (error) {
                 console.error('Graph rendering error:', error);
+                const hasEmbeddedDot = typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT;
                 graphViz.innerHTML = `
                     <div style="padding: 2rem; color: #f48771; background: #2d2d30; border-radius: 4px; margin: 2rem;">
                         <h3>Failed to render graph</h3>
                         <p style="margin-top: 0.5rem;">Error: ${error.message}</p>
+                        ${hasEmbeddedDot ? `
                         <p style="margin-top: 1rem; font-size: 0.9rem; color: #d4d4d4;">
-                            Try opening the DOT file with:
+                            The DOT data is embedded in this file, but the visualization library failed to load from CDN.
+                        </p>
+                        <button onclick="downloadDotFile()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #0e639c; color: white; border: none; border-radius: 3px; cursor: pointer;">
+                            Download DOT file
+                        </button>
+                        ` : ''}
+                        <p style="margin-top: 1rem; font-size: 0.9rem; color: #d4d4d4;">
+                            View the graph with:
                         </p>
                         <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #d4d4d4;">
+                            <li><a href="https://dreampuf.github.io/GraphvizOnline/" target="_blank" style="color: #4ec9b0;">GraphvizOnline</a> (paste DOT content)</li>
                             <li>GraphViz desktop tools</li>
                             <li>VS Code with GraphViz extension</li>
-                            <li>Online viewers like <a href="https://dreampuf.github.io/GraphvizOnline/" target="_blank" style="color: #4ec9b0;">GraphvizOnline</a></li>
                         </ul>
                     </div>
                 `;
@@ -652,6 +676,21 @@
             div.textContent = text;
             return div.innerHTML;
         }
+        
+        // Download embedded DOT file
+        window.downloadDotFile = function() {
+            if (typeof window.EMBEDDED_DOT !== 'undefined' && window.EMBEDDED_DOT) {
+                const blob = new Blob([window.EMBEDDED_DOT], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dependency-graph.dot';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        };
     </script>
 
     <script>
