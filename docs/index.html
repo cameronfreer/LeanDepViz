@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeanDepViz + LeanParanoia Viewer</title>
+    <title>LeanDepViz</title>
     <script src="https://d3js.org/d3.v7.min.js" onerror="console.error('Failed to load d3.js')"></script>
     <script src="https://unpkg.com/@hpcc-js/wasm@2.16.2/dist/graphviz.umd.js" onerror="console.error('Failed to load GraphViz WASM')"></script>
     <script src="https://unpkg.com/d3-graphviz@5.6.0/build/d3-graphviz.js" onerror="console.error('Failed to load d3-graphviz')"></script>
@@ -272,7 +272,7 @@
 </head>
 <body>
     <header>
-        <h1>🔍 LeanDepViz + LeanParanoia Viewer</h1>
+        <h1>🔍 LeanDepViz <span style="font-size: 0.5em; color: #888; font-weight: normal;">v0.1.5</span></h1>
         
         <div class="controls">
             <div class="file-input">
@@ -378,8 +378,12 @@
     </main>
     
     <script>
+        // LeanDepViz Viewer v0.1.5
+        const VIEWER_VERSION = '0.1.5';
+        
         // Check library loading on page load
         window.addEventListener('load', function() {
+            console.log('LeanDepViz Viewer v' + VIEWER_VERSION);
             console.log('Libraries loaded:');
             console.log('- d3:', typeof d3 !== 'undefined' ? 'OK' : 'FAILED');
             console.log('- d3.graphviz:', typeof d3 !== 'undefined' && typeof d3.graphviz !== 'undefined' ? 'OK' : 'FAILED');
