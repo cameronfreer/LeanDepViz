@@ -261,7 +261,7 @@ Use `--fresh` flag for thorough checking including imports (slower but more comp
 
 ### SafeVerify - Reference vs Implementation
 
-[SafeVerify](https://github.com/Timeroot/SafeVerify) compares a reference/specification version against an implementation to ensure they match.
+[SafeVerify](https://github.com/GasStationManager/SafeVerify) compares a reference/specification version against an implementation to ensure they match.
 
 **What it checks**:
 - Statement equality (theorems haven't changed)
@@ -617,4 +617,5 @@ Contributions are welcome! Please:
 
 - [LeanParanoia](https://github.com/oOo0oOo/LeanParanoia) - Policy-driven verifier
 - [lean4checker](https://github.com/leanprover/lean4checker) - Environment replay tool
+- [SafeVerify](https://github.com/GasStationManager/SafeVerify) - Reference vs implementation comparison
 - [Graphviz](https://graphviz.org/) - Graph visualization software
