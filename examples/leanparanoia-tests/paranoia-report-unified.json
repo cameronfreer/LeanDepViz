@@ -1,0 +1,42 @@
+{
+  "tool": "paranoia",
+  "version": "0.1.0",
+  "timestamp": "2024-11-02T04:05:00+00:00",
+  "declarations": [
+    {
+      "decl": "bad_theorem",
+      "zone": "Test",
+      "ok": false,
+      "kind": "thm",
+      "module": "Test.Basic",
+      "exit": 1,
+      "checks": ["disallowed-axioms"],
+      "error": "Uses disallowed axioms: bad_axiom"
+    },
+    {
+      "decl": "bad_axiom",
+      "zone": "Test",
+      "ok": false,
+      "kind": "axiom",
+      "module": "Test.Basic",
+      "exit": 1,
+      "checks": ["custom-axiom"],
+      "error": "Custom axiom (proves False)"
+    },
+    {
+      "decl": "good_theorem",
+      "zone": "Test",
+      "ok": true,
+      "kind": "thm",
+      "module": "Test.Basic",
+      "exit": 0,
+      "checks": ["policy-pass"],
+      "notes": "All policy checks passed"
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 1,
+    "failed": 2
+  }
+}
