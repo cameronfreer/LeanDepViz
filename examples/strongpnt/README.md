@@ -34,7 +34,17 @@ cd ~/work/exch-repos/strongpnt
 lake exe depviz --roots StrongPNT --json-out strongpnt.json --dot-out strongpnt.dot
 ```
 
+## Multi-Checker Verification Status
+
+**Currently**: Dependency graph visualization only ✓  
+**LeanParanoia**: ❌ Incompatible (requires Lean v4.24.0, StrongPNT uses v4.21.0)  
+**lean4checker**: Not tested yet  
+**SafeVerify**: Not tested yet  
+
+See [VERIFICATION_STATUS.md](VERIFICATION_STATUS.md) for details on version compatibility and future plans.
+
 ## Note
 
 The StrongPNT source code is NOT included in the LeanDepViz repository. 
 This directory only contains the extracted dependency graph data and configuration.
+Clone StrongPNT separately at: https://github.com/math-inc/strongpnt
