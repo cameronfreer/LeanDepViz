@@ -6,6 +6,8 @@ This is the hosted version of the LeanDepViz interactive viewer.
 
 **View the tool**: [https://cameronfreer.github.io/LeanDepViz/](https://cameronfreer.github.io/LeanDepViz/)
 
+**Example output**: [Exchangeability Project Dependencies](https://cameronfreer.github.io/LeanDepViz/example-exchangeability.html) - See a real-world example of dependency analysis from a probability theory formalization project
+
 ## How to Use
 
 1. Visit the URL above
