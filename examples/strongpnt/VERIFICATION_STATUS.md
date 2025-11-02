@@ -14,7 +14,8 @@ We have successfully extracted the dependency graph for StrongPNT:
 **StrongPNT**: Lean v4.21.0 (October 2024)  
 **LeanParanoia**: Lean v4.24.0 (requires API not in v4.21.0) ❌  
 **lean4checker**: Lean v4.25.0-rc2 (incompatible .olean format) ❌  
-**SafeVerify**: Requires baseline + implementation (N/A for single version) ⚠️
+**SafeVerify**: Requires baseline + implementation (N/A for single version) ⚠️  
+**Upgrade Attempted**: v4.21.0 → v4.25.0-rc2 (100+ import errors, non-trivial) ❌
 
 ### Technical Details
 
@@ -39,11 +40,19 @@ SafeVerify requires two versions to compare (baseline reference vs implementatio
 
 ### Options to Enable Multi-Checker Verification
 
-1. **Update StrongPNT to Lean v4.24.0**
-   - Update `lean-toolchain` to `leanprover/lean4:v4.24.0`
-   - Update Mathlib to v4.24.0
-   - Rebuild and test all proofs
-   - This is the recommended long-term solution
+1. **Update StrongPNT to Lean v4.24.0+** ⚠️ **Attempted - Not Trivial**
+   - **Tried**: Upgrading to v4.25.0-rc2
+   - **Result**: 100+ import errors due to Mathlib reorganization
+   - **Examples of broken imports**:
+     - `Mathlib.Analysis.Calculus.ContDiff.Basic` → moved/renamed
+     - `Mathlib.Order.Filter.ZeroAndBoundedAtFilter` → moved/renamed  
+     - `Mathlib.Analysis.Fourier.RiemannLebesgueLemma` → moved/renamed
+   - **Effort Required**: Substantial - would need to:
+     - Fix all import paths across StrongPNT and PrimeNumberTheoremAnd
+     - Address API changes in Mathlib between v4.21.0 and v4.25.0-rc2
+     - Re-verify all proofs still compile
+     - Likely a multi-day effort for the project maintainers
+   - **Recommendation**: Wait for official upgrade by StrongPNT maintainers
 
 2. **Wait for LeanParanoia backport**
    - LeanParanoia could add compatibility with older Lean versions
