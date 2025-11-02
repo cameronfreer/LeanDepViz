@@ -1,0 +1,9 @@
+digraph DepViz {
+  rankdir=LR;
+  node [shape=ellipse, fontsize=10, fontname="Helvetica"];
+  edge [arrowsize=0.8];
+  "bad_theorem" [label="bad_theorem\nAXIOM, NONCOMP", color="#e6972b", style="filled", tooltip="Test.Basic"];
+  "bad_axiom" [label="bad_axiom", color="#bbbbbb", style="filled", tooltip="Test.Basic"];
+  "good_theorem" [label="good_theorem", color="#bbbbbb", style="filled", tooltip="Test.Basic"];
+  "bad_axiom" -> "bad_theorem" [style="solid", label="value", fontsize=8];
+}

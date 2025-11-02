@@ -1,0 +1,36 @@
+{
+  "results": [
+    {
+      "decl": "Test.Basic.bad_theorem",
+      "zone": "Test",
+      "ok": false,
+      "kind": "thm",
+      "module": "Test.Basic",
+      "exit": 1,
+      "error": "Uses disallowed axioms: bad_axiom"
+    },
+    {
+      "decl": "Test.Basic.bad_axiom",
+      "zone": "Test",
+      "ok": false,
+      "kind": "axiom",
+      "module": "Test.Basic",
+      "exit": 1,
+      "error": "Custom axiom (proves False)"
+    },
+    {
+      "decl": "Test.Basic.good_theorem",
+      "zone": "Test",
+      "ok": true,
+      "kind": "thm",
+      "module": "Test.Basic",
+      "exit": 0
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 1,
+    "failed": 2,
+    "mode": "manual"
+  }
+}

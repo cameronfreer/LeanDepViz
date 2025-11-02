@@ -15,6 +15,36 @@ This embedded HTML shows:
 
 Open the demo to see LeanParanoia detection in action! The viewer shows which declarations pass/fail and why.
 
+## Output Files
+
+This directory includes complete output from the test project in all formats:
+
+### Source Code
+- **Basic.lean** - The test file with good and bad theorems
+
+### Dependency Graph Formats
+- **test-depgraph.json** (589B) - Machine-readable dependency data
+- **test-graph.dot** (486B) - GraphViz DOT format
+- **test-graph.svg** (2.2KB) - Scalable vector graphic
+- **test-graph.png** (11KB) - Raster image
+
+### Verification Results
+- **paranoia-report.json** (694B) - LeanParanoia verification report
+- **leanparanoia-test-demo.html** (27KB) - Interactive viewer with all data embedded
+
+### File Sizes Summary
+| Format | Size | Purpose |
+|--------|------|---------|
+| Source | N/A | Lean code |
+| JSON | 589B | Dependency data |
+| DOT | 486B | Graph source |
+| SVG | 2.2KB | Vector visualization |
+| PNG | 11KB | Raster visualization |
+| Report | 694B | Verification results |
+| HTML | 27KB | Complete interactive viewer |
+
+**Total**: ~42KB for complete verification demo
+
 ## Examples
 
 ### ProveFalse.lean
