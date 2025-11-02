@@ -753,13 +753,19 @@
     
     <!-- Load d3-graphviz libraries from vendor/ (same-origin, no CDN issues) -->
     <!-- D3 v7.9.0 -->
-    <script src="vendor/d3.min.js" onerror="console.error('Failed to load vendor/d3.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'; document.body.appendChild(s);"></script>
+    <script src="vendor/d3.min.js" 
+            onload="console.log('✓ vendor/d3.min.js loaded')"
+            onerror="console.error('✗ Failed to load vendor/d3.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'; s.onload=function(){console.log('✓ D3 loaded from CDN fallback')}; document.body.appendChild(s);"></script>
     
     <!-- HPCC Graphviz WASM v2.20.0 -->
-    <script src="vendor/graphviz.umd.js" onerror="console.error('Failed to load vendor/graphviz.umd.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js'; document.body.appendChild(s);"></script>
+    <script src="vendor/graphviz.umd.js"
+            onload="console.log('✓ vendor/graphviz.umd.js loaded')"
+            onerror="console.error('✗ Failed to load vendor/graphviz.umd.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js'; s.onload=function(){console.log('✓ GraphViz WASM loaded from CDN fallback')}; document.body.appendChild(s);"></script>
     
     <!-- d3-graphviz v5.6.0 -->
-    <script src="vendor/d3-graphviz.min.js" onerror="console.error('Failed to load vendor/d3-graphviz.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js'; document.body.appendChild(s);"></script>
+    <script src="vendor/d3-graphviz.min.js"
+            onload="console.log('✓ vendor/d3-graphviz.min.js loaded')"
+            onerror="console.error('✗ Failed to load vendor/d3-graphviz.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js'; s.onload=function(){console.log('✓ d3-graphviz loaded from CDN fallback')}; document.body.appendChild(s);"></script>
     
     <script>
         // Wait a moment for scripts to execute, then verify
