@@ -744,36 +744,35 @@
     
     <!-- Load d3-graphviz libraries from vendor/ (same-origin, no CDN issues) -->
     <!-- D3 v7.9.0 -->
-    <script src="vendor/d3.min.js"></script>
+    <script src="vendor/d3.min.js" onerror="console.error('Failed to load vendor/d3.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js'; document.body.appendChild(s);"></script>
     
     <!-- HPCC Graphviz WASM v2.20.0 -->
-    <script src="vendor/graphviz.umd.js"></script>
+    <script src="vendor/graphviz.umd.js" onerror="console.error('Failed to load vendor/graphviz.umd.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@2.20.0/dist/graphviz.umd.js'; document.body.appendChild(s);"></script>
     
     <!-- d3-graphviz v5.6.0 -->
-    <script src="vendor/d3-graphviz.min.js"></script>
+    <script src="vendor/d3-graphviz.min.js" onerror="console.error('Failed to load vendor/d3-graphviz.min.js - trying CDN'); this.remove(); var s = document.createElement('script'); s.src='https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js'; document.body.appendChild(s);"></script>
     
     <script>
-        // Verify libraries loaded after all scripts
-        console.log('=== Final library check (vendored assets) ===');
-        console.log('window.d3:', typeof window.d3);
-        console.log('d3.select:', typeof (window.d3 && window.d3.select));
-        console.log('window.d3.graphviz:', typeof (window.d3 && window.d3.graphviz));
-        console.log('window.hpccWasm:', typeof window.hpccWasm);
-        
-        if (window.d3 && typeof d3.graphviz === 'function') {
-            console.log('✅ SUCCESS: All libraries loaded from vendor/');
-        } else if (window.d3 && !window.d3.graphviz) {
-            console.error('❌ FAILED: d3 loaded but d3.graphviz missing');
-            console.log('Falling back to CDN...');
+        // Wait a moment for scripts to execute, then verify
+        setTimeout(function() {
+            console.log('=== Final library check (vendored assets) ===');
+            console.log('window.d3:', typeof window.d3);
+            console.log('d3.select:', typeof (window.d3 && window.d3.select));
+            console.log('window.d3.graphviz:', typeof (window.d3 && window.d3.graphviz));
+            console.log('window.hpccWasm:', typeof window.hpccWasm);
             
-            // Fallback to CDN if vendor fails
-            const script = document.createElement('script');
-            script.src = 'https://cdn.jsdelivr.net/npm/d3-graphviz@5.6.0/build/d3-graphviz.min.js';
-            script.onload = function() {
-                console.log('Fallback: d3.graphviz =', typeof d3.graphviz);
-            };
-            document.body.appendChild(script);
-        }
+            if (window.d3 && typeof d3.graphviz === 'function') {
+                console.log('✅ SUCCESS: All libraries loaded successfully');
+            } else if (window.d3 && !window.d3.graphviz) {
+                console.error('❌ FAILED: d3 loaded but d3.graphviz missing');
+                console.log('Note: If opening file:// directly, try using http://localhost instead');
+                console.log('Run: python serve.py');
+                console.log('Then open: http://localhost:8000/docs/');
+            } else {
+                console.error('❌ FAILED: d3 not loaded at all');
+                console.log('Check browser console for script loading errors');
+            }
+        }, 100);  // Small delay to let scripts execute
     </script>
 </body>
 </html>

@@ -93,6 +93,13 @@ open paranoia-viewer.html
 
 Want to see what LeanDepViz produces? Check out the examples:
 
+> **Note**: To view examples locally, use a local web server instead of opening files directly:
+> ```bash
+> python serve.py
+> # Then open http://localhost:8000/docs/
+> ```
+> This is required for the Graph View to work correctly (browser security restrictions).
+
 ### Real-World Project Output
 `examples/output/` - Complete output from the [Exchangeability project](https://github.com/cameronfreer/exchangeability) (probability theory formalization with ~800 declarations):
 
