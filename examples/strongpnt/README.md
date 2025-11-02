@@ -25,12 +25,20 @@ The StrongPNT project provides a complete formalization of the strong form of th
 - `strongpnt.dot` - Dependency graph in DOT format  
 - `strongpnt-embedded.html` - Interactive viewer with embedded data
 
-## Generation
+## How to Generate
 
-Generated from StrongPNT project at commit: (see git log)
+To extract the dependency graph from your own StrongPNT checkout:
 
 ```bash
-cd ~/work/exch-repos/strongpnt
+# Clone StrongPNT
+git clone https://github.com/math-inc/strongpnt.git
+cd strongpnt
+
+# Add LeanDepViz and build
+# (Add LeanDepViz to lakefile.toml or use a local copy)
+lake build depviz
+
+# Generate dependency graph
 lake exe depviz --roots StrongPNT --json-out strongpnt.json --dot-out strongpnt.dot
 ```
 
