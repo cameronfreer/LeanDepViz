@@ -9,20 +9,33 @@ We have successfully extracted the dependency graph for StrongPNT:
 
 ## Multi-Checker Verification: Not Yet Compatible ❌
 
-### Version Incompatibility
+### Version Incompatibility Summary
 
 **StrongPNT**: Lean v4.21.0 (October 2024)  
-**LeanParanoia**: Lean v4.24.0 (December 2024)
+**LeanParanoia**: Lean v4.24.0 (requires API not in v4.21.0) ❌  
+**lean4checker**: Lean v4.25.0-rc2 (incompatible .olean format) ❌  
+**SafeVerify**: Requires baseline + implementation (N/A for single version) ⚠️
 
 ### Technical Details
 
+#### LeanParanoia
 Attempted to add LeanParanoia but encountered compilation errors:
 ```
 error: LeanParanoia/Helpers.lean:174:2: invalid field 'foldl', 
 the environment does not contain 'Lean.NameSet.foldl'
 ```
-
 LeanParanoia uses APIs from Lean v4.24.0 that don't exist in v4.21.0.
+
+#### lean4checker  
+Built successfully but cannot replay StrongPNT modules:
+```
+uncaught exception: failed to read file '.../PNT5_Strong.olean', 
+incompatible header
+```
+The lean4checker bundled with LeanParanoia uses Lean v4.25.0-rc2, which produces incompatible `.olean` files with v4.21.0.
+
+#### SafeVerify
+SafeVerify requires two versions to compare (baseline reference vs implementation). Since we only have one version of StrongPNT, this tool isn't applicable without creating a baseline fork or using git history.
 
 ### Options to Enable Multi-Checker Verification
 

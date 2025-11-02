@@ -46,10 +46,12 @@ lake exe depviz --roots StrongPNT --json-out strongpnt.json --dot-out strongpnt.
 
 **Currently**: Dependency graph visualization only ✓  
 **LeanParanoia**: ❌ Incompatible (requires Lean v4.24.0, StrongPNT uses v4.21.0)  
-**lean4checker**: Not tested yet  
-**SafeVerify**: Not tested yet  
+**lean4checker**: ❌ Incompatible (.olean format mismatch with v4.25.0-rc2)  
+**SafeVerify**: ⚠️  N/A (requires baseline + implementation versions)  
 
-See [VERIFICATION_STATUS.md](VERIFICATION_STATUS.md) for details on version compatibility and future plans.
+**Root Cause**: StrongPNT uses Lean v4.21.0 (October 2024), but all current verification tools require v4.24.0+ (December 2024+).
+
+See [VERIFICATION_STATUS.md](VERIFICATION_STATUS.md) for detailed technical analysis and options.
 
 ## Note
 
