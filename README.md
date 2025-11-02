@@ -50,8 +50,8 @@ lake exe depviz --roots MyProject --json-out depgraph.json --dot-out depgraph.do
 ```
 
 This creates:
-- `depgraph.json` - Machine-readable format for verification
-- `depgraph.dot` - GraphViz format for visualization
+- `depgraph.json` - Machine-readable format for verification (for Table View)
+- `depgraph.dot` - GraphViz format for visualization (for Graph View)
 
 ### 2. (Optional) Run Policy-Based Verification
 
@@ -83,7 +83,10 @@ cp .lake/packages/LeanDepViz/viewer/paranoia-viewer.html ./
 
 # Open in browser
 open paranoia-viewer.html
-# Load depgraph.json and (optionally) paranoia_report.json
+
+# Then load your files:
+# - In Table View: Load depgraph.json and (optionally) paranoia_report.json
+# - In Graph View: Load depgraph.dot for visual graph
 ```
 
 ## Example Outputs
@@ -242,11 +245,20 @@ Each zone in your policy can have different rules.
 
 ## Interactive Viewer
 
-The `viewer/paranoia-viewer.html` file provides a web-based interface to:
-- View all declarations with their verification status
+The `viewer/paranoia-viewer.html` file provides a web-based interface with **two viewing modes**:
+
+### 📊 Table View
+- Browse all declarations with verification status
 - Filter by pass/fail, zone, or search text
 - See detailed error messages for failing checks
 - Identify which axioms are used by each declaration
+- Click any row for detailed information
+
+### 🕸️ Graph View
+- **Visual dependency graph** rendered from DOT files
+- Interactive zoom and pan
+- See the full structure of your project
+- Load with: `lake exe depviz --roots YourProject --dot-out graph.dot`
 
 No server required - pure client-side JavaScript that works offline.
 

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeanDepViz + LeanParanoia Viewer</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/@hpcc-js/wasm@2.5.0/dist/index.min.js"></script>
+    <script src="https://unpkg.com/d3-graphviz@5.0.2/build/d3-graphviz.js"></script>
     <style>
         * {
             margin: 0;
@@ -70,10 +73,45 @@
             background: #1177bb;
         }
         
+        button.secondary {
+            background: #3c3c3c;
+        }
+        
+        button.secondary:hover {
+            background: #4c4c4c;
+        }
+        
         select {
             background: #3c3c3c;
             color: #d4d4d4;
             padding: 0.4rem 0.8rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            border-bottom: 1px solid #3c3c3c;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 0.95rem;
+        }
+        
+        .tab:hover {
+            color: #d4d4d4;
+            background: #2d2d30;
+        }
+        
+        .tab.active {
+            color: #fff;
+            border-bottom-color: #0e639c;
         }
         
         .stats {
@@ -117,11 +155,32 @@
             overflow: hidden;
         }
         
-        #graph-container {
+        #content-area {
             flex: 1;
             overflow: auto;
             padding: 2rem;
             background: #1e1e1e;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        #graph-viz {
+            width: 100%;
+            height: calc(100vh - 300px);
+            background: #fff;
+            border-radius: 4px;
+            overflow: auto;
+        }
+        
+        #graph-viz svg {
+            max-width: 100%;
+            height: auto;
         }
         
         #sidebar {
@@ -130,92 +189,6 @@
             border-left: 1px solid #3c3c3c;
             overflow-y: auto;
             padding: 1rem;
-        }
-        
-        .node-item {
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            background: #2d2d30;
-            border-radius: 4px;
-            border-left: 3px solid #888;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .node-item:hover {
-            background: #333337;
-        }
-        
-        .node-item.passed {
-            border-left-color: #4ec9b0;
-        }
-        
-        .node-item.failed {
-            border-left-color: #f48771;
-        }
-        
-        .node-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-        }
-        
-        .node-info {
-            font-size: 0.75rem;
-            color: #888;
-        }
-        
-        .node-details {
-            margin-top: 0.5rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid #3c3c3c;
-            font-size: 0.8rem;
-        }
-        
-        .error-msg {
-            color: #f48771;
-            margin-top: 0.5rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            background: #1e1e1e;
-            padding: 0.5rem;
-            border-radius: 3px;
-            overflow-x: auto;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.15rem 0.4rem;
-            border-radius: 3px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-right: 0.25rem;
-        }
-        
-        .badge.passed {
-            background: #4ec9b044;
-            color: #4ec9b0;
-        }
-        
-        .badge.failed {
-            background: #f4877144;
-            color: #f48771;
-        }
-        
-        .badge.sorry {
-            background: #d7371544;
-            color: #f48771;
-        }
-        
-        .badge.axiom {
-            background: #e6972b44;
-            color: #e6972b;
-        }
-        
-        .badge.unsafe {
-            background: #55555544;
-            color: #aaa;
         }
         
         table {
@@ -260,6 +233,41 @@
             border-radius: 4px;
             align-items: center;
         }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 0.25rem;
+        }
+        
+        .badge.passed {
+            background: #4ec9b044;
+            color: #4ec9b0;
+        }
+        
+        .badge.failed {
+            background: #f4877144;
+            color: #f48771;
+        }
+        
+        .badge.sorry {
+            background: #d7371544;
+            color: #f48771;
+        }
+        
+        .badge.axiom {
+            background: #e6972b44;
+            color: #e6972b;
+        }
+        
+        .badge.unsafe {
+            background: #55555544;
+            color: #aaa;
+        }
     </style>
 </head>
 <body>
@@ -273,9 +281,19 @@
             </div>
             
             <div class="file-input">
+                <label for="dot-file">DOT File (for graph view):</label>
+                <input type="file" id="dot-file" accept=".dot">
+            </div>
+            
+            <div class="file-input">
                 <label for="report-file">Paranoia Report:</label>
                 <input type="file" id="report-file" accept=".json">
             </div>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('table')">📊 Table View</button>
+            <button class="tab" onclick="switchTab('graph')">🕸️ Graph View</button>
         </div>
         
         <div class="filter-bar">
@@ -318,23 +336,37 @@
     </header>
     
     <main>
-        <div id="graph-container">
-            <div class="empty-state">
-                <p>Load a dependency graph JSON file and paranoia report to begin.</p>
+        <div id="content-area">
+            <!-- Table View -->
+            <div id="table-view" class="view active">
+                <div class="empty-state">
+                    <p>Load a dependency graph JSON file to begin.</p>
+                </div>
+                <table id="nodes-table" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Declaration</th>
+                            <th>Module</th>
+                            <th>Kind</th>
+                            <th>Zone</th>
+                            <th>Flags</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nodes-tbody"></tbody>
+                </table>
             </div>
-            <table id="nodes-table" class="hidden">
-                <thead>
-                    <tr>
-                        <th>Status</th>
-                        <th>Declaration</th>
-                        <th>Module</th>
-                        <th>Kind</th>
-                        <th>Zone</th>
-                        <th>Flags</th>
-                    </tr>
-                </thead>
-                <tbody id="nodes-tbody"></tbody>
-            </table>
+            
+            <!-- Graph View -->
+            <div id="graph-view" class="view">
+                <div class="empty-state">
+                    <p>Load a DOT file to visualize the dependency graph.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                        Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
+                    </p>
+                </div>
+                <div id="graph-viz" class="hidden"></div>
+            </div>
         </div>
         
         <div id="sidebar">
@@ -348,8 +380,24 @@
     <script>
         let graphData = null;
         let reportData = null;
+        let dotData = null;
         let statusMap = new Map();
         let zones = new Set();
+        let currentTab = 'table';
+        
+        // Tab switching
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tab}-view`).classList.add('active');
+            
+            if (tab === 'graph' && dotData) {
+                renderGraph();
+            }
+        }
         
         // File loading
         document.getElementById('graph-file').addEventListener('change', async (e) => {
@@ -358,6 +406,16 @@
                 const text = await file.text();
                 graphData = JSON.parse(text);
                 updateView();
+            }
+        });
+        
+        document.getElementById('dot-file').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                dotData = await file.text();
+                if (currentTab === 'graph') {
+                    renderGraph();
+                }
             }
         });
         
@@ -374,6 +432,24 @@
         document.getElementById('status-filter').addEventListener('change', updateView);
         document.getElementById('zone-filter').addEventListener('change', updateView);
         document.getElementById('search-box').addEventListener('input', updateView);
+        
+        // Render graph with d3-graphviz
+        function renderGraph() {
+            if (!dotData) return;
+            
+            const graphViz = document.getElementById('graph-viz');
+            const emptyState = document.querySelector('#graph-view .empty-state');
+            
+            emptyState.classList.add('hidden');
+            graphViz.classList.remove('hidden');
+            graphViz.innerHTML = ''; // Clear previous
+            
+            d3.select("#graph-viz")
+                .graphviz()
+                .zoom(true)
+                .fit(true)
+                .renderDot(dotData);
+        }
         
         function updateView() {
             if (!graphData) return;
@@ -416,18 +492,12 @@
             const searchText = document.getElementById('search-box').value.toLowerCase();
             
             const filtered = nodes.filter(n => {
-                // Status filter
                 if (statusFilter === 'failed' && (!n.status || n.status.ok)) return false;
                 if (statusFilter === 'passed' && (!n.status || !n.status.ok)) return false;
                 if (statusFilter === 'sorry' && !n.hasSorry) return false;
                 if (statusFilter === 'axiom' && (!n.axioms || n.axioms.length === 0)) return false;
-                
-                // Zone filter
                 if (zoneFilterVal !== 'all' && (!n.status || n.status.zone !== zoneFilterVal)) return false;
-                
-                // Search filter
                 if (searchText && !n.fullName.toLowerCase().includes(searchText)) return false;
-                
                 return true;
             });
             
@@ -448,7 +518,7 @@
         function renderTable(nodes) {
             const table = document.getElementById('nodes-table');
             const tbody = document.getElementById('nodes-tbody');
-            const emptyState = document.querySelector('.empty-state');
+            const emptyState = document.querySelector('#table-view .empty-state');
             
             if (nodes.length === 0) {
                 table.classList.add('hidden');
@@ -523,16 +593,7 @@
                 
                 if (!status.ok) {
                     const error = status.error || status.stderr || status.stdout || 'Unknown error';
-                    html += `<div class="error-msg">${escapeHtml(error)}</div>`;
-                }
-                
-                if (status.cmd) {
-                    html += `
-                        <details style="margin-top: 1rem;">
-                            <summary style="cursor: pointer; color: #888;">Command</summary>
-                            <pre style="margin-top: 0.5rem; padding: 0.5rem; background: #1e1e1e; border-radius: 3px; overflow-x: auto; font-size: 0.75rem;">${escapeHtml(status.cmd)}</pre>
-                        </details>
-                    `;
+                    html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
                 }
             } else {
                 html += `

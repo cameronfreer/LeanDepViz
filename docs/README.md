@@ -10,10 +10,19 @@ This is the hosted version of the LeanDepViz interactive viewer.
 
 ## How to Use
 
+The viewer has **two modes**: Table View and Graph View
+
+### Table View
 1. Visit the URL above
 2. Click "Choose File" next to "Dependency Graph" and select your `depgraph.json`
 3. (Optional) Click "Choose File" next to "Paranoia Report" and select your `paranoia_report.json`
 4. Explore your project's dependencies with filters and search
+
+### Graph View
+1. Click the "🕸️ Graph View" tab
+2. Click "Choose File" next to "DOT File" and select your `graph.dot`
+3. Interact with the visual graph (zoom, pan, explore)
+4. Switch back to Table View for detailed information on any declaration
 
 ## Privacy
 
