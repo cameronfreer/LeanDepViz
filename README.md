@@ -283,12 +283,14 @@ Create a self-contained HTML file with your data embedded:
 ```bash
 python .lake/packages/LeanDepViz/scripts/embed_data.py \
   --depgraph depgraph.json \
+  --dot depgraph.dot \
   --report paranoia_report.json \
   --output my-project-report.html
 ```
 
 This creates a single HTML file that:
-- Contains all your data embedded
+- Contains all your data embedded (JSON graph + DOT graph + verification report)
+- **Both Table View and Graph View work** without file uploads
 - Can be opened directly in any browser
 - Can be hosted on GitHub Pages, Vercel, Netlify, or any static hosting
 - Requires no server - works completely offline
