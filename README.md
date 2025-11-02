@@ -107,20 +107,26 @@ Want to see what LeanDepViz produces? Check out the examples:
 - **All formats**: JSON, DOT, SVG, PNG, and embedded HTML
 - See `examples/output/README.md` for details about each format and file sizes
 
-### LeanParanoia Test Cases
-`examples/leanparanoia-tests/` - Test files demonstrating exploits that LeanParanoia can detect:
+### Multi-Checker Verification Demo
+`examples/leanparanoia-tests/` - Comprehensive demo with multiple verification tools:
 
-- **🎯 [All Examples Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - 12 declarations showing all exploit categories
-- **📊 [Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration demo
+**🎯 [Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** (Recommended) - **12 declarations verified by 3 tools**
 
-**Example Files**:
-- **Custom Axioms**: ProveFalse.lean, ProveAnything.lean
-- **Sorry Usage**: SorryDirect.lean
-- **Unsafe Code**: UnsafeDefinition.lean
-- **Partial Functions**: PartialNonTerminating.lean
-- **Valid Code**: ValidSimple.lean, Basic.lean
+Shows defense-in-depth verification with:
+- **LeanParanoia**: Policy enforcement
+- **lean4checker**: Kernel replay
+- **SafeVerify**: Reference vs implementation
 
-See `examples/leanparanoia-tests/README.md` for details and testing instructions
+Results: ✅ 2 Pass (all tools) | ❌ 10 Fail (various exploits caught by multiple checkers)
+
+**Example Categories**:
+- 🔴 Custom Axioms | 🟡 Sorry Usage | 🟠 Unsafe Code | 🟣 Partial Functions | 🟢 Valid Code
+
+**Legacy Demos** (single-tool):
+- **📊 [Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - 3 declarations (LeanParanoia only)
+- **📈 [All Examples](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - 12 declarations (LeanParanoia only)
+
+See `examples/leanparanoia-tests/README.md` for details
 
 ## Usage
 

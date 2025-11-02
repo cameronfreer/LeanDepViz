@@ -1,6 +1,6 @@
 # Multi-Checker Integration Branch
 
-**Status**: 🚧 Prototype/Testing
+**Status**: ✅ Ready for PR
 
 This branch implements a multi-checker verification architecture for defense-in-depth Lean code verification.
 
@@ -45,8 +45,12 @@ python scripts/embed_data.py \
 
 ## Testing
 
-Try the example workflow:
+**View the comprehensive demo**:
+```bash
+open ~/work/exch-repos/LeanDepViz/docs/verification-demo.html
+```
 
+Or try the example workflow:
 ```bash
 ./examples/multi-checker-example.sh
 ```

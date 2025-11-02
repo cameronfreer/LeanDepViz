@@ -6,27 +6,30 @@ These examples demonstrate various exploits that LeanParanoia is designed to det
 
 ## Live Demos
 
-### 🎯 All Examples Combined
-**[View All Examples Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - Comprehensive demo with all exploit categories
+### 🎯 **Comprehensive Verification Demo** (Recommended)
+**[View Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** - All LeanParanoia examples with multi-checker verification
 
-Shows 12 declarations:
-- ✅ **2 Pass**: Valid code with standard axioms only
-- ❌ **10 Fail**: Various exploits (custom axioms, sorry, unsafe, partial)
+Shows **12 declarations** with **3 verification tools**:
+- ✅ **2 Pass**: Valid code passing all checks
+- ❌ **10 Fail**: Various exploits caught by multiple checkers
 
-Categories demonstrated:
-- 🔴 **Custom Axioms**: bad_axiom, exploit_axiom
-- 🟡 **Sorry Usage**: exploit_theorem (from SorryDirect)
-- 🟠 **Unsafe Code**: unsafeProof, unsafeAddImpl, seeminglySafeAdd
-- 🟣 **Partial Functions**: loop (non-terminating)
+**Verification Tools**:
+- **LeanParanoia**: Policy enforcement (sorry, axioms, unsafe, partial)
+- **lean4checker**: Kernel replay verification
+- **SafeVerify**: Reference vs implementation comparison
+
+**Categories Demonstrated**:
+- 🔴 **Custom Axioms**: bad_axiom, custom_false
+- 🟡 **Sorry Usage**: exploit_theorem, sorry_proof
+- 🟠 **Unsafe Code**: exploit_value, unsafeCompute
+- 🟣 **Partial Functions**: loop, partial_def
 - 🟢 **Valid Code**: good_theorem, simple_theorem
 
-### 📊 Original Basic Demo
-**[View Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration demo
+### 📊 Legacy Single-Checker Demos
 
-Shows:
-- ✅ **good_theorem**: Passes (uses standard axioms)
-- ❌ **bad_theorem**: Fails (uses custom axiom)
-- ❌ **bad_axiom**: Custom axiom proving False
+**[Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration example (LeanParanoia only)
+
+**[All Examples (Single-Tool)](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - 12 declarations (LeanParanoia only)
 
 ## Output Files
 
