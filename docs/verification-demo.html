@@ -1154,24 +1154,24 @@
     "safeverify"
   ],
   "summary": {
-    "total_declarations": 12,
+    "total_declarations": 17,
     "passed_all": 2,
-    "failed_any": 10,
+    "failed_any": 15,
     "by_tool": {
       "paranoia": {
-        "total": 12,
+        "total": 17,
         "passed": 2,
-        "failed": 10
+        "failed": 15
       },
       "lean4checker": {
-        "total": 12,
+        "total": 17,
         "passed": 2,
-        "failed": 10
+        "failed": 15
       },
       "safeverify": {
-        "total": 12,
+        "total": 17,
         "passed": 2,
-        "failed": 10
+        "failed": 15
       }
     }
   },
@@ -1475,6 +1475,131 @@
         }
       },
       "checks": ["custom-axiom", "extra-axioms", "kernel-replay"]
+    },
+    {
+      "decl": "seeminglySafeAdd",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": ["unsafe"],
+          "error": "Uses unsafe implementation internally"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": ["kernel-replay"],
+          "error": "Unsafe code detected"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": ["unsafe"],
+          "error": "Depends on unsafe function"
+        }
+      },
+      "checks": ["unsafe", "kernel-replay"]
+    },
+    {
+      "decl": "exploit_theorem",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": ["unsafe", "uses-axiom"],
+          "error": "Uses unsafe axiom"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": ["kernel-replay"],
+          "error": "Depends on unsafe implementation"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": ["unsafe"],
+          "error": "Proof uses unsafe code"
+        }
+      },
+      "checks": ["unsafe", "uses-axiom", "kernel-replay"]
+    },
+    {
+      "decl": "exploit_axiom",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "axiom",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": ["custom-axiom"],
+          "error": "Unsafe axiom"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": ["kernel-replay"],
+          "error": "Custom axiom rejected"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": ["extra-axioms"],
+          "error": "Axiom not in allow-list"
+        }
+      },
+      "checks": ["custom-axiom", "extra-axioms", "kernel-replay"]
+    },
+    {
+      "decl": "unsafeAddImpl",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": ["unsafe"],
+          "error": "Unsafe implementation"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": ["kernel-replay"],
+          "error": "Unsafe code"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": ["unsafe"],
+          "error": "Uses unsafe operations"
+        }
+      },
+      "checks": ["unsafe", "kernel-replay"]
+    },
+    {
+      "decl": "unsafeProof",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": ["unsafe"],
+          "error": "Proof uses unsafe code"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": ["kernel-replay"],
+          "error": "Unsafe in proof"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": ["unsafe"],
+          "error": "Unsafe code detected in proof"
+        }
+      },
+      "checks": ["unsafe", "kernel-replay"]
     }
   ]
 }
