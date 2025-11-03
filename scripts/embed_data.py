@@ -19,17 +19,17 @@ import sys
 from pathlib import Path
 
 
-def embed_data(viewer_path: Path, depgraph_path: Path, report_path: Path, dot_path: Path, output_path: Path):
+def embed_data(viewer_path: Path, depgraph_path: Path, report_path: Path, dot_path: Path, svg_path: Path, output_path: Path):
     """
-    Create standalone HTML by embedding JSON and DOT data into the viewer.
+    Create standalone HTML by embedding JSON, DOT, and SVG data into the viewer.
     """
     # Read the viewer HTML
     viewer_html = viewer_path.read_text()
-    
+
     # Read JSON data
     depgraph_data = depgraph_path.read_text() if depgraph_path.exists() else "null"
     report_data = report_path.read_text() if report_path.exists() else "null"
-    
+
     # Read DOT data and escape for JavaScript string
     dot_data = "null"
     if dot_path and dot_path.exists():
@@ -37,7 +37,15 @@ def embed_data(viewer_path: Path, depgraph_path: Path, report_path: Path, dot_pa
         # Escape for JS string: backslashes, quotes, newlines
         escaped_dot = raw_dot.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '')
         dot_data = f'"{escaped_dot}"'
-    
+
+    # Read SVG data and escape for JavaScript string
+    svg_data = "null"
+    if svg_path and svg_path.exists():
+        raw_svg = svg_path.read_text()
+        # Escape for JS string: backslashes, quotes, newlines
+        escaped_svg = raw_svg.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '')
+        svg_data = f'"{escaped_svg}"'
+
     # Create embedded data script
     embedded_script = f"""
     <script>
@@ -45,6 +53,7 @@ def embed_data(viewer_path: Path, depgraph_path: Path, report_path: Path, dot_pa
         window.EMBEDDED_DEPGRAPH = {depgraph_data};
         window.EMBEDDED_REPORT = {report_data};
         window.EMBEDDED_DOT = {dot_data};
+        window.EMBEDDED_SVG = {svg_data};
         
         // Auto-load embedded data on page load
         document.addEventListener('DOMContentLoaded', function() {{
@@ -102,6 +111,10 @@ def embed_data(viewer_path: Path, depgraph_path: Path, report_path: Path, dot_pa
         print(f"  - Embedded DOT graph: {dot_path}")
     else:
         print(f"  - No DOT graph (file not found)")
+    if svg_path and svg_path.exists():
+        print(f"  - Embedded SVG preview: {svg_path}")
+    else:
+        print(f"  - No SVG preview (file not found)")
     print(f"\nYou can now:")
     print(f"  1. Open locally: open {output_path}")
     print(f"  2. Share the file directly")
@@ -133,18 +146,24 @@ def main():
         help="Path to DOT graph file (optional, for graph view)"
     )
     parser.add_argument(
+        "--svg",
+        default="",
+        help="Path to SVG preview file (optional, for large graphs)"
+    )
+    parser.add_argument(
         "--output",
         default="standalone-report.html",
         help="Output path for standalone HTML file"
     )
-    
+
     args = parser.parse_args()
-    
+
     # Convert to Path objects
     viewer_path = Path(args.viewer)
     depgraph_path = Path(args.depgraph)
     report_path = Path(args.report) if args.report else None
     dot_path = Path(args.dot) if args.dot else None
+    svg_path = Path(args.svg) if args.svg else None
     output_path = Path(args.output)
     
     # Check inputs exist
@@ -157,7 +176,7 @@ def main():
         sys.exit(1)
     
     # Generate standalone HTML
-    embed_data(viewer_path, depgraph_path, report_path, dot_path, output_path)
+    embed_data(viewer_path, depgraph_path, report_path, dot_path, svg_path, output_path)
 
 
 if __name__ == "__main__":

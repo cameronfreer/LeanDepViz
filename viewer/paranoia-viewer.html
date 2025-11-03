@@ -545,38 +545,7 @@
             emptyState.classList.add('hidden');
             graphViz.classList.remove('hidden');
 
-            // Check if graph is too large for browser rendering
-            const dotSizeKB = new Blob([dotData]).size / 1024;
-            const nodeCount = graphData ? graphData.nodes.length : 0;
-
-            if (dotSizeKB > 100 || nodeCount > 500) {
-                graphViz.innerHTML = `
-                    <div style="padding: 2rem; background: #2d2d30; border-radius: 4px; margin: 2rem;">
-                        <h3 style="color: #ffc83d; margin-bottom: 1rem;">⚠️ Graph Too Large for Browser Rendering</h3>
-                        <p style="color: #d4d4d4; margin-bottom: 1rem;">
-                            This dependency graph is too large to render in the browser
-                            (${nodeCount.toLocaleString()} nodes, ${dotSizeKB.toFixed(1)} KB DOT file).
-                        </p>
-                        <p style="color: #d4d4d4; margin-bottom: 1.5rem;">
-                            <strong>Recommended:</strong> Download the DOT file and render it locally with Graphviz.
-                        </p>
-                        <div style="background: #1e1e1e; padding: 1rem; border-radius: 4px; margin-bottom: 1.5rem;">
-                            <code style="color: #4ec9b0; display: block; margin-bottom: 0.5rem;">dot -Tsvg graph.dot -o graph.svg</code>
-                            <code style="color: #4ec9b0; display: block;">dot -Tpng graph.dot -o graph.png</code>
-                        </div>
-                        <button onclick="downloadDot()" style="background: #0e639c; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 4px; cursor: pointer; font-size: 1rem;">
-                            Download DOT File
-                        </button>
-                        <p style="color: #888; margin-top: 1.5rem; font-size: 0.9rem;">
-                            Browser-based rendering works best for graphs with &lt; 500 nodes.
-                            For larger graphs, use native Graphviz for better performance.
-                        </p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Show loading message for smaller graphs
+            // Show loading message
             graphViz.innerHTML = '<div id="graph-loading" style="padding: 2rem; text-align: center; color: #d4d4d4;">Loading graph... This may take a moment for large graphs.</div>';
 
             // Give the UI a moment to update
@@ -588,10 +557,12 @@
                 }
                 
                 console.log('Rendering graph with d3-graphviz...');
+                // Use container's actual height or default to 600
+                const containerHeight = graphViz.clientHeight || 600;
                 d3.select("#graph-viz")
                     .graphviz()
                     .width("100%")
-                    .height(500)
+                    .height(containerHeight)
                     .zoom(true)
                     .fit(true)
                     .on("initEnd", () => {
