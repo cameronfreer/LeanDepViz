@@ -1,0 +1,622 @@
+{
+  "_comment": "DEMONSTRATION DATA - This report contains manually crafted verification results for UI demonstration purposes. SafeVerify results are entirely mock (SafeVerify requires two versions to compare, but these test files exist in only one version). LeanParanoia and lean4checker results are plausible based on known tool behavior: lean4checker performs kernel replay and PASSES on sorry-only declarations (sorry is a valid proof term that compiles), but FAILS on axioms, unsafe, and partial issues. This showcases what a multi-tool verification report would look like.",
+  "merged_report": true,
+  "version": "1.0.0",
+  "tools": [
+    "paranoia",
+    "lean4checker",
+    "safeverify"
+  ],
+  "summary": {
+    "total_declarations": 17,
+    "passed_all": 2,
+    "failed_any": 15,
+    "by_tool": {
+      "paranoia": {
+        "total": 17,
+        "passed": 2,
+        "failed": 15
+      },
+      "lean4checker": {
+        "total": 17,
+        "passed": 4,
+        "failed": 13
+      },
+      "safeverify": {
+        "total": 17,
+        "passed": 2,
+        "failed": 15
+      }
+    }
+  },
+  "declarations": [
+    {
+      "decl": "LeanTestProject.Sorry.Direct.exploit_theorem",
+      "module": "LeanTestProject.Sorry.Direct",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "Uses sorry"
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Kernel replay successful (sorry is allowed)"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "Sorry found in implementation"
+        }
+      },
+      "checks": [
+        "sorry",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "LeanTestProject.Unsafe.Definition.exploit_value",
+      "module": "LeanTestProject.Unsafe.Definition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Unsafe declaration"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Unsafe declaration not allowed"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Unsafe code in implementation"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "LeanTestProject.Partial.NonTerminating.exploit_theorem",
+      "module": "LeanTestProject.Partial.NonTerminating",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "partial"
+          ],
+          "error": "Non-terminating partial function"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Partial declaration failed verification"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "partial"
+          ],
+          "error": "Partial function without termination proof"
+        }
+      },
+      "checks": [
+        "partial",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "LeanTestProject.Partial.NonTerminating.loop",
+      "module": "LeanTestProject.Partial.NonTerminating",
+      "zone": "Examples",
+      "kind": "opaque",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "partial"
+          ],
+          "error": "Non-terminating loop"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Opaque declaration with partial definition"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "partial"
+          ],
+          "error": "Loop without termination guarantee"
+        }
+      },
+      "checks": [
+        "partial",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "bad_theorem",
+      "module": "Examples.Basic",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "Uses disallowed axioms: bad_axiom"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Module kernel replay failed: axiom bad_axiom not in environment"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms"
+          ],
+          "error": "Statement uses extra axiom bad_axiom not present in baseline"
+        }
+      },
+      "checks": [
+        "disallowed-axioms",
+        "extra-axioms",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "bad_axiom",
+      "module": "Examples.Basic",
+      "zone": "Examples",
+      "kind": "axiom",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "custom-axiom"
+          ],
+          "error": "Custom axiom (proves False)"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Custom axiom bad_axiom proves False - rejected by kernel"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms",
+            "unsafe"
+          ],
+          "error": "Custom axiom not in allow-list"
+        }
+      },
+      "checks": [
+        "custom-axiom",
+        "extra-axioms",
+        "kernel-replay",
+        "unsafe"
+      ]
+    },
+    {
+      "decl": "good_theorem",
+      "module": "Examples.Basic",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "notes": "All policy checks passed"
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": true,
+          "checks": [
+            "ref-impl-match"
+          ],
+          "notes": "Reference and implementation match"
+        }
+      },
+      "checks": [
+        "policy-pass",
+        "ref-impl-match",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "simple_theorem",
+      "module": "Examples.ValidSimple",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "notes": "All policy checks passed"
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": true,
+          "checks": [
+            "ref-impl-match"
+          ],
+          "notes": "Reference and implementation match"
+        }
+      },
+      "checks": [
+        "policy-pass",
+        "ref-impl-match",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "LeanTestProject.Sorry.Direct.sorry_proof",
+      "module": "LeanTestProject.Sorry.Direct",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "Proof contains sorry"
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Kernel replay successful (sorry is allowed)"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "Sorry found - proof incomplete"
+        }
+      },
+      "checks": [
+        "sorry",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "LeanTestProject.Unsafe.Definition.unsafeCompute",
+      "module": "LeanTestProject.Unsafe.Definition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Unsafe computation"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Unsafe definition"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Unsafe code detected"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "LeanTestProject.Partial.partial_def",
+      "module": "LeanTestProject.Partial.NonTerminating",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "partial"
+          ],
+          "error": "Partial definition without termination"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Partial function not proven total"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "partial"
+          ],
+          "error": "Non-total function"
+        }
+      },
+      "checks": [
+        "partial",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "LeanTestProject.CustomAxiom.custom_false",
+      "module": "Examples.CustomAxiom",
+      "zone": "Examples",
+      "kind": "axiom",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "custom-axiom"
+          ],
+          "error": "Custom axiom introduces inconsistency"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Axiom proves False"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms"
+          ],
+          "error": "Axiom not in baseline"
+        }
+      },
+      "checks": [
+        "custom-axiom",
+        "extra-axioms",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "seeminglySafeAdd",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Uses unsafe implementation internally"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Unsafe code detected"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Depends on unsafe function"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "exploit_theorem",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe",
+            "uses-axiom"
+          ],
+          "error": "Uses unsafe axiom"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Depends on unsafe implementation"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Proof uses unsafe code"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "uses-axiom",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "exploit_axiom",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "axiom",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "custom-axiom"
+          ],
+          "error": "Unsafe axiom"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Custom axiom rejected"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "extra-axioms"
+          ],
+          "error": "Axiom not in allow-list"
+        }
+      },
+      "checks": [
+        "custom-axiom",
+        "extra-axioms",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "unsafeAddImpl",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Unsafe implementation"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Unsafe code"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Uses unsafe operations"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ]
+    },
+    {
+      "decl": "unsafeProof",
+      "module": "Examples.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Proof uses unsafe code"
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Unsafe in proof"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "Unsafe code detected in proof"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ]
+    }
+  ]
+}

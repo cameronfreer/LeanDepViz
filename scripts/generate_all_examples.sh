@@ -1,0 +1,222 @@
+#!/bin/bash
+# Generate unified verification report for LeanParanoia test suite examples
+# This script creates the data for docs/leanparanoia-examples-all.html
+#
+# Requirements:
+#   - Lean 4.24.0-rc1 (elan)
+#   - Python 3
+#   - LeanDepViz built (lake build)
+#
+# Usage:
+#   ./scripts/generate_all_examples.sh [--test-dir DIR]
+#
+# Options:
+#   --test-dir DIR    Use specific test directory (default: /tmp/leanparanoia-test-TIMESTAMP)
+#   --keep-temp       Don't delete temporary directory after completion
+#   --help            Show this help message
+
+set -e
+
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+EXAMPLES_SOURCE="$PROJECT_ROOT/examples/leanparanoia-tests"
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+TEST_DIR="${TEST_DIR:-/tmp/leanparanoia-test-$TIMESTAMP}"
+KEEP_TEMP=false
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --test-dir)
+      TEST_DIR="$2"
+      shift 2
+      ;;
+    --keep-temp)
+      KEEP_TEMP=true
+      shift
+      ;;
+    --help)
+      head -n 20 "$0" | grep "^#" | sed 's/^# //; s/^#//'
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
+
+echo "=========================================="
+echo "Generate All Examples Unified Report"
+echo "=========================================="
+echo ""
+echo "Project root: $PROJECT_ROOT"
+echo "Test directory: $TEST_DIR"
+echo ""
+
+# Validate prerequisites
+if ! command -v elan &> /dev/null; then
+    echo "ERROR: elan not found. Install from https://github.com/leanprover/elan"
+    exit 1
+fi
+
+if ! command -v python3 &> /dev/null; then
+    echo "ERROR: python3 not found"
+    exit 1
+fi
+
+# Clean up function
+cleanup() {
+    if [ "$KEEP_TEMP" = false ]; then
+        echo "Cleaning up temporary directory..."
+        rm -rf "$TEST_DIR"
+    else
+        echo "Keeping temporary directory: $TEST_DIR"
+    fi
+}
+
+# Register cleanup on exit
+trap cleanup EXIT
+
+# Create test project
+echo "Step 1: Creating test project..."
+mkdir -p "$TEST_DIR"
+cd "$TEST_DIR"
+
+# Create lakefile.lean
+cat > lakefile.lean <<'EOF'
+import Lake
+open Lake DSL
+
+package LeanTestProject where
+  version := v!"0.1.0"
+
+require LeanDepViz from git
+  "https://github.com/CameronFreer/LeanDepViz.git" @ "main"
+
+@[default_target]
+lean_lib LeanTestProject where
+EOF
+
+# Create lean-toolchain
+echo "leanprover/lean4:v4.24.0-rc1" > lean-toolchain
+
+# Create root module
+cat > LeanTestProject.lean <<'EOF'
+import LeanTestProject.Basic
+import LeanTestProject.ProveAnything
+import LeanTestProject.SorryDirect
+import LeanTestProject.PartialNonTerminating
+import LeanTestProject.UnsafeDefinition
+import LeanTestProject.ValidSimple
+EOF
+
+# Copy example files
+mkdir -p LeanTestProject
+for file in Basic ProveAnything SorryDirect PartialNonTerminating UnsafeDefinition ValidSimple; do
+    if [ ! -f "$EXAMPLES_SOURCE/${file}.lean" ]; then
+        echo "ERROR: Missing example file: $EXAMPLES_SOURCE/${file}.lean"
+        exit 1
+    fi
+    cp "$EXAMPLES_SOURCE/${file}.lean" "LeanTestProject/${file}.lean"
+done
+
+# Copy policy
+if [ ! -f "$EXAMPLES_SOURCE/policy.yaml" ]; then
+    echo "ERROR: Missing policy file: $EXAMPLES_SOURCE/policy.yaml"
+    exit 1
+fi
+cp "$EXAMPLES_SOURCE/policy.yaml" policy.yaml
+
+echo "✓ Test project created"
+
+# Build project
+echo ""
+echo "Step 2: Building test project..."
+lake update
+lake build
+echo "✓ Build complete"
+
+# Generate dependency graph
+echo ""
+echo "Step 3: Generating dependency graph..."
+lake exe depviz --roots LeanTestProject --json-out depgraph.json --dot-out depgraph.dot
+echo "✓ Dependency graph generated"
+
+# Run LeanParanoia
+echo ""
+echo "Step 4: Running LeanParanoia verification..."
+python3 "$PROJECT_ROOT/scripts/paranoia_runner.py" \
+  --depgraph depgraph.json \
+  --policy policy.yaml \
+  --out paranoia-report.json
+
+echo "✓ LeanParanoia complete"
+
+# Run lean4checker
+echo ""
+echo "Step 5: Running lean4checker verification..."
+python3 "$PROJECT_ROOT/scripts/lean4checker_adapter.py" \
+  --depgraph depgraph.json \
+  --out lean4checker-report.json
+
+echo "✓ lean4checker complete"
+
+# Merge reports
+echo ""
+echo "Step 6: Merging verification reports..."
+python3 "$PROJECT_ROOT/scripts/merge_reports.py" \
+  --reports paranoia-report.json lean4checker-report.json \
+  --out unified-report.json
+
+echo "✓ Reports merged"
+
+# Validate the unified report
+echo ""
+echo "Step 7: Validating unified report..."
+python3 "$PROJECT_ROOT/scripts/validate_unified_report.py" \
+  --report unified-report.json
+
+echo "✓ Validation passed"
+
+# Copy outputs to repo
+echo ""
+echo "Step 8: Copying outputs to repository..."
+cp unified-report.json "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-unified-report.json"
+cp depgraph.json "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.json"
+cp depgraph.dot "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.dot"
+
+echo "✓ Outputs copied"
+
+# Generate HTML viewer
+echo ""
+echo "Step 9: Generating HTML viewer..."
+python3 "$PROJECT_ROOT/scripts/embed_data.py" \
+  --viewer "$PROJECT_ROOT/viewer/paranoia-viewer.html" \
+  --depgraph "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.json" \
+  --dot "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.dot" \
+  --report "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-unified-report.json" \
+  --output "$PROJECT_ROOT/docs/leanparanoia-examples-all.html"
+
+# Also copy to examples directory
+cp "$PROJECT_ROOT/docs/leanparanoia-examples-all.html" \
+   "$PROJECT_ROOT/examples/leanparanoia-tests/leanparanoia-examples-all.html"
+
+echo "✓ HTML viewer generated"
+
+echo ""
+echo "=========================================="
+echo "✓ All examples unified report generated!"
+echo "=========================================="
+echo ""
+echo "Outputs:"
+echo "  • HTML: docs/leanparanoia-examples-all.html"
+echo "  • Unified report: examples/leanparanoia-tests/all-examples-unified-report.json"
+echo "  • Dependency graph: examples/leanparanoia-tests/all-examples-depgraph.json"
+echo ""
+echo "Next steps:"
+echo "  1. Review the outputs"
+echo "  2. Test the HTML viewer: open docs/leanparanoia-examples-all.html"
+echo "  3. Commit the changes:"
+echo "     git add docs/leanparanoia-examples-all.html examples/leanparanoia-tests/"
+echo "     git commit -m 'Regenerate all-examples unified report'"
+echo ""

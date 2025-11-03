@@ -155,17 +155,29 @@
         
         #content-area {
             flex: 1;
+            display: flex;
+            flex-direction: column;
             overflow: auto;
             padding: 2rem;
             background: #1e1e1e;
         }
         
         .view {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            min-height: 0; /* Allow flex items to shrink below content size */
         }
-        
+
+        #graph-view {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
         #graph-viz {
-            max-height: 500px;
+            flex: 1;
+            min-height: 400px; /* Minimum height for usability */
             overflow: auto;
             border: 1px solid #3c3c3c;
             border-radius: 4px;
@@ -830,13 +842,18 @@
             if (!toolData) {
                 return '<span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span>';
             }
-            
+
             if (toolData.ok) {
                 return '<span class="badge passed" style="font-size: 0.85em;">✓</span>';
             } else {
-                const errorMsg = toolData.error ? escapeHtml(toolData.error) : 'Failed';
-                const shortError = errorMsg.length > 120 ? errorMsg.substring(0, 120) + '...' : errorMsg;
-                return `<div style="display: flex; align-items: start; gap: 0.5rem;"><span class="badge failed" style="font-size: 0.85em; flex-shrink: 0;" title="${errorMsg}">✗</span><span style="font-size: 0.75em; color: #f48771; text-align: left;">${shortError}</span></div>`;
+                const formattedError = formatError(toolData.error);
+                // For table cell, show just first line or truncated text
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = formattedError;
+                const textOnly = tempDiv.textContent || tempDiv.innerText || '';
+                const shortError = textOnly.length > 80 ? textOnly.substring(0, 80) + '...' : textOnly;
+                const fullErrorEscaped = formattedError.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                return `<div style="display: flex; align-items: start; gap: 0.5rem;"><span class="badge failed" style="font-size: 0.85em; flex-shrink: 0;">✗</span><span style="font-size: 0.75em; color: #f48771; text-align: left;">${escapeHtml(shortError)}</span></div>`;
             }
         }
         
@@ -954,8 +971,8 @@
                             if (toolData.ok) {
                                 html += `<li><span style="color: #4ec9b0;">✓</span> <strong>${toolName}:</strong> <span style="color: #4ec9b0;">Passed</span></li>`;
                             } else {
-                                const error = toolData.error ? escapeHtml(toolData.error) : 'Failed';
-                                html += `<li><span style="color: #f48771;">✗</span> <strong>${toolName}:</strong> <span style="color: #f48771;">${error}</span></li>`;
+                                const error = formatError(toolData.error || 'Failed');
+                                html += `<li><span style="color: #f48771;">✗</span> <strong>${toolName}:</strong> <div style="color: #f48771; margin-top: 0.25rem;">${error}</div></li>`;
                             }
                         }
                     });
@@ -978,7 +995,8 @@
                     
                     if (!status.ok) {
                         const error = status.error || status.stderr || status.stdout || 'Unknown error';
-                        html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
+                        const formattedError = formatError(error);
+                        html += `<div style="margin-top: 0.5rem; color: #f48771; font-size: 0.85rem; background: #1e1e1e; padding: 0.75rem; border-radius: 3px; overflow-x: auto;">${formattedError}</div>`;
                     }
                 }
             } else {
@@ -996,6 +1014,47 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        /**
+         * Format error message - parse JSON if possible, otherwise return as-is.
+         * JSON errors from LeanParanoia are formatted as hierarchical bullet points.
+         */
+        function formatError(errorText) {
+            if (!errorText) return 'Unknown error';
+
+            // Try to parse as JSON
+            try {
+                const parsed = JSON.parse(errorText);
+
+                // LeanParanoia format: {failures: {Category: [messages...]}, success: false}
+                if (parsed.failures && typeof parsed.failures === 'object') {
+                    let html = '<ul style="margin: 0; padding-left: 1.2rem; list-style: disc;">';
+                    for (const [category, messages] of Object.entries(parsed.failures)) {
+                        html += `<li><strong>${escapeHtml(category)}:</strong>`;
+                        if (Array.isArray(messages) && messages.length > 0) {
+                            if (messages.length === 1) {
+                                html += ` ${escapeHtml(messages[0])}`;
+                            } else {
+                                html += '<ul style="margin-top: 0.25rem; padding-left: 1.2rem;">';
+                                messages.forEach(msg => {
+                                    html += `<li>${escapeHtml(msg)}</li>`;
+                                });
+                                html += '</ul>';
+                            }
+                        }
+                        html += '</li>';
+                    }
+                    html += '</ul>';
+                    return html;
+                }
+
+                // Generic JSON object - format nicely
+                return `<pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(JSON.stringify(parsed, null, 2))}</pre>`;
+            } catch (e) {
+                // Not JSON - return escaped text
+                return escapeHtml(errorText);
+            }
         }
         
         // Download embedded DOT file
@@ -1050,219 +1109,597 @@
     <script>
         // Embedded data - generated by embed_data.py
         window.EMBEDDED_DEPGRAPH = {"nodes":
- [{"name": "exploit_theorem",
-   "module": "Examples.PartialNonTerminating",
-   "kind": "thm",
-   "isUnsafe": false,
-   "hasSorry": true,
-   "fullName": "LeanTestProject.Partial.NonTerminating.exploit_theorem",
-   "axioms": ["sorryAx"]},
-  {"name": "bad_theorem",
-   "module": "Examples.Basic",
+ [{"name": "bad_theorem",
+   "module": "LeanTestProject.Basic",
    "kind": "thm",
    "isUnsafe": false,
    "hasSorry": false,
-   "fullName": "bad_theorem",
+   "fullName": "LeanTestProject.Basic.bad_theorem",
    "axioms": ["bad_axiom"]},
-  {"name": "exploit_theorem",
-   "module": "Examples.SorryDirect",
+  {"name": "magic",
+   "module": "LeanTestProject.ProveAnything",
+   "kind": "axiom",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "LeanTestProject.ProveAnything.magic",
+   "axioms": []},
+  {"name": "simple_theorem",
+   "module": "LeanTestProject.ValidSimple",
    "kind": "thm",
    "isUnsafe": false,
-   "hasSorry": true,
-   "fullName": "LeanTestProject.Sorry.Direct.exploit_theorem",
-   "axioms": ["sorryAx"]},
+   "hasSorry": false,
+   "fullName": "LeanTestProject.ValidSimple.simple_theorem",
+   "axioms": []},
+  {"name": "magic_theorem",
+   "module": "LeanTestProject.ProveAnything",
+   "kind": "thm",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "LeanTestProject.ProveAnything.magic_theorem",
+   "axioms": ["magic"]},
+  {"name": "seeminglySafeAdd",
+   "module": "LeanTestProject.UnsafeDefinition",
+   "kind": "def",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "LeanTestProject.UnsafeDefinition.seeminglySafeAdd",
+   "axioms": []},
+  {"name": "unsafe_axiom",
+   "module": "LeanTestProject.UnsafeDefinition",
+   "kind": "axiom",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "LeanTestProject.UnsafeDefinition.unsafe_axiom",
+   "axioms": []},
   {"name": "loop",
-   "module": "Examples.PartialNonTerminating",
+   "module": "LeanTestProject.PartialNonTerminating",
    "kind": "opaque",
    "isUnsafe": false,
    "hasSorry": false,
-   "fullName": "LeanTestProject.Partial.NonTerminating.loop",
-   "axioms": []},
-  {"name": "simple_theorem",
-   "module": "Examples.ValidSimple",
-   "kind": "thm",
-   "isUnsafe": false,
-   "hasSorry": false,
-   "fullName": "simple_theorem",
-   "axioms": []},
-  {"name": "seeminglySafeAdd",
-   "module": "Examples.UnsafeDefinition",
-   "kind": "def",
-   "isUnsafe": false,
-   "hasSorry": false,
-   "fullName": "seeminglySafeAdd",
-   "axioms": []},
-  {"name": "exploit_theorem",
-   "module": "Examples.UnsafeDefinition",
-   "kind": "thm",
-   "isUnsafe": false,
-   "hasSorry": false,
-   "fullName": "exploit_theorem",
-   "axioms": ["exploit_axiom"]},
-  {"name": "exploit_axiom",
-   "module": "Examples.UnsafeDefinition",
-   "kind": "axiom",
-   "isUnsafe": false,
-   "hasSorry": false,
-   "fullName": "exploit_axiom",
+   "fullName": "LeanTestProject.PartialNonTerminating.loop",
    "axioms": []},
   {"name": "bad_axiom",
-   "module": "Examples.Basic",
+   "module": "LeanTestProject.Basic",
    "kind": "axiom",
    "isUnsafe": false,
    "hasSorry": false,
-   "fullName": "bad_axiom",
+   "fullName": "LeanTestProject.Basic.bad_axiom",
    "axioms": []},
+  {"name": "partial_theorem",
+   "module": "LeanTestProject.PartialNonTerminating",
+   "kind": "thm",
+   "isUnsafe": false,
+   "hasSorry": true,
+   "fullName": "LeanTestProject.PartialNonTerminating.partial_theorem",
+   "axioms": ["sorryAx"]},
   {"name": "unsafeAddImpl",
-   "module": "Examples.UnsafeDefinition",
+   "module": "LeanTestProject.UnsafeDefinition",
    "kind": "def",
    "isUnsafe": true,
    "hasSorry": false,
-   "fullName": "unsafeAddImpl",
+   "fullName": "LeanTestProject.UnsafeDefinition.unsafeAddImpl",
    "axioms": []},
-  {"name": "good_theorem",
-   "module": "Examples.Basic",
+  {"name": "unsafe_theorem",
+   "module": "LeanTestProject.UnsafeDefinition",
    "kind": "thm",
    "isUnsafe": false,
    "hasSorry": false,
-   "fullName": "good_theorem",
+   "fullName": "LeanTestProject.UnsafeDefinition.unsafe_theorem",
+   "axioms": ["unsafe_axiom"]},
+  {"name": "good_theorem",
+   "module": "LeanTestProject.Basic",
+   "kind": "thm",
+   "isUnsafe": false,
+   "hasSorry": false,
+   "fullName": "LeanTestProject.Basic.good_theorem",
    "axioms": []},
   {"name": "unsafeProof",
-   "module": "Examples.UnsafeDefinition",
+   "module": "LeanTestProject.UnsafeDefinition",
    "kind": "def",
    "isUnsafe": true,
    "hasSorry": false,
-   "fullName": "unsafeProof",
-   "axioms": []}],
+   "fullName": "LeanTestProject.UnsafeDefinition.unsafeProof",
+   "axioms": []},
+  {"name": "sorry_theorem",
+   "module": "LeanTestProject.SorryDirect",
+   "kind": "thm",
+   "isUnsafe": false,
+   "hasSorry": true,
+   "fullName": "LeanTestProject.SorryDirect.sorry_theorem",
+   "axioms": ["sorryAx"]}],
  "edges":
- [{"target": "LeanTestProject.Partial.NonTerminating.exploit_theorem",
-   "source": "LeanTestProject.Partial.NonTerminating.loop",
-   "kind": "type"},
-  {"target": "LeanTestProject.Partial.NonTerminating.exploit_theorem",
-   "source": "LeanTestProject.Partial.NonTerminating.loop",
-   "kind": "value"},
-  {"target": "bad_theorem", "source": "bad_axiom", "kind": "value"},
-  {"target": "exploit_theorem", "source": "exploit_axiom", "kind": "value"},
-  {"target": "exploit_axiom", "source": "seeminglySafeAdd", "kind": "type"},
+ [{"target": "bad_theorem", "source": "bad_axiom", "kind": "value"},
+  {"target": "magic_theorem", "source": "magic", "kind": "value"},
+  {"target": "unsafe_axiom", "source": "seeminglySafeAdd", "kind": "type"},
+  {"target": "partial_theorem", "source": "loop", "kind": "type"},
+  {"target": "partial_theorem", "source": "loop", "kind": "value"},
+  {"target": "unsafe_theorem", "source": "unsafe_axiom", "kind": "value"},
   {"target": "unsafeProof", "source": "unsafeProof", "kind": "value"}]};
         window.EMBEDDED_REPORT = {
-  "results": [
-    {
-      "decl": "bad_theorem",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "thm",
-      "module": "Examples.Basic",
-      "exit": 1,
-      "error": "Uses disallowed axioms: bad_axiom"
-    },
-    {
-      "decl": "bad_axiom",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "axiom",
-      "module": "Examples.Basic",
-      "exit": 1,
-      "error": "Custom axiom (proves False)"
-    },
-    {
-      "decl": "good_theorem",
-      "zone": "Examples",
-      "ok": true,
-      "kind": "thm",
-      "module": "Examples.Basic",
-      "exit": 0
-    },
-    {
-      "decl": "LeanTestProject.Sorry.Direct.exploit_theorem",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "thm",
-      "module": "Examples.SorryDirect",
-      "exit": 1,
-      "error": "Uses sorry"
-    },
-    {
-      "decl": "exploit_theorem",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "thm",
-      "module": "Examples.UnsafeDefinition",
-      "exit": 1,
-      "error": "Uses disallowed axioms: exploit_axiom"
-    },
-    {
-      "decl": "exploit_axiom",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "axiom",
-      "module": "Examples.UnsafeDefinition",
-      "exit": 1,
-      "error": "Custom axiom with unsafe implementation"
-    },
-    {
-      "decl": "seeminglySafeAdd",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "def",
-      "module": "Examples.UnsafeDefinition",
-      "exit": 1,
-      "error": "Uses @[implemented_by] with unsafe function"
-    },
-    {
-      "decl": "unsafeAddImpl",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "def",
-      "module": "Examples.UnsafeDefinition",
-      "exit": 1,
-      "error": "Unsafe definition"
-    },
-    {
-      "decl": "unsafeProof",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "def",
-      "module": "Examples.UnsafeDefinition",
-      "exit": 1,
-      "error": "Unsafe definition (self-referential)"
-    },
-    {
-      "decl": "LeanTestProject.Partial.NonTerminating.exploit_theorem",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "thm",
-      "module": "Examples.PartialNonTerminating",
-      "exit": 1,
-      "error": "Uses sorry"
-    },
-    {
-      "decl": "LeanTestProject.Partial.NonTerminating.loop",
-      "zone": "Examples",
-      "ok": false,
-      "kind": "def",
-      "module": "Examples.PartialNonTerminating",
-      "exit": 1,
-      "error": "Partial function (non-terminating)"
-    },
-    {
-      "decl": "simple_theorem",
-      "zone": "Examples",
-      "ok": true,
-      "kind": "thm",
-      "module": "Examples.ValidSimple",
-      "exit": 0
-    }
+  "merged_report": true,
+  "version": "1.0.0",
+  "tools": [
+    "paranoia",
+    "lean4checker"
   ],
   "summary": {
-    "total": 12,
-    "passed": 2,
-    "failed": 10,
-    "mode": "manual"
-  }
-}
-;
-        window.EMBEDDED_DOT = "digraph DepViz {\n  rankdir=LR;\n  node [shape=ellipse, fontsize=10, fontname=\"Helvetica\"];\n  edge [arrowsize=0.8];\n  \"LeanTestProject.Partial.NonTerminating.exploit_theorem\" [label=\"exploit_theorem\\nSORRY, AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"Examples.PartialNonTerminating\"];\n  \"bad_theorem\" [label=\"bad_theorem\\nAXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"Examples.Basic\"];\n  \"LeanTestProject.Sorry.Direct.exploit_theorem\" [label=\"exploit_theorem\\nSORRY, AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"Examples.SorryDirect\"];\n  \"LeanTestProject.Partial.NonTerminating.loop\" [label=\"loop\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Examples.PartialNonTerminating\"];\n  \"simple_theorem\" [label=\"simple_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Examples.ValidSimple\"];\n  \"seeminglySafeAdd\" [label=\"seeminglySafeAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Examples.UnsafeDefinition\"];\n  \"exploit_theorem\" [label=\"exploit_theorem\\nAXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"Examples.UnsafeDefinition\"];\n  \"exploit_axiom\" [label=\"exploit_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Examples.UnsafeDefinition\"];\n  \"bad_axiom\" [label=\"bad_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Examples.Basic\"];\n  \"unsafeAddImpl\" [label=\"unsafeAddImpl\\nUNSAFE\", color=\"#555\", style=\"filled\", tooltip=\"Examples.UnsafeDefinition\"];\n  \"good_theorem\" [label=\"good_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"Examples.Basic\"];\n  \"unsafeProof\" [label=\"unsafeProof\\nUNSAFE\", color=\"#555\", style=\"filled\", tooltip=\"Examples.UnsafeDefinition\"];\n  \"LeanTestProject.Partial.NonTerminating.loop\" -> \"LeanTestProject.Partial.NonTerminating.exploit_theorem\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"LeanTestProject.Partial.NonTerminating.loop\" -> \"LeanTestProject.Partial.NonTerminating.exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"bad_axiom\" -> \"bad_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"exploit_axiom\" -> \"exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"seeminglySafeAdd\" -> \"exploit_axiom\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"unsafeProof\" -> \"unsafeProof\" [style=\"solid\", label=\"value\", fontsize=8];\n}";
+    "total_declarations": 14,
+    "passed_all": 6,
+    "failed_any": 8,
+    "by_tool": {
+      "paranoia": {
+        "total": 10,
+        "passed": 2,
+        "failed": 8,
+        "mode": "summary"
+      },
+      "lean4checker": {
+        "total": 14,
+        "passed": 14,
+        "failed": 0
+      }
+    }
+  },
+  "declarations": [
+    {
+      "decl": "LeanTestProject.Basic.bad_axiom",
+      "module": "LeanTestProject.Basic",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.Basic.bad_theorem",
+      "module": "LeanTestProject.Basic",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "disallowed-axioms"
+      ],
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.Basic.good_theorem",
+      "module": "LeanTestProject.Basic",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-pass"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.PartialNonTerminating.loop",
+      "module": "LeanTestProject.PartialNonTerminating",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.PartialNonTerminating.partial_theorem",
+      "module": "LeanTestProject.PartialNonTerminating",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry",
+            "partial"
+          ],
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "sorry",
+        "partial"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.ProveAnything.magic",
+      "module": "LeanTestProject.ProveAnything",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.ProveAnything.magic_theorem",
+      "module": "LeanTestProject.ProveAnything",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "disallowed-axioms"
+      ],
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.SorryDirect.sorry_theorem",
+      "module": "LeanTestProject.SorryDirect",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "sorry"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.seeminglySafeAdd",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ],
+      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.unsafeAddImpl",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.unsafeProof",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.unsafe_axiom",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.unsafe_theorem",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "unsafe"
+          ],
+          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "unsafe",
+        "kernel-replay"
+      ],
+      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.ValidSimple.simple_theorem",
+      "module": "LeanTestProject.ValidSimple",
+      "zone": "Examples",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-pass"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    }
+  ]
+};
+        window.EMBEDDED_DOT = "digraph DepViz {\n  rankdir=LR;\n  node [shape=ellipse, fontsize=10, fontname=\"Helvetica\"];\n  edge [arrowsize=0.8];\n  \"bad_theorem\" [label=\"bad_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.Basic\"];\n  \"magic\" [label=\"magic\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ProveAnything\"];\n  \"simple_theorem\" [label=\"simple_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ValidSimple\"];\n  \"magic_theorem\" [label=\"magic_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.ProveAnything\"];\n  \"seeminglySafeAdd\" [label=\"seeminglySafeAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"unsafe_axiom\" [label=\"unsafe_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"loop\" [label=\"loop\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.PartialNonTerminating\"];\n  \"bad_axiom\" [label=\"bad_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Basic\"];\n  \"partial_theorem\" [label=\"partial_theorem\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.PartialNonTerminating\"];\n  \"unsafeAddImpl\" [label=\"unsafeAddImpl\\nUNSAFE\", color=\"#555\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"unsafe_theorem\" [label=\"unsafe_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"good_theorem\" [label=\"good_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Basic\"];\n  \"unsafeProof\" [label=\"unsafeProof\\nUNSAFE\", color=\"#555\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"sorry_theorem\" [label=\"sorry_theorem\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.SorryDirect\"];\n  \"bad_axiom\" -> \"bad_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"magic\" -> \"magic_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"seeminglySafeAdd\" -> \"unsafe_axiom\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"loop\" -> \"partial_theorem\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"loop\" -> \"partial_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"unsafe_axiom\" -> \"unsafe_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"unsafeProof\" -> \"unsafeProof\" [style=\"solid\", label=\"value\", fontsize=8];\n}";
         
         // Auto-load embedded data on page load
         document.addEventListener('DOMContentLoaded', function() {
