@@ -1,0 +1,177 @@
+{
+  "nodes": [
+    {
+      "name": "bad_theorem",
+      "module": "LeanTestProject.Basic",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.Basic.bad_theorem",
+      "axioms": [
+        "bad_axiom"
+      ]
+    },
+    {
+      "name": "magic",
+      "module": "LeanTestProject.ProveAnything",
+      "kind": "axiom",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.ProveAnything.magic",
+      "axioms": []
+    },
+    {
+      "name": "simple_theorem",
+      "module": "LeanTestProject.ValidSimple",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.ValidSimple.simple_theorem",
+      "axioms": []
+    },
+    {
+      "name": "magic_theorem",
+      "module": "LeanTestProject.ProveAnything",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.ProveAnything.magic_theorem",
+      "axioms": [
+        "magic"
+      ]
+    },
+    {
+      "name": "seeminglySafeAdd",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "kind": "def",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.UnsafeDefinition.seeminglySafeAdd",
+      "axioms": []
+    },
+    {
+      "name": "unsafe_axiom",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "kind": "axiom",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.UnsafeDefinition.unsafe_axiom",
+      "axioms": []
+    },
+    {
+      "name": "loop",
+      "module": "LeanTestProject.PartialNonTerminating",
+      "kind": "opaque",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.PartialNonTerminating.loop",
+      "axioms": []
+    },
+    {
+      "name": "bad_axiom",
+      "module": "LeanTestProject.Basic",
+      "kind": "axiom",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.Basic.bad_axiom",
+      "axioms": []
+    },
+    {
+      "name": "partial_theorem",
+      "module": "LeanTestProject.PartialNonTerminating",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": true,
+      "fullName": "LeanTestProject.PartialNonTerminating.partial_theorem",
+      "axioms": [
+        "sorryAx"
+      ]
+    },
+    {
+      "name": "unsafeAddImpl",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "kind": "def",
+      "isUnsafe": true,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.UnsafeDefinition.unsafeAddImpl",
+      "axioms": []
+    },
+    {
+      "name": "unsafe_theorem",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.UnsafeDefinition.unsafe_theorem",
+      "axioms": [
+        "unsafe_axiom"
+      ]
+    },
+    {
+      "name": "good_theorem",
+      "module": "LeanTestProject.Basic",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.Basic.good_theorem",
+      "axioms": []
+    },
+    {
+      "name": "unsafeProof",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "kind": "def",
+      "isUnsafe": true,
+      "hasSorry": false,
+      "fullName": "LeanTestProject.UnsafeDefinition.unsafeProof",
+      "axioms": []
+    },
+    {
+      "name": "sorry_theorem",
+      "module": "LeanTestProject.SorryDirect",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": true,
+      "fullName": "LeanTestProject.SorryDirect.sorry_theorem",
+      "axioms": [
+        "sorryAx"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "target": "bad_theorem",
+      "source": "bad_axiom",
+      "kind": "value"
+    },
+    {
+      "target": "magic_theorem",
+      "source": "magic",
+      "kind": "value"
+    },
+    {
+      "target": "unsafe_axiom",
+      "source": "seeminglySafeAdd",
+      "kind": "type"
+    },
+    {
+      "target": "partial_theorem",
+      "source": "loop",
+      "kind": "type"
+    },
+    {
+      "target": "partial_theorem",
+      "source": "loop",
+      "kind": "value"
+    },
+    {
+      "target": "unsafe_theorem",
+      "source": "unsafe_axiom",
+      "kind": "value"
+    },
+    {
+      "target": "unsafeProof",
+      "source": "unsafeProof",
+      "kind": "value"
+    }
+  ]
+}

@@ -31,9 +31,9 @@ A dependency visualization and **multi-checker verification tool** for Lean 4 pr
   - Demonstrates large-scale project visualization
 
 - **[All LeanParanoia Examples](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)**
-  - Complete test suite: 17 declarations with multi-tool verification
-  - Shows various exploit categories and verification patterns
-  - *Note: Demonstration data based on LeanParanoia test files*
+  - Complete test suite: 14 declarations with 2-tool verification
+  - **Real verification data** from LeanParanoia + lean4checker
+  - Shows various exploit categories: custom axioms, sorry, unsafe code, partial functions
 
 - **[Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)**
   - Simple 3-declaration example

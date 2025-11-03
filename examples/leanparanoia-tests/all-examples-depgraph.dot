@@ -1,0 +1,26 @@
+digraph DepViz {
+  rankdir=LR;
+  node [shape=ellipse, fontsize=10, fontname="Helvetica"];
+  edge [arrowsize=0.8];
+  "bad_theorem" [label="bad_theorem\nUSES AXIOM, NONCOMP", color="#e6972b", style="filled", tooltip="LeanTestProject.Basic"];
+  "magic" [label="magic", color="#bbbbbb", style="filled", tooltip="LeanTestProject.ProveAnything"];
+  "simple_theorem" [label="simple_theorem", color="#bbbbbb", style="filled", tooltip="LeanTestProject.ValidSimple"];
+  "magic_theorem" [label="magic_theorem\nUSES AXIOM, NONCOMP", color="#e6972b", style="filled", tooltip="LeanTestProject.ProveAnything"];
+  "seeminglySafeAdd" [label="seeminglySafeAdd", color="#bbbbbb", style="filled", tooltip="LeanTestProject.UnsafeDefinition"];
+  "unsafe_axiom" [label="unsafe_axiom", color="#bbbbbb", style="filled", tooltip="LeanTestProject.UnsafeDefinition"];
+  "loop" [label="loop", color="#bbbbbb", style="filled", tooltip="LeanTestProject.PartialNonTerminating"];
+  "bad_axiom" [label="bad_axiom", color="#bbbbbb", style="filled", tooltip="LeanTestProject.Basic"];
+  "partial_theorem" [label="partial_theorem\nHAS SORRY, USES AXIOM, NONCOMP", color="#d33", style="filled", tooltip="LeanTestProject.PartialNonTerminating"];
+  "unsafeAddImpl" [label="unsafeAddImpl\nUNSAFE", color="#555", style="filled", tooltip="LeanTestProject.UnsafeDefinition"];
+  "unsafe_theorem" [label="unsafe_theorem\nUSES AXIOM, NONCOMP", color="#e6972b", style="filled", tooltip="LeanTestProject.UnsafeDefinition"];
+  "good_theorem" [label="good_theorem", color="#bbbbbb", style="filled", tooltip="LeanTestProject.Basic"];
+  "unsafeProof" [label="unsafeProof\nUNSAFE", color="#555", style="filled", tooltip="LeanTestProject.UnsafeDefinition"];
+  "sorry_theorem" [label="sorry_theorem\nHAS SORRY, USES AXIOM, NONCOMP", color="#d33", style="filled", tooltip="LeanTestProject.SorryDirect"];
+  "bad_axiom" -> "bad_theorem" [style="solid", label="value", fontsize=8];
+  "magic" -> "magic_theorem" [style="solid", label="value", fontsize=8];
+  "seeminglySafeAdd" -> "unsafe_axiom" [style="dashed", label="type", fontsize=8];
+  "loop" -> "partial_theorem" [style="dashed", label="type", fontsize=8];
+  "loop" -> "partial_theorem" [style="solid", label="value", fontsize=8];
+  "unsafe_axiom" -> "unsafe_theorem" [style="solid", label="value", fontsize=8];
+  "unsafeProof" -> "unsafeProof" [style="solid", label="value", fontsize=8];
+}
