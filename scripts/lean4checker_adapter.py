@@ -72,7 +72,7 @@ def attach_to_declarations(depgraph: Dict[str, Any], module_results: List[Dict[s
     reports = []
     for node in depgraph.get("nodes", []):
         module = node.get("module")
-        decl_name = node.get("name")
+        decl_name = node.get("fullName", node.get("name"))
         
         result = by_module.get(module)
         if not result:

@@ -6,8 +6,8 @@
     "lean4checker"
   ],
   "summary": {
-    "total_declarations": 24,
-    "passed_all": 16,
+    "total_declarations": 14,
+    "passed_all": 6,
     "failed_any": 8,
     "by_tool": {
       "paranoia": {
@@ -25,6 +25,32 @@
   },
   "declarations": [
     {
+      "decl": "LeanTestProject.Basic.bad_axiom",
+      "module": "LeanTestProject.Basic",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
       "decl": "LeanTestProject.Basic.bad_theorem",
       "module": "LeanTestProject.Basic",
       "zone": "Examples",
@@ -34,19 +60,28 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "disallowed-axioms"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
       "summary": {
-        "total_checks": 1,
-        "passed_checks": 0,
+        "total_checks": 2,
+        "passed_checks": 1,
         "failed_checks": 1
       }
     },
@@ -64,10 +99,45 @@
           ],
           "error": null,
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-pass"
+        "policy-pass",
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.PartialNonTerminating.loop",
+      "module": "LeanTestProject.PartialNonTerminating",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
       ],
       "error": null,
       "summary": {
@@ -86,22 +156,55 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "sorry",
-            "partial"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "sorry",
-        "partial"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.ProveAnything.magic",
+      "module": "LeanTestProject.ProveAnything",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -114,19 +217,28 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "disallowed-axioms"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
       "summary": {
-        "total_checks": 1,
-        "passed_checks": 0,
+        "total_checks": 2,
+        "passed_checks": 1,
         "failed_checks": 1
       }
     },
@@ -140,19 +252,28 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "sorry"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "sorry"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
       "summary": {
-        "total_checks": 1,
-        "passed_checks": 0,
+        "total_checks": 2,
+        "passed_checks": 1,
         "failed_checks": 1
       }
     },
@@ -166,19 +287,28 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "unsafe"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
       "summary": {
-        "total_checks": 1,
-        "passed_checks": 0,
+        "total_checks": 2,
+        "passed_checks": 1,
         "failed_checks": 1
       }
     },
@@ -192,19 +322,28 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "unsafe"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
       "summary": {
-        "total_checks": 1,
-        "passed_checks": 0,
+        "total_checks": 2,
+        "passed_checks": 1,
         "failed_checks": 1
       }
     },
@@ -218,20 +357,55 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "unsafe"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.unsafe_axiom",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -244,19 +418,28 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "unsafe"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
           "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
       "summary": {
-        "total_checks": 1,
-        "passed_checks": 0,
+        "total_checks": 2,
+        "passed_checks": 1,
         "failed_checks": 1
       }
     },
@@ -274,25 +457,7 @@
           ],
           "error": null,
           "notes": null
-        }
-      },
-      "checks": [
-        "policy-pass"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "bad_axiom",
-      "module": "LeanTestProject.Basic",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
+        },
         "lean4checker": {
           "ok": true,
           "checks": [
@@ -303,350 +468,13 @@
         }
       },
       "checks": [
+        "policy-pass",
         "kernel-replay"
       ],
       "error": null,
       "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "bad_theorem",
-      "module": "LeanTestProject.Basic",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "good_theorem",
-      "module": "LeanTestProject.Basic",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "loop",
-      "module": "LeanTestProject.PartialNonTerminating",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "magic",
-      "module": "LeanTestProject.ProveAnything",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "magic_theorem",
-      "module": "LeanTestProject.ProveAnything",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "partial_theorem",
-      "module": "LeanTestProject.PartialNonTerminating",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "seeminglySafeAdd",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "simple_theorem",
-      "module": "LeanTestProject.ValidSimple",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "sorry_theorem",
-      "module": "LeanTestProject.SorryDirect",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "unsafeAddImpl",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "unsafeProof",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "unsafe_axiom",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
-      }
-    },
-    {
-      "decl": "unsafe_theorem",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "unknown",
-      "kind": null,
-      "ok": true,
-      "tools": {
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "kernel-replay"
-      ],
-      "error": null,
-      "summary": {
-        "total_checks": 1,
-        "passed_checks": 1,
+        "total_checks": 2,
+        "passed_checks": 2,
         "failed_checks": 0
       }
     }
