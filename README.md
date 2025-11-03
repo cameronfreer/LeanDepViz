@@ -30,11 +30,18 @@ A dependency visualization and **multi-checker verification tool** for Lean 4 pr
   - 1129 declarations, complex analysis and number theory
   - Demonstrates large-scale project visualization
 
+- **[All LeanParanoia Examples](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)**
+  - Complete test suite: 17 declarations with multi-tool verification
+  - Shows various exploit categories and verification patterns
+  - *Note: Demonstration data based on LeanParanoia test files*
+
 - **[Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)**
   - Simple 3-declaration example
   - Good starting point to understand the viewer
 
-**All examples** available at: https://cameronfreer.github.io/LeanDepViz/
+**Browse all demos**: https://cameronfreer.github.io/LeanDepViz/demos.html
+
+**Load your own files**: https://cameronfreer.github.io/LeanDepViz/
 
 ### Example: Multi-Tool Verification
 

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeanDepViz - Interactive Demos</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="favicon-256.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #3c3c3c;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        .intro {
+            background: #252526;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 3rem;
+            border-left: 4px solid #0e639c;
+        }
+
+        .intro p {
+            margin-bottom: 1rem;
+        }
+
+        .intro p:last-child {
+            margin-bottom: 0;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #3c3c3c;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-card {
+            background: #252526;
+            border: 1px solid #3c3c3c;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .demo-card:hover {
+            border-color: #0e639c;
+            box-shadow: 0 4px 12px rgba(14, 99, 156, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .demo-card.featured {
+            border-color: #0e639c;
+            background: linear-gradient(135deg, #252526 0%, #2d2d30 100%);
+        }
+
+        .demo-badge {
+            display: inline-block;
+            background: #0e639c;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-badge.recommended {
+            background: #f48771;
+        }
+
+        .demo-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .demo-card h3 a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .demo-card h3 a:hover {
+            color: #0e639c;
+        }
+
+        .demo-description {
+            color: #cccccc;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .demo-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            background: #1e1e1e;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .demo-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .demo-stat-label {
+            color: #888;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .demo-stat-value {
+            color: #fff;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .demo-features {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .demo-features li {
+            padding: 0.25rem 0;
+            color: #cccccc;
+            font-size: 0.9rem;
+        }
+
+        .demo-features li:before {
+            content: "→ ";
+            color: #0e639c;
+            font-weight: bold;
+        }
+
+        .demo-link {
+            display: inline-block;
+            background: #0e639c;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .demo-link:hover {
+            background: #1177bb;
+        }
+
+        .note {
+            background: #2d2d30;
+            border-left: 4px solid #f48771;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .note-title {
+            font-weight: 600;
+            color: #f48771;
+            margin-bottom: 0.5rem;
+        }
+
+        .note p {
+            color: #cccccc;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid #3c3c3c;
+            color: #888;
+        }
+
+        footer a {
+            color: #0e639c;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LeanDepViz Interactive Demos</h1>
+            <p class="subtitle">Dependency Visualization & Multi-Checker Verification for Lean 4</p>
+        </header>
+
+        <div class="intro">
+            <p><strong>Welcome!</strong> Explore interactive examples of LeanDepViz in action. All demos run entirely in your browser - no server required.</p>
+            <p>These demos showcase dependency graphs, verification results from multiple tools, and the power of defense-in-depth verification.</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Multi-Checker Verification Demos</h2>
+
+            <div class="demo-grid">
+                <div class="demo-card featured">
+                    <span class="demo-badge recommended">⭐ Recommended</span>
+                    <h3><a href="verification-demo.html">Comprehensive Verification Demo</a></h3>
+                    <p class="demo-description">
+                        Complete demonstration of defense-in-depth verification with three independent checkers analyzing test cases from LeanParanoia's test suite.
+                    </p>
+
+                    <div class="demo-stats">
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Declarations</span>
+                            <span class="demo-stat-value">17</span>
+                        </div>
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Tools</span>
+                            <span class="demo-stat-value">3</span>
+                        </div>
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Pass All</span>
+                            <span class="demo-stat-value">2</span>
+                        </div>
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Fail Any</span>
+                            <span class="demo-stat-value">15</span>
+                        </div>
+                    </div>
+
+                    <ul class="demo-features">
+                        <li>LeanParanoia: Policy enforcement</li>
+                        <li>lean4checker: Kernel replay verification</li>
+                        <li>SafeVerify: Reference vs implementation</li>
+                        <li>Sortable multi-tool results table</li>
+                        <li>Embedded dependency graph</li>
+                    </ul>
+
+                    <div class="note">
+                        <div class="note-title">Note: Demonstration Data</div>
+                        <p>This demo uses manually crafted verification results to illustrate UI capabilities. SafeVerify results are mock data (requires two versions to compare, but test files exist in only one version).</p>
+                    </div>
+
+                    <a href="verification-demo.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 Real-World Project Examples</h2>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <span class="demo-badge">Large Project</span>
+                    <h3><a href="example-exchangeability.html">Exchangeability Project</a></h3>
+                    <p class="demo-description">
+                        Probability theory formalization with ~800 declarations. Demonstrates large-scale dependency visualization.
+                    </p>
+
+                    <div class="demo-stats">
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Declarations</span>
+                            <span class="demo-stat-value">~800</span>
+                        </div>
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Domain</span>
+                            <span class="demo-stat-value">Probability</span>
+                        </div>
+                    </div>
+
+                    <ul class="demo-features">
+                        <li>Interactive dependency graph exploration</li>
+                        <li>Real formalization project</li>
+                        <li>Complex mathematical dependencies</li>
+                    </ul>
+
+                    <a href="example-exchangeability.html" class="demo-link">View Demo →</a>
+                </div>
+
+                <div class="demo-card">
+                    <span class="demo-badge">Large Project</span>
+                    <h3><a href="strongpnt-example.html">StrongPNT Project</a></h3>
+                    <p class="demo-description">
+                        Strong Prime Number Theorem formalization with 1129 declarations from complex analysis and number theory.
+                    </p>
+
+                    <div class="demo-stats">
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Declarations</span>
+                            <span class="demo-stat-value">1129</span>
+                        </div>
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Domain</span>
+                            <span class="demo-stat-value">Number Theory</span>
+                        </div>
+                    </div>
+
+                    <ul class="demo-features">
+                        <li>Large-scale project visualization</li>
+                        <li>Complex analysis dependencies</li>
+                        <li>Number theory formalization</li>
+                    </ul>
+
+                    <a href="strongpnt-example.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧪 LeanParanoia Test Suite Examples</h2>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <span class="demo-badge">All Examples</span>
+                    <h3><a href="leanparanoia-examples-all.html">Complete Test Suite</a></h3>
+                    <p class="demo-description">
+                        All examples from LeanParanoia's test suite showing various exploits and verification scenarios.
+                    </p>
+
+                    <div class="demo-stats">
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Declarations</span>
+                            <span class="demo-stat-value">17</span>
+                        </div>
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Tools</span>
+                            <span class="demo-stat-value">3</span>
+                        </div>
+                    </div>
+
+                    <ul class="demo-features">
+                        <li>Custom axioms (bad_axiom, custom_false)</li>
+                        <li>Sorry usage (exploit_theorem, sorry_proof)</li>
+                        <li>Unsafe code (exploit_value, unsafeCompute)</li>
+                        <li>Partial functions (loop, partial_def)</li>
+                        <li>Valid code (good_theorem, simple_theorem)</li>
+                    </ul>
+
+                    <div class="note">
+                        <div class="note-title">Note: Demonstration Data</div>
+                        <p>This demo uses manually crafted verification results based on known issues in the LeanParanoia test files.</p>
+                    </div>
+
+                    <a href="leanparanoia-examples-all.html" class="demo-link">View Demo →</a>
+                </div>
+
+                <div class="demo-card">
+                    <span class="demo-badge">Basic</span>
+                    <h3><a href="leanparanoia-test-demo.html">Simple 3-Declaration Example</a></h3>
+                    <p class="demo-description">
+                        Minimal example with three declarations showing good and bad theorems. Good starting point.
+                    </p>
+
+                    <div class="demo-stats">
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Declarations</span>
+                            <span class="demo-stat-value">3</span>
+                        </div>
+                        <div class="demo-stat">
+                            <span class="demo-stat-label">Tools</span>
+                            <span class="demo-stat-value">1</span>
+                        </div>
+                    </div>
+
+                    <ul class="demo-features">
+                        <li>Simple example to understand the viewer</li>
+                        <li>LeanParanoia verification only</li>
+                        <li>Good starting point</li>
+                    </ul>
+
+                    <a href="leanparanoia-test-demo.html" class="demo-link">View Demo →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🔧 Load Your Own Files</h2>
+
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <span class="demo-badge">Interactive</span>
+                    <h3><a href="index.html">Interactive Viewer</a></h3>
+                    <p class="demo-description">
+                        Upload your own dependency graphs and verification reports. All processing happens in your browser - no data sent to servers.
+                    </p>
+
+                    <ul class="demo-features">
+                        <li>Load custom JSON dependency graphs</li>
+                        <li>Upload verification reports</li>
+                        <li>Load DOT files for graph visualization</li>
+                        <li>100% client-side - works offline</li>
+                    </ul>
+
+                    <a href="index.html" class="demo-link">Open Viewer →</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <strong>LeanDepViz</strong> - Dependency Visualization & Verification for Lean 4
+            </p>
+            <p>
+                <a href="https://github.com/cameronfreer/LeanDepViz">GitHub Repository</a> •
+                <a href="https://github.com/cameronfreer/LeanDepViz#readme">Documentation</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
