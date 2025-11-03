@@ -1,0 +1,210 @@
+{
+  "merged_report": true,
+  "version": "1.0.0",
+  "tools": [
+    "paranoia",
+    "lean4checker",
+    "safeverify"
+  ],
+  "summary": {
+    "total_declarations": 4,
+    "passed_all": 1,
+    "failed_any": 3,
+    "by_tool": {
+      "paranoia": {
+        "total": 4,
+        "passed": 1,
+        "failed": 3,
+        "mode": "summary"
+      },
+      "lean4checker": {
+        "total": 4,
+        "passed": 4,
+        "failed": 0
+      },
+      "safeverify": {
+        "total": 4,
+        "passed": 1,
+        "failed": 3
+      }
+    }
+  },
+  "declarations": [
+    {
+      "decl": "SafeVerifyDemo.Modified.append_nil_length",
+      "module": "SafeVerifyDemo.Modified",
+      "zone": "Demo",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": "No policy violations detected"
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": true,
+          "checks": [
+            "statement-match"
+          ],
+          "error": null,
+          "notes": "Statement matches reference exactly"
+        }
+      },
+      "checks": [
+        "policy-pass",
+        "kernel-replay",
+        "statement-match"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 3,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "SafeVerifyDemo.Modified.double_is_even",
+      "module": "SafeVerifyDemo.Modified",
+      "zone": "Demo",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'double_is_even' contains sorry\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "statement-check"
+          ],
+          "error": "Statement mismatch: reference type 'Even (2 * n)' differs from submission type '∃ k, 2 * n = 4 * k'",
+          "notes": "STRENGTHENED: Changed from 'even' to 'divisible by 4' (false claim)"
+        }
+      },
+      "checks": [
+        "sorry",
+        "kernel-replay",
+        "statement-check"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'double_is_even' contains sorry\"]},\"success\":false}, [safeverify] Statement mismatch: reference type 'Even (2 * n)' differs from submission type '∃ k, 2 * n = 4 * k'",
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 1,
+        "failed_checks": 2
+      }
+    },
+    {
+      "decl": "SafeVerifyDemo.Modified.reverse_length",
+      "module": "SafeVerifyDemo.Modified",
+      "zone": "Demo",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'reverse_length' contains sorry\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "statement-check"
+          ],
+          "error": "Statement mismatch: reference type 'xs.reverse.length = xs.length' differs from submission type 'xs.reverse.length < xs.length'",
+          "notes": "CHANGED: Equality changed to less-than (false claim)"
+        }
+      },
+      "checks": [
+        "sorry",
+        "kernel-replay",
+        "statement-check"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'reverse_length' contains sorry\"]},\"success\":false}, [safeverify] Statement mismatch: reference type 'xs.reverse.length = xs.length' differs from submission type 'xs.reverse.length < xs.length'",
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 1,
+        "failed_checks": 2
+      }
+    },
+    {
+      "decl": "SafeVerifyDemo.Modified.sum_of_evens_is_even",
+      "module": "SafeVerifyDemo.Modified",
+      "zone": "Demo",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'sum_of_evens_is_even' contains sorry\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        },
+        "safeverify": {
+          "ok": false,
+          "checks": [
+            "statement-check"
+          ],
+          "error": "Statement mismatch: reference type 'Even a → Even b → Even (a + b)' differs from submission type 'Even (a + b)'",
+          "notes": "WEAKENED: Removed preconditions requiring inputs to be even"
+        }
+      },
+      "checks": [
+        "sorry",
+        "kernel-replay",
+        "statement-check"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'sum_of_evens_is_even' contains sorry\"]},\"success\":false}, [safeverify] Statement mismatch: reference type 'Even a → Even b → Even (a + b)' differs from submission type 'Even (a + b)'",
+      "summary": {
+        "total_checks": 3,
+        "passed_checks": 1,
+        "failed_checks": 2
+      }
+    }
+  ]
+}

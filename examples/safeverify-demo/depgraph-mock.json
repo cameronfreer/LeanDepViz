@@ -1,0 +1,41 @@
+{
+  "nodes": [
+    {
+      "name": "sum_of_evens_is_even",
+      "fullName": "SafeVerifyDemo.Modified.sum_of_evens_is_even",
+      "module": "SafeVerifyDemo.Modified",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": true,
+      "axioms": ["sorryAx"]
+    },
+    {
+      "name": "double_is_even",
+      "fullName": "SafeVerifyDemo.Modified.double_is_even",
+      "module": "SafeVerifyDemo.Modified",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": true,
+      "axioms": ["sorryAx"]
+    },
+    {
+      "name": "reverse_length",
+      "fullName": "SafeVerifyDemo.Modified.reverse_length",
+      "module": "SafeVerifyDemo.Modified",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": true,
+      "axioms": ["sorryAx"]
+    },
+    {
+      "name": "append_nil_length",
+      "fullName": "SafeVerifyDemo.Modified.append_nil_length",
+      "module": "SafeVerifyDemo.Modified",
+      "kind": "thm",
+      "isUnsafe": false,
+      "hasSorry": false,
+      "axioms": []
+    }
+  ],
+  "edges": []
+}
