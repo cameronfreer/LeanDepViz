@@ -398,6 +398,18 @@
                 </div>
             </div>
 
+            <!-- Graph View (positioned after preview) -->
+            <div id="graph-view" class="view">
+                <h2 class="section-title">🕸️ Interactive Dependency Graph</h2>
+                <div id="graph-empty" class="empty-state">
+                    <p>Load a DOT file to visualize the dependency graph.</p>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
+                        Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
+                    </p>
+                </div>
+                <div id="graph-viz" class="hidden"></div>
+            </div>
+
             <!-- Table View -->
             <div id="table-view" class="view">
                 <h2 class="section-title">📊 Declarations</h2>
@@ -417,18 +429,6 @@
                     </thead>
                     <tbody id="nodes-tbody"></tbody>
                 </table>
-            </div>
-
-            <!-- Graph View -->
-            <div id="graph-view" class="view">
-                <h2 class="section-title">🕸️ Interactive Dependency Graph</h2>
-                <div id="graph-empty" class="empty-state">
-                    <p>Load a DOT file to visualize the dependency graph.</p>
-                    <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
-                        Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
-                    </p>
-                </div>
-                <div id="graph-viz" class="hidden"></div>
             </div>
         </div>
         
