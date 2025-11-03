@@ -60,9 +60,9 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -75,10 +75,10 @@
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -110,8 +110,8 @@
         }
       },
       "checks": [
-        "policy-pass",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-pass"
       ],
       "error": null,
       "summary": {
@@ -156,9 +156,10 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "sorry",
+            "partial"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -171,10 +172,11 @@
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "sorry",
+        "partial"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -217,9 +219,9 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -232,10 +234,10 @@
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -252,9 +254,9 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "sorry"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -267,10 +269,10 @@
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "sorry"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -287,9 +289,9 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -302,10 +304,10 @@
         }
       },
       "checks": [
-        "policy-violation",
+        "unsafe",
         "kernel-replay"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -322,9 +324,9 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -337,10 +339,10 @@
         }
       },
       "checks": [
-        "policy-violation",
+        "unsafe",
         "kernel-replay"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -357,9 +359,9 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -372,10 +374,10 @@
         }
       },
       "checks": [
-        "policy-violation",
+        "unsafe",
         "kernel-replay"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -418,9 +420,9 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -433,10 +435,10 @@
         }
       },
       "checks": [
-        "policy-violation",
+        "unsafe",
         "kernel-replay"
       ],
-      "error": "[paranoia] warning: LeanDepViz: repository '/private/tmp/leanparanoia-test/.lake/packages/LeanDepViz' has local changes",
+      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -468,8 +470,8 @@
         }
       },
       "checks": [
-        "policy-pass",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-pass"
       ],
       "error": null,
       "summary": {
