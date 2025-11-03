@@ -263,9 +263,16 @@ See [MULTI_CHECKER.md](MULTI_CHECKER.md) for complete documentation.
 [lean4checker](https://github.com/leanprover/lean4checker) independently replays your proof environment in the Lean kernel to verify correctness.
 
 **What it checks**:
-- Environment integrity
-- Kernel-level correctness
-- Declaration validity
+- Environment integrity (detects corrupted `.olean` files)
+- Kernel-level correctness (independent verification)
+- Declaration validity (type-checks proof terms)
+
+**What it does NOT check**:
+- ⚠️ `sorry` usage (sorry is a valid kernel axiom - `sorryAx`)
+- ⚠️ Custom axioms (axioms are valid kernel constructs)
+- ⚠️ Policy violations (that's what LeanParanoia does)
+
+**Why it's valuable**: Provides independent verification that your compiled proof environment is sound. If code compiles correctly, lean4checker will typically pass. Its value is in **defense-in-depth** - catching issues the main compiler might miss due to bugs or corruption.
 
 **Usage**:
 ```bash
