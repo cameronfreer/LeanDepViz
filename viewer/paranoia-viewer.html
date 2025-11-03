@@ -376,11 +376,11 @@
     <main>
         <div id="content-area">
             <!-- Top row: SVG Preview and Interactive Graph side-by-side -->
-            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; min-height: 0;">
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; height: 400px; flex-shrink: 0;">
                 <!-- SVG Preview (left column, narrow) -->
-                <div id="svg-preview" class="hidden" style="flex: 0 0 300px;">
-                    <div style="background: #2d2d30; border-radius: 8px; padding: 1rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <div id="svg-preview" class="hidden" style="flex: 0 0 300px; display: flex; flex-direction: column;">
+                    <div style="background: #2d2d30; border-radius: 8px; padding: 1rem; display: flex; flex-direction: column; height: 100%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-shrink: 0;">
                             <h3 style="margin: 0; color: #4ec9b0; font-size: 0.95rem;">📊 Preview</h3>
                             <div style="display: flex; gap: 0.25rem;">
                                 <button onclick="openFullSvg()" style="background: #0e639c; color: white; border: none; padding: 0.4rem 0.75rem; border-radius: 4px; cursor: pointer; font-size: 0.8rem;">
@@ -391,25 +391,25 @@
                                 </button>
                             </div>
                         </div>
-                        <a href="#" onclick="openFullSvg(); return false;" style="display: block; cursor: pointer; border: 2px solid #3c3c3c; border-radius: 4px; overflow: hidden; background: white; transition: border-color 0.2s;" onmouseover="this.style.borderColor='#0e639c'" onmouseout="this.style.borderColor='#3c3c3c'">
-                            <div id="svg-thumbnail" style="max-height: 200px; overflow: hidden;"></div>
+                        <a href="#" onclick="openFullSvg(); return false;" style="display: block; cursor: pointer; border: 2px solid #3c3c3c; border-radius: 4px; overflow: hidden; background: white; transition: border-color 0.2s; flex: 1; min-height: 0;" onmouseover="this.style.borderColor='#0e639c'" onmouseout="this.style.borderColor='#3c3c3c'">
+                            <div id="svg-thumbnail" style="height: 100%; overflow: hidden;"></div>
                         </a>
-                        <p style="color: #888; margin-top: 0.5rem; font-size: 0.75rem; text-align: center;">
+                        <p style="color: #888; margin-top: 0.5rem; font-size: 0.75rem; text-align: center; flex-shrink: 0;">
                             Click to view full size
                         </p>
                     </div>
                 </div>
 
                 <!-- Graph View (right column, takes remaining space) -->
-                <div id="graph-view" class="view" style="flex: 1; min-width: 0;">
-                    <h2 class="section-title">🕸️ Interactive Dependency Graph</h2>
-                    <div id="graph-empty" class="empty-state">
+                <div id="graph-view" class="view" style="flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100%;">
+                    <h2 class="section-title" style="flex-shrink: 0;">🕸️ Interactive Dependency Graph</h2>
+                    <div id="graph-empty" class="empty-state" style="flex: 1;">
                         <p>Load a DOT file to visualize the dependency graph.</p>
                         <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">
                             Generate with: <code style="background: #2d2d30; padding: 0.2rem 0.5rem; border-radius: 3px;">lake exe depviz --roots YourProject --dot-out graph.dot</code>
                         </p>
                     </div>
-                    <div id="graph-viz" class="hidden"></div>
+                    <div id="graph-viz" class="hidden" style="flex: 1; min-height: 0;"></div>
                 </div>
             </div>
 
