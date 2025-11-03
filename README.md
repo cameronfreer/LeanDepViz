@@ -623,6 +623,121 @@ Default behavior produces graphs with hundreds to thousands of nodes instead of 
 
 The JSON output includes full declaration names, module paths, kinds (theorem/def), and metadata about `sorry`, axioms, and unsafe constructs - everything needed for policy-based verification.
 
+## Regenerating Demo Data
+
+The demo files (like `leanparanoia-examples-all.html`) use **real verification data** generated from test projects. To regenerate the "All LeanParanoia Examples" demo:
+
+### Automated Build Script
+
+Use the test-driven build script for reproducible generation:
+
+```bash
+./scripts/generate_all_examples.sh
+```
+
+This script:
+1. Creates a temporary test project with example files from `examples/leanparanoia-tests/`
+2. Builds the project with Lean 4.24.0-rc1
+3. Generates dependency graph (JSON + DOT formats)
+4. Runs LeanParanoia verification with policy checks
+5. Runs lean4checker for kernel replay verification
+6. Merges reports into unified JSON format
+7. Validates the unified report (structure, data integrity, expected results)
+8. Generates interactive HTML viewer with embedded data
+9. Copies outputs to `docs/` and `examples/leanparanoia-tests/`
+
+### Requirements
+
+- **Lean 4.24.0-rc1** (via elan): `elan default leanprover/lean4:v4.24.0-rc1`
+- **Python 3**: For adapter scripts and validation
+- **LeanDepViz built**: `lake build` in this repository
+
+### Manual Steps (for understanding the workflow)
+
+If you want to understand or customize the process:
+
+```bash
+# 1. Create test project
+mkdir /tmp/leanparanoia-test && cd /tmp/leanparanoia-test
+
+# 2. Setup project files
+cat > lakefile.lean <<EOF
+import Lake
+open Lake DSL
+package LeanTestProject where
+  version := v!"0.1.0"
+require LeanDepViz from git "https://github.com/CameronFreer/LeanDepViz.git" @ "main"
+@[default_target]
+lean_lib LeanTestProject where
+EOF
+
+echo "leanprover/lean4:v4.24.0-rc1" > lean-toolchain
+
+# 3. Copy example files
+mkdir -p LeanTestProject
+cp $REPO/examples/leanparanoia-tests/{Basic,ProveAnything,SorryDirect,PartialNonTerminating,UnsafeDefinition,ValidSimple}.lean LeanTestProject/
+cp $REPO/examples/leanparanoia-tests/policy.yaml .
+
+# 4. Build project
+lake update && lake build
+
+# 5. Generate dependency graph
+lake exe depviz --roots LeanTestProject --json-out depgraph.json --dot-out depgraph.dot
+
+# 6. Run verifiers
+python3 $REPO/scripts/paranoia_runner.py \
+  --depgraph depgraph.json \
+  --policy policy.yaml \
+  --out paranoia-report.json
+
+python3 $REPO/scripts/lean4checker_adapter.py \
+  --depgraph depgraph.json \
+  --out lean4checker-report.json
+
+# 7. Merge reports
+python3 $REPO/scripts/merge_reports.py \
+  --reports paranoia-report.json lean4checker-report.json \
+  --out unified-report.json
+
+# 8. Validate
+python3 $REPO/scripts/validate_unified_report.py \
+  --report unified-report.json \
+  --expect-tests
+
+# 9. Generate HTML
+python3 $REPO/scripts/embed_data.py \
+  --viewer $REPO/viewer/paranoia-viewer.html \
+  --depgraph depgraph.json \
+  --dot depgraph.dot \
+  --report unified-report.json \
+  --output $REPO/docs/leanparanoia-examples-all.html
+```
+
+### Validation
+
+The `validate_unified_report.py` script checks:
+- **Structure**: Required fields, correct types
+- **Data Integrity**: Declaration counts match across tools
+- **Expected Results**: Known test cases produce correct pass/fail outcomes
+- **No Hardcoded Paths**: No machine-specific paths in output
+
+For the LeanTestProject test suite, validation ensures:
+- 2 theorems pass all checks (`good_theorem`, `simple_theorem`)
+- 8 declarations fail with expected errors:
+  - 2 custom axiom violations (`bad_axiom`, `magic`)
+  - 2 sorry violations (`sorry_theorem`, `partial_theorem`)
+  - 4 unsafe code violations (`unsafeAddImpl`, `unsafeProof`, `seeminglySafeAdd`, `unsafe_theorem`)
+- All 14 declarations pass lean4checker (kernel replay doesn't catch policy violations)
+
+### Adding New Test Cases
+
+To add new example files:
+
+1. Add `.lean` file to `examples/leanparanoia-tests/`
+2. Update `generate_all_examples.sh` to include the new file
+3. Run the generation script
+4. Commit the updated outputs
+
 ## Contributing
 
 Contributions are welcome! Please:
