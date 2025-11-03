@@ -4,7 +4,7 @@ A dependency visualization and **multi-checker verification tool** for Lean 4 pr
 
 ## Features
 
-- **Multi-Checker Verification** (v0.3.0): Run multiple independent verifiers (LeanParanoia, lean4checker, SafeVerify) with unified reporting
+- **Multi-Checker Verification** (v0.3.1): Run multiple independent verifiers (LeanParanoia, lean4checker, SafeVerify) with unified reporting
 - **Defense in Depth**: Different checkers catch different issues - policy violations, kernel corruption, statement changes
 - **Interactive Viewer**: Sortable table with per-tool columns, embedded dependency graph, failures sorted to top
 - **Smart Filtering**: By default, keeps only declarations from your project's root modules, producing manageable graph sizes
@@ -220,7 +220,7 @@ lake exe depviz --roots MyProject --svg-out depgraph.svg --png-out depgraph.png
 - `--include-prefix <prefixes>`: Comma-separated list of additional module prefixes to include
 - `--keep-all`: Disable filtering entirely (include all declarations)
 
-### Multi-Checker Workflow (v0.3.0)
+### Multi-Checker Workflow (v0.3.1)
 
 For defense-in-depth verification, run multiple checkers and merge their results:
 

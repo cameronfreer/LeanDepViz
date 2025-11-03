@@ -199,8 +199,19 @@ private def graphToDot (g : Graph) : String :=
 
 private def graphToJson (g : Graph) : String :=
   let nodes := g.nodes.map fun n =>
+    -- If name doesn't contain module prefix, prepend it
+    let rawName := ppName n.name
+    let fullName :=
+      if rawName.contains '.' then
+        rawName -- Already has namespace/module prefix
+      else
+        -- Top-level declaration - prepend module name
+        if n.moduleName != "_unknown_" && !n.moduleName.isEmpty then
+          s!"{n.moduleName}.{rawName}"
+        else
+          rawName
     { name := nodeShortName n.name
-      fullName := ppName n.name
+      fullName := fullName
       module := n.moduleName
       kind := n.kind
       isUnsafe := n.isUnsafe
