@@ -830,13 +830,18 @@
             if (!toolData) {
                 return '<span class="badge" style="background: #3c3c3c; color: #888; font-size: 0.85em;">—</span>';
             }
-            
+
             if (toolData.ok) {
                 return '<span class="badge passed" style="font-size: 0.85em;">✓</span>';
             } else {
-                const errorMsg = toolData.error ? escapeHtml(toolData.error) : 'Failed';
-                const shortError = errorMsg.length > 120 ? errorMsg.substring(0, 120) + '...' : errorMsg;
-                return `<div style="display: flex; align-items: start; gap: 0.5rem;"><span class="badge failed" style="font-size: 0.85em; flex-shrink: 0;" title="${errorMsg}">✗</span><span style="font-size: 0.75em; color: #f48771; text-align: left;">${shortError}</span></div>`;
+                const formattedError = formatError(toolData.error);
+                // For table cell, show just first line or truncated text
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = formattedError;
+                const textOnly = tempDiv.textContent || tempDiv.innerText || '';
+                const shortError = textOnly.length > 80 ? textOnly.substring(0, 80) + '...' : textOnly;
+                const fullErrorEscaped = formattedError.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                return `<div style="display: flex; align-items: start; gap: 0.5rem;"><span class="badge failed" style="font-size: 0.85em; flex-shrink: 0;">✗</span><span style="font-size: 0.75em; color: #f48771; text-align: left;">${escapeHtml(shortError)}</span></div>`;
             }
         }
         
@@ -954,8 +959,8 @@
                             if (toolData.ok) {
                                 html += `<li><span style="color: #4ec9b0;">✓</span> <strong>${toolName}:</strong> <span style="color: #4ec9b0;">Passed</span></li>`;
                             } else {
-                                const error = toolData.error ? escapeHtml(toolData.error) : 'Failed';
-                                html += `<li><span style="color: #f48771;">✗</span> <strong>${toolName}:</strong> <span style="color: #f48771;">${error}</span></li>`;
+                                const error = formatError(toolData.error || 'Failed');
+                                html += `<li><span style="color: #f48771;">✗</span> <strong>${toolName}:</strong> <div style="color: #f48771; margin-top: 0.25rem;">${error}</div></li>`;
                             }
                         }
                     });
@@ -978,7 +983,8 @@
                     
                     if (!status.ok) {
                         const error = status.error || status.stderr || status.stdout || 'Unknown error';
-                        html += `<div style="margin-top: 0.5rem; color: #f48771; font-family: monospace; font-size: 0.75rem; background: #1e1e1e; padding: 0.5rem; border-radius: 3px; overflow-x: auto;">${escapeHtml(error)}</div>`;
+                        const formattedError = formatError(error);
+                        html += `<div style="margin-top: 0.5rem; color: #f48771; font-size: 0.85rem; background: #1e1e1e; padding: 0.75rem; border-radius: 3px; overflow-x: auto;">${formattedError}</div>`;
                     }
                 }
             } else {
@@ -996,6 +1002,47 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        /**
+         * Format error message - parse JSON if possible, otherwise return as-is.
+         * JSON errors from LeanParanoia are formatted as hierarchical bullet points.
+         */
+        function formatError(errorText) {
+            if (!errorText) return 'Unknown error';
+
+            // Try to parse as JSON
+            try {
+                const parsed = JSON.parse(errorText);
+
+                // LeanParanoia format: {failures: {Category: [messages...]}, success: false}
+                if (parsed.failures && typeof parsed.failures === 'object') {
+                    let html = '<ul style="margin: 0; padding-left: 1.2rem; list-style: disc;">';
+                    for (const [category, messages] of Object.entries(parsed.failures)) {
+                        html += `<li><strong>${escapeHtml(category)}:</strong>`;
+                        if (Array.isArray(messages) && messages.length > 0) {
+                            if (messages.length === 1) {
+                                html += ` ${escapeHtml(messages[0])}`;
+                            } else {
+                                html += '<ul style="margin-top: 0.25rem; padding-left: 1.2rem;">';
+                                messages.forEach(msg => {
+                                    html += `<li>${escapeHtml(msg)}</li>`;
+                                });
+                                html += '</ul>';
+                            }
+                        }
+                        html += '</li>';
+                    }
+                    html += '</ul>';
+                    return html;
+                }
+
+                // Generic JSON object - format nicely
+                return `<pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(JSON.stringify(parsed, null, 2))}</pre>`;
+            } catch (e) {
+                // Not JSON - return escaped text
+                return escapeHtml(errorText);
+            }
         }
         
         // Download embedded DOT file
