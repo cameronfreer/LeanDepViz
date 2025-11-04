@@ -93,6 +93,9 @@ package LeanTestProject where
 require LeanDepViz from git
   "https://github.com/CameronFreer/LeanDepViz.git" @ "main"
 
+require paranoia from git
+  "https://github.com/oOo0oOo/LeanParanoia.git" @ "main"
+
 @[default_target]
 lean_lib LeanTestProject where
 EOF
