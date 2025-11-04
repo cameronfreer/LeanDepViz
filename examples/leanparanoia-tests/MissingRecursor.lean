@@ -1,6 +1,6 @@
--- Manual constructor manipulation without exposing generated constructors
-inductive ManualWitness : Type
+-- Missing recursor manipulation
+inductive MissingRecursor_Witness : Type
 
-axiom manualCtor : ManualWitness
+axiom missingRecCtor : MissingRecursor_Witness
 
-noncomputable def exploit_theorem : ManualWitness := manualCtor
+noncomputable def MissingRecursor_exploit : MissingRecursor_Witness := missingRecCtor

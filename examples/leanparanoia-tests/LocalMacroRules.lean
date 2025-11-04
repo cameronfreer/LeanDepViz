@@ -6,6 +6,6 @@ axiom hidden_axiom : 1 = 2
 -- Override the sorry macro to use our axiom instead
 local macro_rules | `(sorry) => `(hidden_axiom)
 
-theorem exploit_theorem : 1 = 2 := sorry
+theorem LocalMacroRules_exploit_theorem : 1 = 2 := sorry
 
 end LeanTestProject.SourcePatterns.LocalMacroRules

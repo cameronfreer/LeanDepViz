@@ -1,4 +1,4 @@
 -- Custom axiom proving False directly
-axiom exploit_axiom : False
+axiom ProveFalse_exploit_axiom : False
 
-theorem exploit_theorem : False := exploit_axiom
+theorem ProveFalse_exploit_theorem : False := ProveFalse_exploit_axiom

@@ -4,6 +4,6 @@ private def privateAdd (n m : Nat) : Nat := n + m
 
 def publicAdd (n m : Nat) : Nat := privateAdd n m
 
-axiom exploit_axiom : publicAdd 1 1 = 3
+axiom PrivateExtern_exploit_axiom : publicAdd 1 1 = 3
 
-theorem exploit_theorem : 1 + 1 = 3 := exploit_axiom
+theorem PrivateExtern_exploit_theorem : 1 + 1 = 3 := PrivateExtern_exploit_axiom

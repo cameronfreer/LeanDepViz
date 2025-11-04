@@ -1,0 +1,41 @@
+# LeanParanoia Policy Configuration
+# Defines what checks to run and what axioms/patterns are allowed
+
+# Verification checks to enable
+checks:
+  sorry: true              # Detect sorry/admit usage
+  axioms: true             # Detect custom axioms
+  unsafe: true             # Detect unsafe code
+  partial: true            # Detect non-terminating partial functions
+  metavariables: true      # Detect unsolved metavariables
+  extern: true             # Detect @[extern] FFI
+  implemented_by: true     # Detect @[implemented_by]
+  csimp: true              # Detect @[csimp] compiler simplification
+  source_patterns: true    # Detect suspicious source patterns
+  constructor_integrity: true   # Check constructor integrity
+  recursor_integrity: true      # Check recursor integrity
+  kernel_rejection: true   # Detect kernel rejection
+  native_computation: true # Detect native computation
+
+# Allowed standard axioms (Lean's standard proof axioms)
+allowed_axioms:
+  - "propext"              # Propositional extensionality
+  - "Classical.choice"     # Classical choice (from Mathlib)
+  - "Quot.sound"           # Quotient soundness
+
+# Transitive dependency analysis
+transitive:
+  enabled: true
+  max_depth: 10            # Maximum depth to check dependencies
+
+# Fail-fast mode (stop on first violation)
+fail_fast: false
+
+# Replay verification
+replay:
+  enabled: false           # We run lean4checker separately
+
+# Reporting
+report:
+  format: "json"
+  verbose: false

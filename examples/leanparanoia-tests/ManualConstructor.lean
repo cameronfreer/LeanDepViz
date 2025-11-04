@@ -1,6 +1,6 @@
 -- Manual constructor manipulation without exposing generated constructors
-inductive ManualWitness : Type
+inductive ManualConstructor_Witness : Type
 
-axiom manualCtor : ManualWitness
+axiom manualCtor : ManualConstructor_Witness
 
-noncomputable def exploit_theorem : ManualWitness := manualCtor
+noncomputable def ManualConstructor_exploit : ManualConstructor_Witness := manualCtor

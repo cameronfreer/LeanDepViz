@@ -4,7 +4,7 @@ namespace LeanTestProject.Partial.NonTerminating
 partial def loop (n : Nat) : Nat :=
   loop (n + 1)
 
-theorem exploit_theorem : loop 0 = 42 := by
+theorem PartialNonTerminating_exploit_theorem : loop 0 = 42 := by
   -- This would never terminate, but we "prove" it anyway
   sorry
 

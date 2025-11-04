@@ -5,6 +5,6 @@ def correctAdd (n m : Nat) : Nat := n + m
 
 @[csimp] axiom correctAdd_eq_wrongAdd : @correctAdd = @wrongAdd
 
-axiom exploit_axiom : correctAdd 1 1 = 3
+axiom WithAxiom_exploit_axiom : correctAdd 1 1 = 3
 
-theorem exploit_theorem : 1 + 1 = 3 := exploit_axiom
+theorem WithAxiom_exploit_theorem : 1 + 1 = 3 := WithAxiom_exploit_axiom
