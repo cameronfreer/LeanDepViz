@@ -6,20 +6,20 @@
     "lean4checker"
   ],
   "summary": {
-    "total_declarations": 14,
-    "passed_all": 6,
-    "failed_any": 8,
+    "total_declarations": 67,
+    "passed_all": 26,
+    "failed_any": 41,
     "by_tool": {
       "paranoia": {
-        "total": 10,
-        "passed": 2,
-        "failed": 8,
-        "mode": "summary"
+        "total": 47,
+        "passed": 6,
+        "failed": 41,
+        "mode": "detailed"
       },
       "lean4checker": {
-        "total": 14,
-        "passed": 14,
-        "failed": 0
+        "total": 67,
+        "passed": 66,
+        "failed": 1
       }
     }
   },
@@ -53,16 +53,16 @@
     {
       "decl": "LeanTestProject.Basic.bad_theorem",
       "module": "LeanTestProject.Basic",
-      "zone": "Examples",
+      "zone": "test_suite",
       "kind": "thm",
       "ok": false,
       "tools": {
         "paranoia": {
           "ok": false,
           "checks": [
-            "disallowed-axioms"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
+          "error": "\u2716 [10/15] Building LeanParanoia (114ms)",
           "notes": null
         },
         "lean4checker": {
@@ -76,9 +76,9 @@
       },
       "checks": [
         "kernel-replay",
-        "disallowed-axioms"
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: bad_axiom\"]},\"success\":false}",
+      "error": "[paranoia] \u2716 [10/15] Building LeanParanoia (114ms)",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -88,7 +88,269 @@
     {
       "decl": "LeanTestProject.Basic.good_theorem",
       "module": "LeanTestProject.Basic",
-      "zone": "Examples",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "\u2716 [10/15] Building LeanParanoia (111ms)",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] \u2716 [10/15] Building LeanParanoia (111ms)",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.CustomAxioms.HiddenInMacro.HiddenInMacro_exploit_theorem",
+      "module": "LeanTestProject.HiddenInMacro",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.CustomAxioms.HiddenInMacro.hidden_axiom",
+      "module": "LeanTestProject.HiddenInMacro",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.CustomAxioms.HiddenInMacro.termProve_false",
+      "module": "LeanTestProject.HiddenInMacro",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "\u2716 [4/15] Building LeanParanoia.Helpers (101ms)",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] \u2716 [4/15] Building LeanParanoia.Helpers (101ms)",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.DeepAxiom_L0.custom_axiom",
+      "module": "LeanTestProject.DeepAxiom_L0",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.DeepAxiom_L1.uses_custom_axiom",
+      "module": "LeanTestProject.DeepAxiom_L1",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.DeepSorry_L0.has_sorry",
+      "module": "LeanTestProject.DeepSorry_L0",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.DeepSorry_L1.uses_sorry_from_l0",
+      "module": "LeanTestProject.DeepSorry_L1",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.Dependencies.uses_helper",
+      "module": "LeanTestProject.Dependencies",
+      "zone": "test_suite",
       "kind": "thm",
       "ok": true,
       "tools": {
@@ -121,7 +383,644 @@
       }
     },
     {
-      "decl": "LeanTestProject.PartialNonTerminating.loop",
+      "decl": "LeanTestProject.DirectReplacement.DirectReplacement_exploit_axiom",
+      "module": "LeanTestProject.DirectReplacement",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.DirectReplacement.DirectReplacement_exploit_theorem",
+      "module": "LeanTestProject.DirectReplacement",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.DirectReplacement.seemsCorrectAdd",
+      "module": "LeanTestProject.DirectReplacement",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.DirectReplacement.wrongAddImpl",
+      "module": "LeanTestProject.DirectReplacement",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-pass"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.ExportC.ExportC_exploit_axiom",
+      "module": "LeanTestProject.ExportC",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.ExportC.ExportC_exploit_theorem",
+      "module": "LeanTestProject.ExportC",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.ExportC.exportedAdd",
+      "module": "LeanTestProject.ExportC",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-pass"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.Helper.helper_theorem",
+      "module": "LeanTestProject.Helper",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-pass"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.Helper.helper_value",
+      "module": "LeanTestProject.Helper",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-pass"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.Intermediate.Intermediate_exploit_theorem",
+      "module": "LeanTestProject.Intermediate",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.ManualConstructor.ManualConstructor_Witness",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.ManualConstructor.ManualConstructor_exploit",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.ManualConstructor.manualCtor",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.MissingRecursor.MissingRecursor_Witness",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.MissingRecursor.MissingRecursor_exploit",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.MissingRecursor.missingRecCtor",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.NativeDecide.NativeDecide_exploit_theorem",
+      "module": "LeanTestProject.NativeDecide",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": false,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": "Module LeanTestProject.NativeDecide kernel replay failed",
+          "notes": ""
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[lean4checker] Module LeanTestProject.NativeDecide kernel replay failed",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 0,
+        "failed_checks": 2
+      }
+    },
+    {
+      "decl": "LeanTestProject.Opaque.Opaque_exploit_theorem",
+      "module": "LeanTestProject.Opaque",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "sorry"
+          ],
+          "error": "{\"failures\":{\"Sorry\":[\"Dependency 'hiddenSorryProof' contains sorry\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "sorry"
+      ],
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Dependency 'hiddenSorryProof' contains sorry\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.Opaque.hiddenSorryProof",
+      "module": "LeanTestProject.Opaque",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem",
+      "module": "LeanTestProject.PartialNonTerminating",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "partial"
+          ],
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Part",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "partial",
+        "kernel-replay"
+      ],
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Part",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.Partial.NonTerminating.loop",
       "module": "LeanTestProject.PartialNonTerminating",
       "zone": "unknown",
       "kind": null,
@@ -147,19 +1046,45 @@
       }
     },
     {
-      "decl": "LeanTestProject.PartialNonTerminating.partial_theorem",
-      "module": "LeanTestProject.PartialNonTerminating",
-      "zone": "Examples",
+      "decl": "LeanTestProject.PrivateExtern.PrivateExtern_exploit_axiom",
+      "module": "LeanTestProject.PrivateExtern",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.PrivateExtern.PrivateExtern_exploit_theorem",
+      "module": "LeanTestProject.PrivateExtern",
+      "zone": "test_suite",
       "kind": "thm",
       "ok": false,
       "tools": {
         "paranoia": {
           "ok": false,
           "checks": [
-            "sorry",
-            "partial"
+            "disallowed-axioms",
+            "extern"
           ],
-          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: PrivateExtern_exploit_axiom\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -173,10 +1098,80 @@
       },
       "checks": [
         "kernel-replay",
-        "sorry",
-        "partial"
+        "disallowed-axioms",
+        "extern"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'partial_theorem' contains sorry\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: PrivateExtern_exploit_axiom\"]},\"success\":false}",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.PrivateExtern.publicAdd",
+      "module": "LeanTestProject.PrivateExtern",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": true,
+      "tools": {
+        "paranoia": {
+          "ok": true,
+          "checks": [
+            "policy-pass"
+          ],
+          "error": null,
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-pass"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 2,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.ProveAnything.ProveAnything_exploit_theorem",
+      "module": "LeanTestProject.ProveAnything",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "disallowed-axioms"
+          ],
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "disallowed-axioms"
+      ],
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -210,9 +1205,35 @@
       }
     },
     {
-      "decl": "LeanTestProject.ProveAnything.magic_theorem",
-      "module": "LeanTestProject.ProveAnything",
-      "zone": "Examples",
+      "decl": "LeanTestProject.ProveFalse.ProveFalse_exploit_axiom",
+      "module": "LeanTestProject.ProveFalse",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.ProveFalse.ProveFalse_exploit_theorem",
+      "module": "LeanTestProject.ProveFalse",
+      "zone": "test_suite",
       "kind": "thm",
       "ok": false,
       "tools": {
@@ -221,7 +1242,7 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ProveFalse_exploit_axiom\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -237,7 +1258,7 @@
         "kernel-replay",
         "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ProveFalse_exploit_axiom\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -245,9 +1266,9 @@
       }
     },
     {
-      "decl": "LeanTestProject.SorryDirect.sorry_theorem",
+      "decl": "LeanTestProject.Sorry.Direct.SorryDirect_exploit_theorem",
       "module": "LeanTestProject.SorryDirect",
-      "zone": "Examples",
+      "zone": "test_suite",
       "kind": "thm",
       "ok": false,
       "tools": {
@@ -256,7 +1277,7 @@
           "checks": [
             "sorry"
           ],
-          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o",
           "notes": null
         },
         "lean4checker": {
@@ -272,7 +1293,7 @@
         "kernel-replay",
         "sorry"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'sorry_theorem' contains sorry\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -280,18 +1301,18 @@
       }
     },
     {
-      "decl": "LeanTestProject.UnsafeDefinition.seeminglySafeAdd",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "Examples",
-      "kind": "def",
+      "decl": "LeanTestProject.SourcePatterns.LocalMacroRules.LocalMacroRules_exploit_theorem",
+      "module": "LeanTestProject.LocalMacroRules",
+      "zone": "test_suite",
+      "kind": "thm",
       "ok": false,
       "tools": {
         "paranoia": {
           "ok": false,
           "checks": [
-            "unsafe"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProj",
           "notes": null
         },
         "lean4checker": {
@@ -304,10 +1325,10 @@
         }
       },
       "checks": [
-        "unsafe",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProj",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -315,18 +1336,44 @@
       }
     },
     {
-      "decl": "LeanTestProject.UnsafeDefinition.unsafeAddImpl",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "Examples",
-      "kind": "def",
+      "decl": "LeanTestProject.SourcePatterns.LocalMacroRules.hidden_axiom",
+      "module": "LeanTestProject.LocalMacroRules",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.Timeout.Timeout_exploit_theorem",
+      "module": "LeanTestProject.Timeout",
+      "zone": "test_suite",
+      "kind": "thm",
       "ok": false,
       "tools": {
         "paranoia": {
           "ok": false,
           "checks": [
-            "unsafe"
+            "sorry"
           ],
-          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'Timeout_exploit_theorem' contains sorry\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -339,10 +1386,10 @@
         }
       },
       "checks": [
-        "unsafe",
-        "kernel-replay"
+        "kernel-replay",
+        "sorry"
       ],
-      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'Timeout_exploit_theorem' contains sorry\"]},\"success\":false}",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -350,42 +1397,7 @@
       }
     },
     {
-      "decl": "LeanTestProject.UnsafeDefinition.unsafeProof",
-      "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "Examples",
-      "kind": "def",
-      "ok": false,
-      "tools": {
-        "paranoia": {
-          "ok": false,
-          "checks": [
-            "unsafe"
-          ],
-          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
-          "notes": null
-        },
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "unsafe",
-        "kernel-replay"
-      ],
-      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
-      "summary": {
-        "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
-      }
-    },
-    {
-      "decl": "LeanTestProject.UnsafeDefinition.unsafe_axiom",
+      "decl": "LeanTestProject.UnsafeDefinition.UnsafeDefinition_exploit_axiom",
       "module": "LeanTestProject.UnsafeDefinition",
       "zone": "unknown",
       "kind": null,
@@ -411,53 +1423,18 @@
       }
     },
     {
-      "decl": "LeanTestProject.UnsafeDefinition.unsafe_theorem",
+      "decl": "LeanTestProject.UnsafeDefinition.UnsafeDefinition_exploit_theorem",
       "module": "LeanTestProject.UnsafeDefinition",
-      "zone": "Examples",
+      "zone": "test_suite",
       "kind": "thm",
       "ok": false,
       "tools": {
         "paranoia": {
           "ok": false,
           "checks": [
-            "unsafe"
+            "policy-violation"
           ],
-          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
-          "notes": null
-        },
-        "lean4checker": {
-          "ok": true,
-          "checks": [
-            "kernel-replay"
-          ],
-          "error": null,
-          "notes": "Kernel replay successful"
-        }
-      },
-      "checks": [
-        "unsafe",
-        "kernel-replay"
-      ],
-      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
-      "summary": {
-        "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
-      }
-    },
-    {
-      "decl": "LeanTestProject.ValidSimple.simple_theorem",
-      "module": "LeanTestProject.ValidSimple",
-      "zone": "Examples",
-      "kind": "thm",
-      "ok": true,
-      "tools": {
-        "paranoia": {
-          "ok": true,
-          "checks": [
-            "policy-pass"
-          ],
-          "error": null,
+          "error": "\u2716 [15/15] Building paranoia:exe (595ms)",
           "notes": null
         },
         "lean4checker": {
@@ -471,13 +1448,747 @@
       },
       "checks": [
         "kernel-replay",
-        "policy-pass"
+        "policy-violation"
+      ],
+      "error": "[paranoia] \u2716 [15/15] Building paranoia:exe (595ms)",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.seeminglySafeAdd",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "\u2716 [15/15] Building paranoia:exe (529ms)",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] \u2716 [15/15] Building paranoia:exe (529ms)",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.unsafeAddImpl",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.UnsafeDefinition.unsafeProof",
+      "module": "LeanTestProject.UnsafeDefinition",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.Valid.WithAxioms.uses_choice",
+      "module": "LeanTestProject.WithAxioms",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.ValidSimple.simple_theorem",
+      "module": "LeanTestProject.ValidSimple",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.WithAxiom.WithAxiom_exploit_axiom",
+      "module": "LeanTestProject.WithAxiom",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
       ],
       "error": null,
       "summary": {
-        "total_checks": 2,
-        "passed_checks": 2,
+        "total_checks": 1,
+        "passed_checks": 1,
         "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.WithAxiom.WithAxiom_exploit_theorem",
+      "module": "LeanTestProject.WithAxiom",
+      "zone": "test_suite",
+      "kind": "thm",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.WithAxiom.correctAdd",
+      "module": "LeanTestProject.WithAxiom",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "LeanTestProject.WithAxiom.correctAdd_eq_wrongAdd",
+      "module": "LeanTestProject.WithAxiom",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "LeanTestProject.WithAxiom.wrongAdd",
+      "module": "LeanTestProject.WithAxiom",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "ManualConstructor_Witness.casesOn",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "ManualConstructor_Witness.ctorIdx",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "ManualConstructor_Witness.noConfusion",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "ManualConstructor_Witness.noConfusionType",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "ManualConstructor_Witness.rec",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "ManualConstructor_Witness.recOn",
+      "module": "LeanTestProject.ManualConstructor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "MissingRecursor_Witness.casesOn",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "MissingRecursor_Witness.ctorIdx",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "MissingRecursor_Witness.noConfusion",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "MissingRecursor_Witness.noConfusionType",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
+      }
+    },
+    {
+      "decl": "MissingRecursor_Witness.rec",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "unknown",
+      "kind": null,
+      "ok": true,
+      "tools": {
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay"
+      ],
+      "error": null,
+      "summary": {
+        "total_checks": 1,
+        "passed_checks": 1,
+        "failed_checks": 0
+      }
+    },
+    {
+      "decl": "MissingRecursor_Witness.recOn",
+      "module": "LeanTestProject.MissingRecursor",
+      "zone": "test_suite",
+      "kind": "def",
+      "ok": false,
+      "tools": {
+        "paranoia": {
+          "ok": false,
+          "checks": [
+            "policy-violation"
+          ],
+          "error": "info: stderr:",
+          "notes": null
+        },
+        "lean4checker": {
+          "ok": true,
+          "checks": [
+            "kernel-replay"
+          ],
+          "error": null,
+          "notes": "Kernel replay successful"
+        }
+      },
+      "checks": [
+        "kernel-replay",
+        "policy-violation"
+      ],
+      "error": "[paranoia] info: stderr:",
+      "summary": {
+        "total_checks": 2,
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     }
   ]
