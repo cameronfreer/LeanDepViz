@@ -100,25 +100,104 @@ EOF
 # Create lean-toolchain
 echo "leanprover/lean4:v4.24.0-rc1" > lean-toolchain
 
-# Create root module
+# Create root module with all 27 test files
 cat > LeanTestProject.lean <<'EOF'
+-- Basic & CustomAxioms
 import LeanTestProject.Basic
 import LeanTestProject.ProveAnything
+import LeanTestProject.ProveFalse
+import LeanTestProject.HiddenInMacro
+
+-- Sorry variants
 import LeanTestProject.SorryDirect
-import LeanTestProject.PartialNonTerminating
+import LeanTestProject.Opaque
+import LeanTestProject.Intermediate
+
+-- Transitive dependencies
+import LeanTestProject.DeepSorry_L0
+import LeanTestProject.DeepSorry_L1
+import LeanTestProject.DeepAxiom_L0
+import LeanTestProject.DeepAxiom_L1
+
+-- Unsafe & Partial
 import LeanTestProject.UnsafeDefinition
+import LeanTestProject.PartialNonTerminating
+
+-- Extern/FFI
+import LeanTestProject.ExportC
+import LeanTestProject.PrivateExtern
+
+-- ImplementedBy
+import LeanTestProject.DirectReplacement
+
+-- NativeComputation
+import LeanTestProject.NativeDecide
+
+-- SourcePatterns
+import LeanTestProject.LocalMacroRules
+
+-- KernelRejection
+-- import LeanTestProject.NonPositive  -- Commented: doesn't compile by design
+
+-- CSimp
+import LeanTestProject.WithAxiom
+
+-- ConstructorIntegrity
+import LeanTestProject.ManualConstructor
+
+-- RecursorIntegrity
+import LeanTestProject.MissingRecursor
+
+-- Metavariables
+import LeanTestProject.Timeout
+
+-- Valid cases
 import LeanTestProject.ValidSimple
+import LeanTestProject.Helper
+import LeanTestProject.Dependencies
+import LeanTestProject.WithAxioms
 EOF
 
-# Copy example files
+# Copy example files (27 files total, skip NonPositive as it doesn't compile)
 mkdir -p LeanTestProject
-for file in Basic ProveAnything SorryDirect PartialNonTerminating UnsafeDefinition ValidSimple; do
+EXAMPLE_FILES=(
+  "Basic"
+  "ProveAnything"
+  "ProveFalse"
+  "HiddenInMacro"
+  "SorryDirect"
+  "Opaque"
+  "Intermediate"
+  "DeepSorry_L0"
+  "DeepSorry_L1"
+  "DeepAxiom_L0"
+  "DeepAxiom_L1"
+  "UnsafeDefinition"
+  "PartialNonTerminating"
+  "ExportC"
+  "PrivateExtern"
+  "DirectReplacement"
+  "NativeDecide"
+  "LocalMacroRules"
+  "WithAxiom"
+  "ManualConstructor"
+  "MissingRecursor"
+  "Timeout"
+  "ValidSimple"
+  "Helper"
+  "Dependencies"
+  "WithAxioms"
+)
+
+for file in "${EXAMPLE_FILES[@]}"; do
     if [ ! -f "$EXAMPLES_SOURCE/${file}.lean" ]; then
         echo "ERROR: Missing example file: $EXAMPLES_SOURCE/${file}.lean"
         exit 1
     fi
     cp "$EXAMPLES_SOURCE/${file}.lean" "LeanTestProject/${file}.lean"
 done
+
+echo "✓ Copied ${#EXAMPLE_FILES[@]} test files"
 
 # Copy policy
 if [ ! -f "$EXAMPLES_SOURCE/policy.yaml" ]; then
