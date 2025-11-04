@@ -262,7 +262,10 @@ echo ""
 echo "Step 6: Merging verification reports..."
 python3 "$PROJECT_ROOT/scripts/merge_reports.py" \
   --reports paranoia-report.json lean4checker-report.json \
-  --out unified-report.json
+  --out unified-report.json || {
+    echo "ERROR: Failed to merge reports"
+    exit 1
+}
 
 echo "✓ Reports merged"
 
