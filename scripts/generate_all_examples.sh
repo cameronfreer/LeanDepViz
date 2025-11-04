@@ -230,7 +230,14 @@ echo "Step 4: Running LeanParanoia verification..."
 python3 "$PROJECT_ROOT/scripts/paranoia_runner.py" \
   --depgraph depgraph.json \
   --policy policy.yaml \
-  --out paranoia-report.json
+  --out paranoia-report.json || {
+    echo "Note: LeanParanoia found failures (expected for test exploit files)"
+    # Check if report was generated
+    if [ ! -f "paranoia-report.json" ]; then
+        echo "ERROR: paranoia-report.json was not generated"
+        exit 1
+    fi
+}
 
 echo "✓ LeanParanoia complete"
 
