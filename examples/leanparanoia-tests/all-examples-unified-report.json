@@ -7,8 +7,8 @@
   ],
   "summary": {
     "total_declarations": 67,
-    "passed_all": 0,
-    "failed_any": 67,
+    "passed_all": 28,
+    "failed_any": 39,
     "by_tool": {
       "paranoia": {
         "total": 47,
@@ -18,8 +18,8 @@
       },
       "lean4checker": {
         "total": 67,
-        "passed": 0,
-        "failed": 67
+        "passed": 66,
+        "failed": 1
       }
     }
   },
@@ -29,25 +29,25 @@
       "module": "LeanTestProject.Basic",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Basic kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.Basic kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -60,29 +60,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": "info: stderr:",
+          "error": "CustomAxioms: Uses disallowed axioms: bad_axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Basic kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] info: stderr:; [lean4checker] Module LeanTestProject.Basic kernel replay failed",
+      "error": "[paranoia] CustomAxioms: Uses disallowed axioms: bad_axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -90,7 +90,7 @@
       "module": "LeanTestProject.Basic",
       "zone": "test_suite",
       "kind": "thm",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -101,23 +101,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Basic kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.Basic kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -130,29 +130,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": null,
+          "error": "KernelRejection: Failed to import module 'LeanTestProject.CustomAxioms.HiddenInMacro': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/CustomAxioms/HiddenInMacro.olean' of module LeanTestProject.CustomAxioms.HiddenInMacro does not exist",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.HiddenInMacro kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[lean4checker] Module LeanTestProject.HiddenInMacro kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'LeanTestProject.CustomAxioms.HiddenInMacro': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/CustomAxioms/HiddenInMacro.olean' of module LeanTestProject.CustomAxioms.HiddenInMacro does not exist",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -160,25 +160,25 @@
       "module": "LeanTestProject.HiddenInMacro",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.HiddenInMacro kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.HiddenInMacro kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -191,29 +191,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": null,
+          "error": "KernelRejection: Failed to import module 'LeanTestProject.CustomAxioms.HiddenInMacro': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/CustomAxioms/HiddenInMacro.olean' of module LeanTestProject.CustomAxioms.HiddenInMacro does not exist",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.HiddenInMacro kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[lean4checker] Module LeanTestProject.HiddenInMacro kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'LeanTestProject.CustomAxioms.HiddenInMacro': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/CustomAxioms/HiddenInMacro.olean' of module LeanTestProject.CustomAxioms.HiddenInMacro does not exist",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -221,25 +221,25 @@
       "module": "LeanTestProject.DeepAxiom_L0",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DeepAxiom_L0 kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DeepAxiom_L0 kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -252,29 +252,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": null,
+          "error": "CustomAxioms: Uses disallowed axioms: custom_axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DeepAxiom_L1 kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DeepAxiom_L1 kernel replay failed",
+      "error": "[paranoia] CustomAxioms: Uses disallowed axioms: custom_axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -287,29 +287,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "sorry"
           ],
-          "error": null,
+          "error": "Sorry: Theorem 'has_sorry' contains sorry",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DeepSorry_L0 kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
+        "sorry",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DeepSorry_L0 kernel replay failed",
+      "error": "[paranoia] Sorry: Theorem 'has_sorry' contains sorry",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -322,29 +322,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": null,
+          "error": "Unsafe: Definition 'Lean.Name.casesOn._override' is marked unsafe",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DeepSorry_L1 kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "unsafe"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DeepSorry_L1 kernel replay failed",
+      "error": "[paranoia] Unsafe: Definition 'Lean.Name.casesOn._override' is marked unsafe",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -352,7 +352,7 @@
       "module": "LeanTestProject.Dependencies",
       "zone": "test_suite",
       "kind": "thm",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -363,23 +363,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Dependencies kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.Dependencies kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -387,25 +387,25 @@
       "module": "LeanTestProject.DirectReplacement",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -420,27 +420,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": null,
+          "error": "ImplementedBy: Definition 'seemsCorrectAdd' uses implemented_by target 'wrongAddImpl' ",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
+      "error": "[paranoia] ImplementedBy: Definition 'seemsCorrectAdd' uses implemented_by target 'wrongAddImpl' ",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -455,27 +455,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": null,
+          "error": "ImplementedBy: Definition 'seemsCorrectAdd' uses implemented_by target 'wrongAddImpl' ",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
+      "error": "[paranoia] ImplementedBy: Definition 'seemsCorrectAdd' uses implemented_by target 'wrongAddImpl' ",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -483,7 +483,7 @@
       "module": "LeanTestProject.DirectReplacement",
       "zone": "test_suite",
       "kind": "def",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -494,23 +494,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -518,25 +518,25 @@
       "module": "LeanTestProject.ExportC",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ExportC kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ExportC kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -551,27 +551,27 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ExportC_exploit_axiom\"]},\"success\":false}",
+          "error": "CustomAxioms: Uses disallowed axioms: ExportC_exploit_axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ExportC kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ExportC_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ExportC kernel replay failed",
+      "error": "[paranoia] CustomAxioms: Uses disallowed axioms: ExportC_exploit_axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -579,7 +579,7 @@
       "module": "LeanTestProject.ExportC",
       "zone": "test_suite",
       "kind": "def",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -590,23 +590,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ExportC kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ExportC kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -614,7 +614,7 @@
       "module": "LeanTestProject.Helper",
       "zone": "test_suite",
       "kind": "thm",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -625,23 +625,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Helper kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.Helper kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -649,7 +649,7 @@
       "module": "LeanTestProject.Helper",
       "zone": "test_suite",
       "kind": "def",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -660,23 +660,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Helper kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.Helper kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -691,27 +691,27 @@
           "checks": [
             "sorry"
           ],
-          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'Intermediate_exploit_theorem' contains sorry\"]},\"success\":false}",
+          "error": "Sorry: Theorem 'Intermediate_exploit_theorem' contains sorry",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Intermediate kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "kernel-replay",
-        "sorry"
+        "sorry",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'Intermediate_exploit_theorem' contains sorry\"]},\"success\":false}; [lean4checker] Module LeanTestProject.Intermediate kernel replay failed",
+      "error": "[paranoia] Sorry: Theorem 'Intermediate_exploit_theorem' contains sorry",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -719,25 +719,25 @@
       "module": "LeanTestProject.ManualConstructor",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -752,27 +752,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"RecursorIntegrity\":[\"Inductive 'ManualConstructor_Witness' has no constructors to justify recursor\"]},\"success\":false}",
+          "error": "RecursorIntegrity: Inductive 'ManualConstructor_Witness' has no constructors to justify recursor",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"RecursorIntegrity\":[\"Inductive 'ManualConstructor_Witness' has no constructors to justify recursor\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": "[paranoia] RecursorIntegrity: Inductive 'ManualConstructor_Witness' has no constructors to justify recursor",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -780,25 +780,25 @@
       "module": "LeanTestProject.ManualConstructor",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -806,25 +806,25 @@
       "module": "LeanTestProject.MissingRecursor",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -839,27 +839,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"RecursorIntegrity\":[\"Inductive 'MissingRecursor_Witness' has no constructors to justify recursor\"]},\"success\":false}",
+          "error": "RecursorIntegrity: Inductive 'MissingRecursor_Witness' has no constructors to justify recursor",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"RecursorIntegrity\":[\"Inductive 'MissingRecursor_Witness' has no constructors to justify recursor\"]},\"success\":false}; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": "[paranoia] RecursorIntegrity: Inductive 'MissingRecursor_Witness' has no constructors to justify recursor",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -867,25 +867,25 @@
       "module": "LeanTestProject.MissingRecursor",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -900,7 +900,7 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"NativeComputation\":[\"Definition 'NativeDecide_exploit_theorem' depends on native computation primitive 'Lean.reduceBool'\"]},\"success\":false}",
+          "error": "NativeComputation: Definition 'NativeDecide_exploit_theorem' depends on native computation primitive 'Lean.reduceBool'",
           "notes": null
         },
         "lean4checker": {
@@ -913,10 +913,10 @@
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"NativeComputation\":[\"Definition 'NativeDecide_exploit_theorem' depends on native computation primitive 'Lean.reduceBool'\"]},\"success\":false}; [lean4checker] Module LeanTestProject.NativeDecide kernel replay failed",
+      "error": "[paranoia] NativeComputation: Definition 'NativeDecide_exploit_theorem' depends on native computation primitive 'Lean.reduceBool'; [lean4checker] Module LeanTestProject.NativeDecide kernel replay failed",
       "summary": {
         "total_checks": 2,
         "passed_checks": 0,
@@ -935,27 +935,27 @@
           "checks": [
             "sorry"
           ],
-          "error": "{\"failures\":{\"Sorry\":[\"Dependency 'hiddenSorryProof' contains sorry\"]},\"success\":false}",
+          "error": "Sorry: Dependency 'hiddenSorryProof' contains sorry",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Opaque kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "kernel-replay",
-        "sorry"
+        "sorry",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Dependency 'hiddenSorryProof' contains sorry\"]},\"success\":false}; [lean4checker] Module LeanTestProject.Opaque kernel replay failed",
+      "error": "[paranoia] Sorry: Dependency 'hiddenSorryProof' contains sorry",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -963,25 +963,25 @@
       "module": "LeanTestProject.Opaque",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Opaque kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.Opaque kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -996,27 +996,27 @@
           "checks": [
             "partial"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Part",
+          "error": "KernelRejection: Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/Partial/NonTerminating.olean' of module LeanTestProject.Partial.NonTerminating does not exist",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.PartialNonTerminating kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "partial",
-        "kernel-replay"
+        "kernel-replay",
+        "partial"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Part; [lean4checker] Module LeanTestProject.PartialNonTerminating kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/Partial/NonTerminating.olean' of module LeanTestProject.Partial.NonTerminating does not exist",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1024,25 +1024,25 @@
       "module": "LeanTestProject.PartialNonTerminating",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.PartialNonTerminating kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.PartialNonTerminating kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1050,25 +1050,25 @@
       "module": "LeanTestProject.PrivateExtern",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.PrivateExtern kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.PrivateExtern kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1084,28 +1084,28 @@
             "disallowed-axioms",
             "extern"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: PrivateExtern_exploit_axiom\"]},\"success\":false}",
+          "error": "CustomAxioms: Uses disallowed axioms: PrivateExtern_exploit_axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.PrivateExtern kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
+        "kernel-replay",
         "disallowed-axioms",
-        "extern",
-        "kernel-replay"
+        "extern"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: PrivateExtern_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.PrivateExtern kernel replay failed",
+      "error": "[paranoia] CustomAxioms: Uses disallowed axioms: PrivateExtern_exploit_axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1113,7 +1113,7 @@
       "module": "LeanTestProject.PrivateExtern",
       "zone": "test_suite",
       "kind": "def",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -1124,23 +1124,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.PrivateExtern kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.PrivateExtern kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -1155,27 +1155,27 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+          "error": "CustomAxioms: Uses disallowed axioms: magic",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ProveAnything kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ProveAnything kernel replay failed",
+      "error": "[paranoia] CustomAxioms: Uses disallowed axioms: magic",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1183,25 +1183,25 @@
       "module": "LeanTestProject.ProveAnything",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ProveAnything kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ProveAnything kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1209,25 +1209,25 @@
       "module": "LeanTestProject.ProveFalse",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ProveFalse kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ProveFalse kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1242,27 +1242,27 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ProveFalse_exploit_axiom\"]},\"success\":false}",
+          "error": "CustomAxioms: Uses disallowed axioms: ProveFalse_exploit_axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ProveFalse kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ProveFalse_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ProveFalse kernel replay failed",
+      "error": "[paranoia] CustomAxioms: Uses disallowed axioms: ProveFalse_exploit_axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1277,27 +1277,27 @@
           "checks": [
             "sorry"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o",
+          "error": "KernelRejection: Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.olean' of module LeanTestProject.Sorry.Direct does not exist",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.SorryDirect kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "kernel-replay",
-        "sorry"
+        "sorry",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o; [lean4checker] Module LeanTestProject.SorryDirect kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.olean' of module LeanTestProject.Sorry.Direct does not exist",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1312,27 +1312,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProj",
+          "error": "KernelRejection: Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/SourcePatterns/LocalMacroRules.olean' of module LeanTestProject.SourcePatterns.LocalMacroRules does not exist",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.LocalMacroRules kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProj; [lean4checker] Module LeanTestProject.LocalMacroRules kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/SourcePatterns/LocalMacroRules.olean' of module LeanTestProject.SourcePatterns.LocalMacroRules does not exist",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1340,25 +1340,25 @@
       "module": "LeanTestProject.LocalMacroRules",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.LocalMacroRules kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.LocalMacroRules kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1373,27 +1373,27 @@
           "checks": [
             "sorry"
           ],
-          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'Timeout_exploit_theorem' contains sorry\"]},\"success\":false}",
+          "error": "Sorry: Theorem 'Timeout_exploit_theorem' contains sorry",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.Timeout kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "kernel-replay",
-        "sorry"
+        "sorry",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'Timeout_exploit_theorem' contains sorry\"]},\"success\":false}; [lean4checker] Module LeanTestProject.Timeout kernel replay failed",
+      "error": "[paranoia] Sorry: Theorem 'Timeout_exploit_theorem' contains sorry",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1401,25 +1401,25 @@
       "module": "LeanTestProject.UnsafeDefinition",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1434,27 +1434,27 @@
           "checks": [
             "unsafe"
           ],
-          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+          "error": "ImplementedBy: Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' ",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe",
-        "kernel-replay"
+        "kernel-replay",
+        "unsafe"
       ],
-      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
+      "error": "[paranoia] ImplementedBy: Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' ",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1469,27 +1469,27 @@
           "checks": [
             "unsafe"
           ],
-          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
+          "error": "ImplementedBy: Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' ",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe",
-        "kernel-replay"
+        "kernel-replay",
+        "unsafe"
       ],
-      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
+      "error": "[paranoia] ImplementedBy: Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' ",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1504,27 +1504,27 @@
           "checks": [
             "unsafe"
           ],
-          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
+          "error": "Unsafe: Definition 'unsafeAddImpl' is marked unsafe",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe",
-        "kernel-replay"
+        "kernel-replay",
+        "unsafe"
       ],
-      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
+      "error": "[paranoia] Unsafe: Definition 'unsafeAddImpl' is marked unsafe",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1539,27 +1539,27 @@
           "checks": [
             "unsafe"
           ],
-          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
+          "error": "Unsafe: Definition 'unsafeProof' is marked unsafe",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "unsafe",
-        "kernel-replay"
+        "kernel-replay",
+        "unsafe"
       ],
-      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
+      "error": "[paranoia] Unsafe: Definition 'unsafeProof' is marked unsafe",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1574,27 +1574,27 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Valid.WithAxioms': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Valid/With",
+          "error": "KernelRejection: Failed to import module 'LeanTestProject.Valid.WithAxioms': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/Valid/WithAxioms.olean' of module LeanTestProject.Valid.WithAxioms does not exist",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.WithAxioms kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Valid.WithAxioms': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Valid/With; [lean4checker] Module LeanTestProject.WithAxioms kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'LeanTestProject.Valid.WithAxioms': object file '/private/tmp/leanparanoia-test-20251104-200140/.lake/build/lib/lean/LeanTestProject/Valid/WithAxioms.olean' of module LeanTestProject.Valid.WithAxioms does not exist",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1602,7 +1602,7 @@
       "module": "LeanTestProject.ValidSimple",
       "zone": "test_suite",
       "kind": "thm",
-      "ok": false,
+      "ok": true,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -1613,23 +1613,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ValidSimple kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "policy-pass",
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ValidSimple kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 2,
+        "failed_checks": 0
       }
     },
     {
@@ -1637,25 +1637,25 @@
       "module": "LeanTestProject.WithAxiom",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1670,27 +1670,27 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: WithAxiom_exploit_axiom\"]},\"success\":false}",
+          "error": "CustomAxioms: Uses disallowed axioms: WithAxiom_exploit_axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: WithAxiom_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
+      "error": "[paranoia] CustomAxioms: Uses disallowed axioms: WithAxiom_exploit_axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1705,27 +1705,27 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}",
+          "error": "CSimp: @[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
+      "error": "[paranoia] CSimp: @[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1733,25 +1733,25 @@
       "module": "LeanTestProject.WithAxiom",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1766,27 +1766,27 @@
           "checks": [
             "disallowed-axioms"
           ],
-          "error": "{\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}",
+          "error": "CSimp: @[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "disallowed-axioms",
-        "kernel-replay"
+        "kernel-replay",
+        "disallowed-axioms"
       ],
-      "error": "[paranoia] {\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
+      "error": "[paranoia] CSimp: @[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1801,27 +1801,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
+          "error": "KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1836,27 +1836,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
+          "error": "KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1871,27 +1871,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
+          "error": "KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1906,27 +1906,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
+          "error": "KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -1934,25 +1934,25 @@
       "module": "LeanTestProject.ManualConstructor",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -1967,27 +1967,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
+          "error": "KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\n\nNo directory 'ManualConstructor_Witness' or file 'ManualConstructor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4c",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2002,27 +2002,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
+          "error": "KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2037,27 +2037,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
+          "error": "KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2072,27 +2072,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
+          "error": "KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2107,27 +2107,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
+          "error": "KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2135,25 +2135,25 @@
       "module": "LeanTestProject.MissingRecursor",
       "zone": "unknown",
       "kind": null,
-      "ok": false,
+      "ok": true,
       "tools": {
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": null,
       "summary": {
         "total_checks": 1,
-        "passed_checks": 0,
-        "failed_checks": 1
+        "passed_checks": 1,
+        "failed_checks": 0
       }
     },
     {
@@ -2168,27 +2168,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
+          "error": "KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
           "notes": null
         },
         "lean4checker": {
-          "ok": false,
+          "ok": true,
           "checks": [
             "kernel-replay"
           ],
-          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
-          "notes": ""
+          "error": null,
+          "notes": "Kernel replay successful"
         }
       },
       "checks": [
-        "policy-violation",
-        "kernel-replay"
+        "kernel-replay",
+        "policy-violation"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
+      "error": "[paranoia] KernelRejection: Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\n\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_Witness.olean' in the search path entries:\n/private/tmp/leanparanoia-test-20251104-200140/.lake/packages/lean4checker/.",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 0,
-        "failed_checks": 2
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     }
   ]
