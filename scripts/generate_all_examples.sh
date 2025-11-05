@@ -293,15 +293,37 @@ cp depgraph.dot "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph
 
 echo "✓ Outputs copied"
 
+# Generate SVG preview from DOT file
+echo ""
+echo "Step 9: Generating SVG preview..."
+if command -v dot >/dev/null 2>&1; then
+    dot -Tsvg depgraph.dot -o depgraph.svg
+    cp depgraph.svg "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.svg"
+    echo "✓ SVG preview generated"
+else
+    echo "⚠ Warning: Graphviz 'dot' command not found, skipping SVG generation"
+    echo "  Install with: brew install graphviz"
+fi
+
 # Generate HTML viewer
 echo ""
-echo "Step 9: Generating HTML viewer..."
-python3 "$PROJECT_ROOT/scripts/embed_data.py" \
-  --viewer "$PROJECT_ROOT/viewer/paranoia-viewer.html" \
-  --depgraph "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.json" \
-  --dot "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.dot" \
-  --report "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-unified-report.json" \
-  --output "$PROJECT_ROOT/docs/leanparanoia-examples-all.html"
+echo "Step 10: Generating HTML viewer..."
+if [ -f "depgraph.svg" ]; then
+    python3 "$PROJECT_ROOT/scripts/embed_data.py" \
+      --viewer "$PROJECT_ROOT/viewer/paranoia-viewer.html" \
+      --depgraph "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.json" \
+      --dot "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.dot" \
+      --svg "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.svg" \
+      --report "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-unified-report.json" \
+      --output "$PROJECT_ROOT/docs/leanparanoia-examples-all.html"
+else
+    python3 "$PROJECT_ROOT/scripts/embed_data.py" \
+      --viewer "$PROJECT_ROOT/viewer/paranoia-viewer.html" \
+      --depgraph "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.json" \
+      --dot "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-depgraph.dot" \
+      --report "$PROJECT_ROOT/examples/leanparanoia-tests/all-examples-unified-report.json" \
+      --output "$PROJECT_ROOT/docs/leanparanoia-examples-all.html"
+fi
 
 # Also copy to examples directory
 cp "$PROJECT_ROOT/docs/leanparanoia-examples-all.html" \
@@ -310,9 +332,9 @@ cp "$PROJECT_ROOT/docs/leanparanoia-examples-all.html" \
 echo "✓ HTML viewer generated"
 
 echo ""
-echo "=========================================="
+echo "=============================================="
 echo "✓ All examples unified report generated!"
-echo "=========================================="
+echo "=============================================="
 echo ""
 echo "Outputs:"
 echo "  • HTML: docs/leanparanoia-examples-all.html"
