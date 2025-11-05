@@ -6,62 +6,76 @@ These examples demonstrate various exploits that LeanParanoia is designed to det
 
 ## Live Demos
 
-### 🎯 **Comprehensive Verification Demo** (Recommended)
-**[View Verification Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** - All LeanParanoia examples with multi-checker UI
+### 🎯 **Comprehensive Test Coverage** (Recommended)
+**[View All Examples](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - Complete test suite with real verification data
 
-Shows **17 declarations** with **3 verification tool columns**:
-- ✅ **2 Pass**: Valid code passing all checks
-- ❌ **15 Fail**: Various exploits caught by checkers
+Shows **67 declarations** across **26 test files** with **2 verification tools**:
+- ✅ **28 Pass**: Valid code passing all checks (42%)
+- ❌ **39 Fail**: Various exploits caught by checkers (58%)
 
-**Verification Tools Demonstrated**:
-- **LeanParanoia**: Policy enforcement (sorry, axioms, unsafe, partial)
+**Verification Tools**:
+- **LeanParanoia**: Policy enforcement across all 15 exploit categories
 - **lean4checker**: Kernel replay verification
-- **SafeVerify**: Reference vs implementation comparison
 
-> **⚠️ Important - Demonstration Data**: This demo showcases the multi-checker UI with **demonstration/mock data** to illustrate capabilities. The verification results are **manually crafted** based on known issues in the LeanParanoia test files. SafeVerify results are **entirely mock** because SafeVerify requires comparing two versions (baseline vs implementation), but these test files exist in only one version. The demo illustrates what a complete multi-tool verification workflow would look like when all tools are actually run.
+**All 15 Categories Covered** (100% of official LeanParanoia test suite):
+- 🔴 **Custom Axioms** (4 files): Proving False, arbitrary axioms, macro-hidden axioms
+- 🟡 **Sorry Usage** (4 files): Direct sorry, transitive sorry, hidden sorry
+- 🟠 **Unsafe Code** (1 file): Unsafe definitions bypassing type safety
+- 🟣 **Partial Functions** (1 file): Non-terminating recursion
+- 🔵 **Extern/FFI** (2 files): Foreign function interface exploits
+- 🟢 **Transitive** (4 files): Hidden exploits in dependencies
+- 🟤 **ImplementedBy** (1 file): Compiler replacement attacks
+- ⚫ **Native Computation** (1 file): Native code execution
+- 🟠 **Source Patterns** (1 file): Macro/notation hiding
+- 🔴 **CSimp** (1 file): Compiler simplification exploits
+- 🟡 **Constructor Integrity** (1 file): Type system bypasses
+- 🟢 **Recursor Integrity** (1 file): Eliminator manipulation
+- 🔵 **Metavariables** (1 file): Unsolved type inference
+- 🟣 **Kernel Rejection** (1 file): Build/import failures
+- ✅ **Valid** (4 files): Clean verified code
 
-**Categories Demonstrated**:
-- 🔴 **Custom Axioms**: bad_axiom, custom_false
-- 🟡 **Sorry Usage**: exploit_theorem, sorry_proof
-- 🟠 **Unsafe Code**: exploit_value, unsafeCompute
-- 🟣 **Partial Functions**: loop, partial_def
-- 🟢 **Valid Code**: good_theorem, simple_theorem
+**Key Findings**:
+- lean4checker **passes** on sorries & custom axioms ✓ (as expected)
+- lean4checker **fails** on NativeComputation ✓ (rare but important!)
+- LeanParanoia detects all 15 exploit categories ✓
 
-### 📊 Legacy Single-Checker Demos
+### 📊 Other Demos
 
-**[Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration example (LeanParanoia only)
+**[Multi-Checker UI Demo](https://cameronfreer.github.io/LeanDepViz/verification-demo.html)** - UI showcase with 3 tools (includes mock SafeVerify data)
 
-**[All Examples (Single-Tool)](https://cameronfreer.github.io/LeanDepViz/leanparanoia-examples-all.html)** - 12 declarations (LeanParanoia only)
+**[Basic Demo](https://cameronfreer.github.io/LeanDepViz/leanparanoia-test-demo.html)** - Simple 3-declaration example
 
 ## Output Files
 
-This directory includes complete output from the test project in all formats:
+This directory includes complete output from the expanded test project:
 
-### Source Code
-- **Basic.lean** - The test file with good and bad theorems
+### Source Code (26 files)
+See [CATEGORIES.md](CATEGORIES.md) for complete list with descriptions.
 
 ### Dependency Graph Formats
-- **test-depgraph.json** (589B) - Machine-readable dependency data
-- **test-graph.dot** (486B) - GraphViz DOT format
-- **test-graph.svg** (2.2KB) - Scalable vector graphic
-- **test-graph.png** (11KB) - Raster image
+- **all-examples-depgraph.json** (22KB) - Machine-readable dependency data for 67 declarations
+- **all-examples-depgraph.dot** (17KB) - GraphViz DOT format
+- **all-examples-depgraph.svg** (71KB) - Vector visualization (generated locally, gitignored)
 
-### Verification Results
-- **paranoia-report.json** (694B) - LeanParanoia verification report
-- **leanparanoia-test-demo.html** (27KB) - Interactive viewer with all data embedded
+### Verification Results  
+- **all-examples-unified-report.json** (52KB) - Merged report from LeanParanoia + lean4checker
+- **leanparanoia-examples-all.html** (230KB) - Interactive viewer with all data embedded
+
+### Configuration
+- **policy.yaml** - LeanParanoia policy defining zones, allowed axioms, forbidden items
 
 ### File Sizes Summary
 | Format | Size | Purpose |
 |--------|------|---------|
-| Source | N/A | Lean code |
-| JSON | 589B | Dependency data |
-| DOT | 486B | Graph source |
-| SVG | 2.2KB | Vector visualization |
-| PNG | 11KB | Raster visualization |
-| Report | 694B | Verification results |
-| HTML | 27KB | Complete interactive viewer |
+| Source | 26 files | Test exploits across 15 categories |
+| JSON (graph) | 22KB | Dependency data (67 declarations) |
+| JSON (report) | 52KB | Unified verification results |
+| DOT | 17KB | Graph source |
+| SVG | 71KB | Vector visualization (local) |
+| HTML | 230KB | Complete interactive viewer with embedded data |
+| Policy | ~1KB | Verification policy configuration |
 
-**Total**: ~42KB for complete verification demo
+**Total**: ~400KB for complete verification demo with all embedded data
 
 ## Example Files
 
@@ -209,17 +223,29 @@ The embedded HTML demos are generated automatically. To regenerate after adding 
 
 ```bash
 # From repo root
-python scripts/generate_paranoia_examples.py
+./scripts/generate_all_examples.sh
 ```
 
-This will:
-1. Build a temporary test project with all example files
-2. Generate dependency graphs
-3. Create verification reports
-4. Generate embedded HTML demos
-5. Copy outputs to `docs/` for GitHub Pages
+This runs a complete 10-step pipeline:
+1. **Create test project** with lakefile, toolchain, and all 26 test files
+2. **Build project** using Lake (includes LeanParanoia dependency)
+3. **Generate dependency graph** using LeanDepViz
+4. **Run LeanParanoia** verification on 47 declarations
+5. **Run lean4checker** verification on 67 declarations  
+6. **Merge reports** into unified format
+7. **Validate** unified report structure
+8. **Copy outputs** to repository
+9. **Generate SVG preview** from DOT file (requires Graphviz)
+10. **Generate HTML viewer** with all data embedded
 
-See `scripts/README.md` for details on adding new examples.
+**Requirements**:
+- Lean 4.24.0-rc1 toolchain
+- Graphviz (`brew install graphviz` for SVG generation)
+- Python 3 with PyYAML (`pip install pyyaml`)
+
+**Output**: `docs/leanparanoia-examples-all.html` (230KB standalone file)
+
+See `scripts/generate_all_examples.sh` for implementation details.
 
 ## Credits
 
