@@ -137,17 +137,47 @@ def run_one(decl: Dict[str, Any], zone: Dict[str, Any], project_root: Path, summ
         
         ok = (p.returncode == 0)
         
-        # Extract error summary (first non-empty line of stderr or stdout)
+        # Parse JSON output from paranoia (stdout contains JSON, stderr has build info)
         error_summary = ""
-        if not ok:
-            # Try stderr first, then stdout
-            error_lines = [l.strip() for l in (p.stderr or p.stdout or "").split('\n') if l.strip()]
-            if error_lines:
-                # Get first meaningful error line (skip info lines)
-                for line in error_lines:
-                    if line and not line.startswith('ℹ') and not line.startswith('✔'):
-                        error_summary = line[:200]  # Limit to 200 chars
-                        break
+        paranoia_json = None
+        
+        if p.stdout and p.stdout.strip():
+            try:
+                # Try to parse JSON from stdout
+                paranoia_json = json.loads(p.stdout.strip())
+                
+                # Extract error message from paranoia JSON
+                if not ok and paranoia_json and not paranoia_json.get("success", True):
+                    failures = paranoia_json.get("failures", {})
+                    if failures:
+                        # Build human-readable error from failures dict
+                        error_parts = []
+                        for category, messages in failures.items():
+                            if isinstance(messages, list) and messages:
+                                # Take first message from each category
+                                error_parts.append(f"{category}: {messages[0]}")
+                            elif messages:
+                                error_parts.append(f"{category}: {messages}")
+                        error_summary = "; ".join(error_parts)[:300]
+            except json.JSONDecodeError:
+                # stdout is not JSON, fall back to stderr extraction
+                pass
+        
+        # Fallback: extract from stderr if no JSON or no error summary yet
+        if not ok and not error_summary:
+            # Filter out build info lines from stderr
+            error_lines = [l.strip() for l in (p.stderr or "").split('\n') if l.strip()]
+            for line in error_lines:
+                # Skip build info, only get actual error messages
+                if line and not line.startswith('✔') and not line.startswith('✖') and \
+                   not line.startswith('⚠') and not line.startswith('info:') and \
+                   not 'Building' in line and not 'Built' in line:
+                    error_summary = line[:300]
+                    break
+            
+            # If still no error, use generic message
+            if not error_summary:
+                error_summary = "Verification failed"
         
         result = {
             "decl": full_name,
@@ -161,9 +191,13 @@ def run_one(decl: Dict[str, Any], zone: Dict[str, Any], project_root: Path, summ
         # Add detailed output only if not in summary mode
         if not summary_only:
             result["cmd"] = " ".join(shlex.quote(c) for c in cmd)
-            # Limit output to first 1000 chars to prevent massive files
-            result["stdout"] = p.stdout.strip()[:1000] if p.stdout else ""
-            result["stderr"] = p.stderr.strip()[:1000] if p.stderr else ""
+            # Store parsed JSON if available
+            if paranoia_json:
+                result["paranoia_result"] = paranoia_json
+            else:
+                # Fallback: store raw output
+                result["stdout"] = p.stdout.strip()[:1000] if p.stdout else ""
+                result["stderr"] = p.stderr.strip()[:1000] if p.stderr else ""
         
         # Always include error summary for failed checks
         if not ok and error_summary:
