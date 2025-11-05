@@ -1845,19 +1845,19 @@
   ],
   "summary": {
     "total_declarations": 67,
-    "passed_all": 26,
-    "failed_any": 41,
+    "passed_all": 0,
+    "failed_any": 67,
     "by_tool": {
       "paranoia": {
         "total": 47,
-        "passed": 6,
-        "failed": 41,
+        "passed": 8,
+        "failed": 39,
         "mode": "detailed"
       },
       "lean4checker": {
         "total": 67,
-        "passed": 66,
-        "failed": 1
+        "passed": 0,
+        "failed": 67
       }
     }
   },
@@ -1867,25 +1867,25 @@
       "module": "LeanTestProject.Basic",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Basic kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.Basic kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -1900,27 +1900,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "\u2716 [10/15] Building LeanParanoia (114ms)",
+          "error": "info: stderr:",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Basic kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] \u2716 [10/15] Building LeanParanoia (114ms)",
+      "error": "[paranoia] info: stderr:; [lean4checker] Module LeanTestProject.Basic kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -1931,27 +1931,27 @@
       "ok": false,
       "tools": {
         "paranoia": {
-          "ok": false,
+          "ok": true,
           "checks": [
-            "policy-violation"
+            "policy-pass"
           ],
-          "error": "\u2716 [10/15] Building LeanParanoia (111ms)",
+          "error": null,
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Basic kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": "[paranoia] \u2716 [10/15] Building LeanParanoia (111ms)",
+      "error": "[lean4checker] Module LeanTestProject.Basic kernel replay failed",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -1970,27 +1970,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": null,
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.HiddenInMacro kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[lean4checker] Module LeanTestProject.HiddenInMacro kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -1998,25 +1998,25 @@
       "module": "LeanTestProject.HiddenInMacro",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.HiddenInMacro kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.HiddenInMacro kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2031,27 +2031,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "\u2716 [4/15] Building LeanParanoia.Helpers (101ms)",
+          "error": null,
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.HiddenInMacro kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] \u2716 [4/15] Building LeanParanoia.Helpers (101ms)",
+      "error": "[lean4checker] Module LeanTestProject.HiddenInMacro kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2059,25 +2059,25 @@
       "module": "LeanTestProject.DeepAxiom_L0",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DeepAxiom_L0 kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DeepAxiom_L0 kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2096,23 +2096,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DeepAxiom_L1 kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DeepAxiom_L1 kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2131,23 +2131,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DeepSorry_L0 kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DeepSorry_L0 kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2166,23 +2166,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DeepSorry_L1 kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DeepSorry_L1 kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2190,7 +2190,7 @@
       "module": "LeanTestProject.Dependencies",
       "zone": "test_suite",
       "kind": "thm",
-      "ok": true,
+      "ok": false,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -2201,23 +2201,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Dependencies kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-pass"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.Dependencies kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 2,
-        "failed_checks": 0
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2225,25 +2225,25 @@
       "module": "LeanTestProject.DirectReplacement",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2262,23 +2262,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2297,23 +2297,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2321,7 +2321,7 @@
       "module": "LeanTestProject.DirectReplacement",
       "zone": "test_suite",
       "kind": "def",
-      "ok": true,
+      "ok": false,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -2332,23 +2332,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.DirectReplacement kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-pass"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.DirectReplacement kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 2,
-        "failed_checks": 0
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2356,25 +2356,25 @@
       "module": "LeanTestProject.ExportC",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ExportC kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.ExportC kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2387,29 +2387,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": null,
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ExportC_exploit_axiom\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ExportC kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "disallowed-axioms",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ExportC_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ExportC kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2417,7 +2417,7 @@
       "module": "LeanTestProject.ExportC",
       "zone": "test_suite",
       "kind": "def",
-      "ok": true,
+      "ok": false,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -2428,23 +2428,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ExportC kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-pass"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.ExportC kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 2,
-        "failed_checks": 0
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2452,7 +2452,7 @@
       "module": "LeanTestProject.Helper",
       "zone": "test_suite",
       "kind": "thm",
-      "ok": true,
+      "ok": false,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -2463,23 +2463,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Helper kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-pass"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.Helper kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 2,
-        "failed_checks": 0
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2487,7 +2487,7 @@
       "module": "LeanTestProject.Helper",
       "zone": "test_suite",
       "kind": "def",
-      "ok": true,
+      "ok": false,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -2498,23 +2498,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Helper kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-pass"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.Helper kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 2,
-        "failed_checks": 0
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2527,29 +2527,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "sorry"
           ],
-          "error": null,
+          "error": "{\"failures\":{\"Sorry\":[\"Theorem 'Intermediate_exploit_theorem' contains sorry\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Intermediate kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay",
-        "policy-violation"
+        "sorry"
       ],
-      "error": null,
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'Intermediate_exploit_theorem' contains sorry\"]},\"success\":false}; [lean4checker] Module LeanTestProject.Intermediate kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2557,25 +2557,25 @@
       "module": "LeanTestProject.ManualConstructor",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2590,27 +2590,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": null,
+          "error": "{\"failures\":{\"RecursorIntegrity\":[\"Inductive 'ManualConstructor_Witness' has no constructors to justify recursor\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[paranoia] {\"failures\":{\"RecursorIntegrity\":[\"Inductive 'ManualConstructor_Witness' has no constructors to justify recursor\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2618,25 +2618,25 @@
       "module": "LeanTestProject.ManualConstructor",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2644,25 +2644,25 @@
       "module": "LeanTestProject.MissingRecursor",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2677,27 +2677,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": null,
+          "error": "{\"failures\":{\"RecursorIntegrity\":[\"Inductive 'MissingRecursor_Witness' has no constructors to justify recursor\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[paranoia] {\"failures\":{\"RecursorIntegrity\":[\"Inductive 'MissingRecursor_Witness' has no constructors to justify recursor\"]},\"success\":false}; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2705,25 +2705,25 @@
       "module": "LeanTestProject.MissingRecursor",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2738,7 +2738,7 @@
           "checks": [
             "policy-violation"
           ],
-          "error": null,
+          "error": "{\"failures\":{\"NativeComputation\":[\"Definition 'NativeDecide_exploit_theorem' depends on native computation primitive 'Lean.reduceBool'\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
@@ -2751,10 +2751,10 @@
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[lean4checker] Module LeanTestProject.NativeDecide kernel replay failed",
+      "error": "[paranoia] {\"failures\":{\"NativeComputation\":[\"Definition 'NativeDecide_exploit_theorem' depends on native computation primitive 'Lean.reduceBool'\"]},\"success\":false}; [lean4checker] Module LeanTestProject.NativeDecide kernel replay failed",
       "summary": {
         "total_checks": 2,
         "passed_checks": 0,
@@ -2777,23 +2777,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Opaque kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay",
         "sorry"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Dependency 'hiddenSorryProof' contains sorry\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Dependency 'hiddenSorryProof' contains sorry\"]},\"success\":false}; [lean4checker] Module LeanTestProject.Opaque kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2801,25 +2801,25 @@
       "module": "LeanTestProject.Opaque",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Opaque kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.Opaque kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2834,27 +2834,27 @@
           "checks": [
             "partial"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Part",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Part",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.PartialNonTerminating kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "partial",
         "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Part",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Partial.NonTerminating': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Part; [lean4checker] Module LeanTestProject.PartialNonTerminating kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2862,25 +2862,25 @@
       "module": "LeanTestProject.PartialNonTerminating",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.PartialNonTerminating kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.PartialNonTerminating kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2888,25 +2888,25 @@
       "module": "LeanTestProject.PrivateExtern",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.PrivateExtern kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.PrivateExtern kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -2926,24 +2926,24 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.PrivateExtern kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
         "disallowed-axioms",
-        "extern"
+        "extern",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: PrivateExtern_exploit_axiom\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: PrivateExtern_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.PrivateExtern kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -2951,7 +2951,7 @@
       "module": "LeanTestProject.PrivateExtern",
       "zone": "test_suite",
       "kind": "def",
-      "ok": true,
+      "ok": false,
       "tools": {
         "paranoia": {
           "ok": true,
@@ -2962,23 +2962,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.PrivateExtern kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-pass"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.PrivateExtern kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 2,
-        "failed_checks": 0
+        "passed_checks": 1,
+        "failed_checks": 1
       }
     },
     {
@@ -2997,23 +2997,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ProveAnything kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "disallowed-axioms"
+        "disallowed-axioms",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: magic\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ProveAnything kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3021,25 +3021,25 @@
       "module": "LeanTestProject.ProveAnything",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ProveAnything kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.ProveAnything kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -3047,25 +3047,25 @@
       "module": "LeanTestProject.ProveFalse",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ProveFalse kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.ProveFalse kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -3084,23 +3084,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ProveFalse kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "disallowed-axioms"
+        "disallowed-axioms",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ProveFalse_exploit_axiom\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: ProveFalse_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.ProveFalse kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3115,27 +3115,27 @@
           "checks": [
             "sorry"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.SorryDirect kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay",
         "sorry"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Sorry.Direct': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Sorry/Direct.o; [lean4checker] Module LeanTestProject.SorryDirect kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3150,27 +3150,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProj",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProj",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.LocalMacroRules kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-130320/.lake/build/lib/lean/LeanTestProj",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.SourcePatterns.LocalMacroRules': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProj; [lean4checker] Module LeanTestProject.LocalMacroRules kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3178,25 +3178,25 @@
       "module": "LeanTestProject.LocalMacroRules",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.LocalMacroRules kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.LocalMacroRules kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -3215,23 +3215,23 @@
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.Timeout kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay",
         "sorry"
       ],
-      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'Timeout_exploit_theorem' contains sorry\"]},\"success\":false}",
+      "error": "[paranoia] {\"failures\":{\"Sorry\":[\"Theorem 'Timeout_exploit_theorem' contains sorry\"]},\"success\":false}; [lean4checker] Module LeanTestProject.Timeout kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3239,25 +3239,25 @@
       "module": "LeanTestProject.UnsafeDefinition",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -3270,29 +3270,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "\u2716 [15/15] Building paranoia:exe (595ms)",
+          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "unsafe",
+        "kernel-replay"
       ],
-      "error": "[paranoia] \u2716 [15/15] Building paranoia:exe (595ms)",
+      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3305,29 +3305,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "\u2716 [15/15] Building paranoia:exe (529ms)",
+          "error": "{\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "unsafe",
+        "kernel-replay"
       ],
-      "error": "[paranoia] \u2716 [15/15] Building paranoia:exe (529ms)",
+      "error": "[paranoia] {\"failures\":{\"ImplementedBy\":[\"Definition 'seeminglySafeAdd' uses implemented_by target 'unsafeAddImpl' \"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3340,29 +3340,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "unsafe",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeAddImpl' is marked unsafe\"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3375,29 +3375,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "unsafe"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.UnsafeDefinition kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "unsafe",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"Unsafe\":[\"Definition 'unsafeProof' is marked unsafe\"]},\"success\":false}; [lean4checker] Module LeanTestProject.UnsafeDefinition kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3410,29 +3410,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Valid.WithAxioms': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Valid/With",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.WithAxioms kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "disallowed-axioms",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'LeanTestProject.Valid.WithAxioms': object file '/private/tmp/leanparanoia-test-20251104-195513/.lake/build/lib/lean/LeanTestProject/Valid/With; [lean4checker] Module LeanTestProject.WithAxioms kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3443,27 +3443,27 @@
       "ok": false,
       "tools": {
         "paranoia": {
-          "ok": false,
+          "ok": true,
           "checks": [
-            "policy-violation"
+            "policy-pass"
           ],
-          "error": "info: stderr:",
+          "error": null,
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ValidSimple kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-pass",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[lean4checker] Module LeanTestProject.ValidSimple kernel replay failed",
       "summary": {
         "total_checks": 2,
         "passed_checks": 1,
@@ -3475,25 +3475,25 @@
       "module": "LeanTestProject.WithAxiom",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -3506,29 +3506,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: WithAxiom_exploit_axiom\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "disallowed-axioms",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"CustomAxioms\":[\"Uses disallowed axioms: WithAxiom_exploit_axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3541,29 +3541,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "disallowed-axioms",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3571,25 +3571,25 @@
       "module": "LeanTestProject.WithAxiom",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -3602,29 +3602,29 @@
         "paranoia": {
           "ok": false,
           "checks": [
-            "policy-violation"
+            "disallowed-axioms"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.WithAxiom kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "disallowed-axioms",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"CSimp\":[\"@[csimp] theorem 'correctAdd_eq_wrongAdd' is unsound: the theorem is an axiom\"]},\"success\":false}; [lean4checker] Module LeanTestProject.WithAxiom kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3639,27 +3639,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3674,27 +3674,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3709,27 +3709,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3744,27 +3744,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3772,25 +3772,25 @@
       "module": "LeanTestProject.ManualConstructor",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -3805,27 +3805,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.ManualConstructor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'ManualConstructor_Witness': unknown module prefix 'ManualConstructor_Witness'\\n\\nNo directory 'ManualConstructor_Witness' or file 'ManualConst; [lean4checker] Module LeanTestProject.ManualConstructor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3840,27 +3840,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3875,27 +3875,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3910,27 +3910,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3945,27 +3945,27 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     },
     {
@@ -3973,25 +3973,25 @@
       "module": "LeanTestProject.MissingRecursor",
       "zone": "unknown",
       "kind": null,
-      "ok": true,
+      "ok": false,
       "tools": {
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
         "kernel-replay"
       ],
-      "error": null,
+      "error": "[lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 1,
-        "passed_checks": 1,
-        "failed_checks": 0
+        "passed_checks": 0,
+        "failed_checks": 1
       }
     },
     {
@@ -4006,33 +4006,33 @@
           "checks": [
             "policy-violation"
           ],
-          "error": "info: stderr:",
+          "error": "{\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W",
           "notes": null
         },
         "lean4checker": {
-          "ok": true,
+          "ok": false,
           "checks": [
             "kernel-replay"
           ],
-          "error": null,
-          "notes": "Kernel replay successful"
+          "error": "Module LeanTestProject.MissingRecursor kernel replay failed",
+          "notes": ""
         }
       },
       "checks": [
-        "kernel-replay",
-        "policy-violation"
+        "policy-violation",
+        "kernel-replay"
       ],
-      "error": "[paranoia] info: stderr:",
+      "error": "[paranoia] {\"failures\":{\"KernelRejection\":[\"Failed to import module 'MissingRecursor_Witness': unknown module prefix 'MissingRecursor_Witness'\\n\\nNo directory 'MissingRecursor_Witness' or file 'MissingRecursor_W; [lean4checker] Module LeanTestProject.MissingRecursor kernel replay failed",
       "summary": {
         "total_checks": 2,
-        "passed_checks": 1,
-        "failed_checks": 1
+        "passed_checks": 0,
+        "failed_checks": 2
       }
     }
   ]
 };
         window.EMBEDDED_DOT = "digraph DepViz {\n  rankdir=LR;\n  node [shape=ellipse, fontsize=10, fontname=\"Helvetica\"];\n  edge [arrowsize=0.8];\n  \"LeanTestProject.CustomAxioms.HiddenInMacro.termProve_false\" [label=\"termProve_false\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.HiddenInMacro\"];\n  \"MissingRecursor_Witness.noConfusionType\" [label=\"noConfusionType\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"NativeDecide_exploit_theorem\" [label=\"NativeDecide_exploit_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.NativeDecide\"];\n  \"ManualConstructor_Witness.casesOn\" [label=\"casesOn\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"wrongAdd\" [label=\"wrongAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.WithAxiom\"];\n  \"ManualConstructor_Witness.noConfusion\" [label=\"noConfusion\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"ManualConstructor_exploit\" [label=\"ManualConstructor_exploit\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"ExportC_exploit_axiom\" [label=\"ExportC_exploit_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ExportC\"];\n  \"ProveFalse_exploit_theorem\" [label=\"ProveFalse_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.ProveFalse\"];\n  \"Timeout_exploit_theorem\" [label=\"Timeout_exploit_theorem\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.Timeout\"];\n  \"ProveAnything_exploit_theorem\" [label=\"ProveAnything_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.ProveAnything\"];\n  \"unsafeAddImpl\" [label=\"unsafeAddImpl\\nUNSAFE\", color=\"#555\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"hiddenSorryProof\" [label=\"hiddenSorryProof\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.Opaque\"];\n  \"seemsCorrectAdd\" [label=\"seemsCorrectAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.DirectReplacement\"];\n  \"ManualConstructor_Witness.rec\" [label=\"rec\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"PrivateExtern_exploit_axiom\" [label=\"PrivateExtern_exploit_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.PrivateExtern\"];\n  \"UnsafeDefinition_exploit_theorem\" [label=\"UnsafeDefinition_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"helper_theorem\" [label=\"helper_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Helper\"];\n  \"has_sorry\" [label=\"has_sorry\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.DeepSorry_L0\"];\n  \"LeanTestProject.CustomAxioms.HiddenInMacro.HiddenInMacro_exploit_theorem\" [label=\"HiddenInMacro_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.HiddenInMacro\"];\n  \"MissingRecursor_Witness.recOn\" [label=\"recOn\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"MissingRecursor_Witness.rec\" [label=\"rec\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"LeanTestProject.Partial.NonTerminating.loop\" [label=\"loop\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.PartialNonTerminating\"];\n  \"ProveFalse_exploit_axiom\" [label=\"ProveFalse_exploit_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ProveFalse\"];\n  \"ManualConstructor_Witness.recOn\" [label=\"recOn\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"bad_axiom\" [label=\"bad_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Basic\"];\n  \"LeanTestProject.Sorry.Direct.SorryDirect_exploit_theorem\" [label=\"SorryDirect_exploit_theorem\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.SorryDirect\"];\n  \"uses_sorry_from_l0\" [label=\"uses_sorry_from_l0\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.DeepSorry_L1\"];\n  \"Intermediate_exploit_theorem\" [label=\"Intermediate_exploit_theorem\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.Intermediate\"];\n  \"unsafeProof\" [label=\"unsafeProof\\nUNSAFE\", color=\"#555\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"LeanTestProject.CustomAxioms.HiddenInMacro.hidden_axiom\" [label=\"hidden_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.HiddenInMacro\"];\n  \"LeanTestProject.Valid.WithAxioms.uses_choice\" [label=\"uses_choice\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.WithAxioms\"];\n  \"bad_theorem\" [label=\"bad_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.Basic\"];\n  \"uses_custom_axiom\" [label=\"uses_custom_axiom\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.DeepAxiom_L1\"];\n  \"ManualConstructor_Witness.ctorIdx\" [label=\"ctorIdx\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"MissingRecursor_Witness.ctorIdx\" [label=\"ctorIdx\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"magic\" [label=\"magic\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ProveAnything\"];\n  \"uses_helper\" [label=\"uses_helper\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Dependencies\"];\n  \"missingRecCtor\" [label=\"missingRecCtor\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"correctAdd_eq_wrongAdd\" [label=\"correctAdd_eq_wrongAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.WithAxiom\"];\n  \"seeminglySafeAdd\" [label=\"seeminglySafeAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"ManualConstructor_Witness.noConfusionType\" [label=\"noConfusionType\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"helper_value\" [label=\"helper_value\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Helper\"];\n  \"MissingRecursor_exploit\" [label=\"MissingRecursor_exploit\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"wrongAddImpl\" [label=\"wrongAddImpl\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.DirectReplacement\"];\n  \"publicAdd\" [label=\"publicAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.PrivateExtern\"];\n  \"ExportC_exploit_theorem\" [label=\"ExportC_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.ExportC\"];\n  \"custom_axiom\" [label=\"custom_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.DeepAxiom_L0\"];\n  \"LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem\" [label=\"PartialNonTerminating_exploit_theorem\\nHAS SORRY, USES AXIOM, NONCOMP\", color=\"#d33\", style=\"filled\", tooltip=\"LeanTestProject.PartialNonTerminating\"];\n  \"DirectReplacement_exploit_theorem\" [label=\"DirectReplacement_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.DirectReplacement\"];\n  \"LeanTestProject.SourcePatterns.LocalMacroRules.hidden_axiom\" [label=\"hidden_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.LocalMacroRules\"];\n  \"simple_theorem\" [label=\"simple_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ValidSimple\"];\n  \"MissingRecursor_Witness.casesOn\" [label=\"casesOn\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"UnsafeDefinition_exploit_axiom\" [label=\"UnsafeDefinition_exploit_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.UnsafeDefinition\"];\n  \"exportedAdd\" [label=\"exportedAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ExportC\"];\n  \"DirectReplacement_exploit_axiom\" [label=\"DirectReplacement_exploit_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.DirectReplacement\"];\n  \"MissingRecursor_Witness\" [label=\"MissingRecursor_Witness\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"MissingRecursor_Witness.noConfusion\" [label=\"noConfusion\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.MissingRecursor\"];\n  \"LeanTestProject.SourcePatterns.LocalMacroRules.LocalMacroRules_exploit_theorem\" [label=\"LocalMacroRules_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.LocalMacroRules\"];\n  \"manualCtor\" [label=\"manualCtor\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"ManualConstructor_Witness\" [label=\"ManualConstructor_Witness\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.ManualConstructor\"];\n  \"WithAxiom_exploit_axiom\" [label=\"WithAxiom_exploit_axiom\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.WithAxiom\"];\n  \"WithAxiom_exploit_theorem\" [label=\"WithAxiom_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.WithAxiom\"];\n  \"good_theorem\" [label=\"good_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Basic\"];\n  \"PrivateExtern_exploit_theorem\" [label=\"PrivateExtern_exploit_theorem\\nUSES AXIOM, NONCOMP\", color=\"#e6972b\", style=\"filled\", tooltip=\"LeanTestProject.PrivateExtern\"];\n  \"Opaque_exploit_theorem\" [label=\"Opaque_exploit_theorem\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.Opaque\"];\n  \"correctAdd\" [label=\"correctAdd\", color=\"#bbbbbb\", style=\"filled\", tooltip=\"LeanTestProject.WithAxiom\"];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.noConfusionType\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.noConfusionType\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness.casesOn\" -> \"MissingRecursor_Witness.noConfusionType\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.casesOn\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.casesOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness.rec\" -> \"ManualConstructor_Witness.casesOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.noConfusion\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness.noConfusionType\" -> \"ManualConstructor_Witness.noConfusion\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.noConfusion\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness.noConfusionType\" -> \"ManualConstructor_Witness.noConfusion\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness.casesOn\" -> \"ManualConstructor_Witness.noConfusion\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_exploit\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"manualCtor\" -> \"ManualConstructor_exploit\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"exportedAdd\" -> \"ExportC_exploit_axiom\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ProveFalse_exploit_axiom\" -> \"ProveFalse_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"magic\" -> \"ProveAnything_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.rec\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"publicAdd\" -> \"PrivateExtern_exploit_axiom\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"UnsafeDefinition_exploit_axiom\" -> \"UnsafeDefinition_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"helper_value\" -> \"helper_theorem\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"helper_value\" -> \"helper_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"LeanTestProject.CustomAxioms.HiddenInMacro.hidden_axiom\" -> \"LeanTestProject.CustomAxioms.HiddenInMacro.HiddenInMacro_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.recOn\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.recOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness.rec\" -> \"MissingRecursor_Witness.recOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.rec\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.recOn\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.recOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness.rec\" -> \"ManualConstructor_Witness.recOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"has_sorry\" -> \"uses_sorry_from_l0\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"unsafeProof\" -> \"unsafeProof\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"bad_axiom\" -> \"bad_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"custom_axiom\" -> \"uses_custom_axiom\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.ctorIdx\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.ctorIdx\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness.casesOn\" -> \"ManualConstructor_Witness.ctorIdx\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.ctorIdx\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.ctorIdx\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness.casesOn\" -> \"MissingRecursor_Witness.ctorIdx\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"helper_value\" -> \"uses_helper\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"helper_theorem\" -> \"uses_helper\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"missingRecCtor\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"correctAdd\" -> \"correctAdd_eq_wrongAdd\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"wrongAdd\" -> \"correctAdd_eq_wrongAdd\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.noConfusionType\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"ManualConstructor_Witness.noConfusionType\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness.casesOn\" -> \"ManualConstructor_Witness.noConfusionType\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_exploit\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"missingRecCtor\" -> \"MissingRecursor_exploit\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ExportC_exploit_axiom\" -> \"ExportC_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"LeanTestProject.Partial.NonTerminating.loop\" -> \"LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"LeanTestProject.Partial.NonTerminating.loop\" -> \"LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"DirectReplacement_exploit_axiom\" -> \"DirectReplacement_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.casesOn\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.casesOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness.rec\" -> \"MissingRecursor_Witness.casesOn\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"seeminglySafeAdd\" -> \"UnsafeDefinition_exploit_axiom\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"seemsCorrectAdd\" -> \"DirectReplacement_exploit_axiom\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.noConfusion\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"MissingRecursor_Witness.noConfusionType\" -> \"MissingRecursor_Witness.noConfusion\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"MissingRecursor_Witness\" -> \"MissingRecursor_Witness.noConfusion\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness.noConfusionType\" -> \"MissingRecursor_Witness.noConfusion\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"MissingRecursor_Witness.casesOn\" -> \"MissingRecursor_Witness.noConfusion\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"LeanTestProject.SourcePatterns.LocalMacroRules.hidden_axiom\" -> \"LeanTestProject.SourcePatterns.LocalMacroRules.LocalMacroRules_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"ManualConstructor_Witness\" -> \"manualCtor\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"correctAdd\" -> \"WithAxiom_exploit_axiom\" [style=\"dashed\", label=\"type\", fontsize=8];\n  \"WithAxiom_exploit_axiom\" -> \"WithAxiom_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"PrivateExtern_exploit_axiom\" -> \"PrivateExtern_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n  \"hiddenSorryProof\" -> \"Opaque_exploit_theorem\" [style=\"solid\", label=\"value\", fontsize=8];\n}";
-        window.EMBEDDED_SVG = null;
+        window.EMBEDDED_SVG = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\"\n \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n<!-- Generated by graphviz version 14.0.2 (20251019.1705)\n -->\n<!-- Title: DepViz Pages: 1 -->\n<svg width=\"1229pt\" height=\"2650pt\"\n viewBox=\"0.00 0.00 1229.00 2650.00\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n<g id=\"graph0\" class=\"graph\" transform=\"scale(1 1) rotate(0) translate(4 2646.26)\">\n<title>DepViz</title>\n<polygon fill=\"white\" stroke=\"none\" points=\"-4,4 -4,-2646.26 1224.95,-2646.26 1224.95,4 -4,4\"/>\n<!-- LeanTestProject.CustomAxioms.HiddenInMacro.termProve_false -->\n<g id=\"node1\" class=\"node\">\n<title>LeanTestProject.CustomAxioms.HiddenInMacro.termProve_false</title>\n<g id=\"a_node1\"><a xlink:title=\"LeanTestProject.HiddenInMacro\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-222.26\" rx=\"51.63\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-218.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">termProve_false</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.noConfusionType -->\n<g id=\"node2\" class=\"node\">\n<title>MissingRecursor_Witness.noConfusionType</title>\n<g id=\"a_node2\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"1029.69\" cy=\"-323.26\" rx=\"54.29\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1029.69\" y=\"-319.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">noConfusionType</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.noConfusion -->\n<g id=\"node58\" class=\"node\">\n<title>MissingRecursor_Witness.noConfusion</title>\n<g id=\"a_node58\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"1179.09\" cy=\"-223.26\" rx=\"41.86\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1179.09\" y=\"-219.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">noConfusion</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.noConfusionType&#45;&gt;MissingRecursor_Witness.noConfusion -->\n<g id=\"edge60\" class=\"edge\">\n<title>MissingRecursor_Witness.noConfusionType&#45;&gt;MissingRecursor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M1064.1,-308.99C1071,-305.33 1077.98,-301.05 1083.97,-296.26 1093.78,-288.43 1092.67,-282.94 1101.97,-274.51 1115,-262.71 1130.94,-251.56 1144.86,-242.7\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1146.19,-245.16 1151.5,-238.55 1143.23,-240.41 1146.19,-245.16\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1110.6\" y=\"-276.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness.noConfusionType&#45;&gt;MissingRecursor_Witness.noConfusion -->\n<g id=\"edge62\" class=\"edge\">\n<title>MissingRecursor_Witness.noConfusionType&#45;&gt;MissingRecursor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" d=\"M1068.57,-310.34C1084.92,-303.84 1103.79,-295.03 1119.22,-284.26 1133.82,-274.08 1147.76,-259.91 1158.4,-247.79\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1160.53,-249.61 1163.6,-241.71 1156.27,-245.97 1160.53,-249.61\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1110.6\" y=\"-296.13\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- NativeDecide_exploit_theorem -->\n<g id=\"node3\" class=\"node\">\n<title>NativeDecide_exploit_theorem</title>\n<g id=\"a_node3\"><a xlink:title=\"LeanTestProject.NativeDecide\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-559.26\" rx=\"88.46\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-555.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">NativeDecide_exploit_theorem</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness.casesOn -->\n<g id=\"node4\" class=\"node\">\n<title>ManualConstructor_Witness.casesOn</title>\n<g id=\"a_node4\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"798.93\" cy=\"-742.26\" rx=\"32.54\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-738.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">casesOn</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness.noConfusion -->\n<g id=\"node6\" class=\"node\">\n<title>ManualConstructor_Witness.noConfusion</title>\n<g id=\"a_node6\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"1179.09\" cy=\"-796.26\" rx=\"41.86\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1179.09\" y=\"-792.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">noConfusion</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness.casesOn&#45;&gt;ManualConstructor_Witness.noConfusion -->\n<g id=\"edge11\" class=\"edge\">\n<title>ManualConstructor_Witness.casesOn&#45;&gt;ManualConstructor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" d=\"M830.65,-747.18C865.66,-752.74 924.6,-761.97 975.4,-769.26 1027.88,-776.8 1088.12,-784.73 1129.2,-790.03\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1128.65,-792.79 1136.94,-791.03 1129.36,-787.23 1128.65,-792.79\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1029.69\" y=\"-786.11\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness.ctorIdx -->\n<g id=\"node35\" class=\"node\">\n<title>ManualConstructor_Witness.ctorIdx</title>\n<g id=\"a_node35\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"1029.69\" cy=\"-742.26\" rx=\"27.22\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1029.69\" y=\"-738.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ctorIdx</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness.casesOn&#45;&gt;ManualConstructor_Witness.ctorIdx -->\n<g id=\"edge36\" class=\"edge\">\n<title>ManualConstructor_Witness.casesOn&#45;&gt;ManualConstructor_Witness.ctorIdx</title>\n<path fill=\"none\" stroke=\"black\" d=\"M831.74,-742.26C873.97,-742.26 948.35,-742.26 992.62,-742.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"992.61,-745.06 1000.61,-742.26 992.61,-739.46 992.61,-745.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"948.77\" y=\"-744.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness.noConfusionType -->\n<g id=\"node42\" class=\"node\">\n<title>ManualConstructor_Witness.noConfusionType</title>\n<g id=\"a_node42\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"1029.69\" cy=\"-688.26\" rx=\"54.29\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1029.69\" y=\"-684.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">noConfusionType</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness.casesOn&#45;&gt;ManualConstructor_Witness.noConfusionType -->\n<g id=\"edge47\" class=\"edge\">\n<title>ManualConstructor_Witness.casesOn&#45;&gt;ManualConstructor_Witness.noConfusionType</title>\n<path fill=\"none\" stroke=\"black\" d=\"M829.37,-735.31C866.17,-726.63 929.85,-711.59 975.33,-700.86\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"975.84,-703.61 982.99,-699.05 974.56,-698.16 975.84,-703.61\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"948.77\" y=\"-710.99\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- wrongAdd -->\n<g id=\"node5\" class=\"node\">\n<title>wrongAdd</title>\n<g id=\"a_node5\"><a xlink:title=\"LeanTestProject.WithAxiom\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1225.26\" rx=\"35.21\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1221.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">wrongAdd</text>\n</a>\n</g>\n</g>\n<!-- correctAdd_eq_wrongAdd -->\n<g id=\"node40\" class=\"node\">\n<title>correctAdd_eq_wrongAdd</title>\n<g id=\"a_node40\"><a xlink:title=\"LeanTestProject.WithAxiom\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1219.26\" rx=\"75.59\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1215.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">correctAdd_eq_wrongAdd</text>\n</a>\n</g>\n</g>\n<!-- wrongAdd&#45;&gt;correctAdd_eq_wrongAdd -->\n<g id=\"edge44\" class=\"edge\">\n<title>wrongAdd&#45;&gt;correctAdd_eq_wrongAdd</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M177.98,-1224.64C228.83,-1223.74 325.16,-1222.01 395.23,-1220.76\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"395.04,-1223.57 402.99,-1220.62 394.94,-1217.97 395.04,-1223.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1224.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_exploit -->\n<g id=\"node7\" class=\"node\">\n<title>ManualConstructor_exploit</title>\n<g id=\"a_node7\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"798.93\" cy=\"-842.26\" rx=\"96.7\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-844.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ManualConstructor_exploit</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-832.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- ExportC_exploit_axiom -->\n<g id=\"node8\" class=\"node\">\n<title>ExportC_exploit_axiom</title>\n<g id=\"a_node8\"><a xlink:title=\"LeanTestProject.ExportC\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1279.26\" rx=\"69.38\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1275.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ExportC_exploit_axiom</text>\n</a>\n</g>\n</g>\n<!-- ExportC_exploit_theorem -->\n<g id=\"node47\" class=\"node\">\n<title>ExportC_exploit_theorem</title>\n<g id=\"a_node47\"><a xlink:title=\"LeanTestProject.ExportC\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"798.93\" cy=\"-1279.26\" rx=\"96.7\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1281.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ExportC_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1269.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- ExportC_exploit_axiom&#45;&gt;ExportC_exploit_theorem -->\n<g id=\"edge50\" class=\"edge\">\n<title>ExportC_exploit_axiom&#45;&gt;ExportC_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M549.9,-1279.26C591.61,-1279.26 645.69,-1279.26 692.7,-1279.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"692.48,-1282.06 700.48,-1279.26 692.48,-1276.46 692.48,-1282.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-1281.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ProveFalse_exploit_theorem -->\n<g id=\"node9\" class=\"node\">\n<title>ProveFalse_exploit_theorem</title>\n<g id=\"a_node9\"><a xlink:title=\"LeanTestProject.ProveFalse\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"480.17\" cy=\"-1337.26\" rx=\"98.82\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1339.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ProveFalse_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1327.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- Timeout_exploit_theorem -->\n<g id=\"node10\" class=\"node\">\n<title>Timeout_exploit_theorem</title>\n<g id=\"a_node10\"><a xlink:title=\"LeanTestProject.Timeout\">\n<ellipse fill=\"#dd3333\" stroke=\"#dd3333\" cx=\"142.31\" cy=\"-1395.26\" rx=\"142.31\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1397.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">Timeout_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1385.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">HAS SORRY, USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- ProveAnything_exploit_theorem -->\n<g id=\"node11\" class=\"node\">\n<title>ProveAnything_exploit_theorem</title>\n<g id=\"a_node11\"><a xlink:title=\"LeanTestProject.ProveAnything\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"480.17\" cy=\"-1453.26\" rx=\"108.89\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1455.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ProveAnything_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1443.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- unsafeAddImpl -->\n<g id=\"node12\" class=\"node\">\n<title>unsafeAddImpl</title>\n<g id=\"a_node12\"><a xlink:title=\"LeanTestProject.UnsafeDefinition\">\n<ellipse fill=\"#555555\" stroke=\"#555555\" cx=\"142.31\" cy=\"-1511.26\" rx=\"57.45\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1513.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">unsafeAddImpl</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1501.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">UNSAFE</text>\n</a>\n</g>\n</g>\n<!-- hiddenSorryProof -->\n<g id=\"node13\" class=\"node\">\n<title>hiddenSorryProof</title>\n<g id=\"a_node13\"><a xlink:title=\"LeanTestProject.Opaque\">\n<ellipse fill=\"#dd3333\" stroke=\"#dd3333\" cx=\"142.31\" cy=\"-1572.26\" rx=\"142.31\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1574.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">hiddenSorryProof</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1562.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">HAS SORRY, USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- Opaque_exploit_theorem -->\n<g id=\"node66\" class=\"node\">\n<title>Opaque_exploit_theorem</title>\n<g id=\"a_node66\"><a xlink:title=\"LeanTestProject.Opaque\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1572.26\" rx=\"73.37\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1568.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">Opaque_exploit_theorem</text>\n</a>\n</g>\n</g>\n<!-- hiddenSorryProof&#45;&gt;Opaque_exploit_theorem -->\n<g id=\"edge69\" class=\"edge\">\n<title>hiddenSorryProof&#45;&gt;Opaque_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M284.77,-1572.26C323.11,-1572.26 363.35,-1572.26 397.2,-1572.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"397.06,-1575.06 405.06,-1572.26 397.06,-1569.46 397.06,-1575.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1574.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- seemsCorrectAdd -->\n<g id=\"node14\" class=\"node\">\n<title>seemsCorrectAdd</title>\n<g id=\"a_node14\"><a xlink:title=\"LeanTestProject.DirectReplacement\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1630.26\" rx=\"56.06\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1626.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">seemsCorrectAdd</text>\n</a>\n</g>\n</g>\n<!-- DirectReplacement_exploit_axiom -->\n<g id=\"node56\" class=\"node\">\n<title>DirectReplacement_exploit_axiom</title>\n<g id=\"a_node56\"><a xlink:title=\"LeanTestProject.DirectReplacement\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1630.26\" rx=\"97.78\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1626.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">DirectReplacement_exploit_axiom</text>\n</a>\n</g>\n</g>\n<!-- seemsCorrectAdd&#45;&gt;DirectReplacement_exploit_axiom -->\n<g id=\"edge58\" class=\"edge\">\n<title>seemsCorrectAdd&#45;&gt;DirectReplacement_exploit_axiom</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M198.77,-1630.26C245.99,-1630.26 315.16,-1630.26 372.99,-1630.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"372.66,-1633.06 380.66,-1630.26 372.66,-1627.46 372.66,-1633.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1632.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness.rec -->\n<g id=\"node15\" class=\"node\">\n<title>ManualConstructor_Witness.rec</title>\n<g id=\"a_node15\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-842.26\" rx=\"27\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-838.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">rec</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness.rec&#45;&gt;ManualConstructor_Witness.casesOn -->\n<g id=\"edge6\" class=\"edge\">\n<title>ManualConstructor_Witness.rec&#45;&gt;ManualConstructor_Witness.casesOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M506.88,-838.25C535.35,-833.6 582.5,-825.29 622.47,-815.26 674.84,-802.13 731.95,-775.96 766.34,-758.79\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"767.35,-761.42 773.23,-755.31 764.83,-756.42 767.35,-761.42\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-811.91\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness.recOn -->\n<g id=\"node25\" class=\"node\">\n<title>ManualConstructor_Witness.recOn</title>\n<g id=\"a_node25\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"798.93\" cy=\"-942.26\" rx=\"27\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-938.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">recOn</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness.rec&#45;&gt;ManualConstructor_Witness.recOn -->\n<g id=\"edge29\" class=\"edge\">\n<title>ManualConstructor_Witness.rec&#45;&gt;ManualConstructor_Witness.recOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M506.73,-846.88C535.26,-852.3 582.66,-862.11 622.47,-874.26 674.25,-890.06 732.5,-913.9 767.16,-928.75\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"766.02,-931.3 774.48,-931.9 768.24,-926.16 766.02,-931.3\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-887.62\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- PrivateExtern_exploit_axiom -->\n<g id=\"node16\" class=\"node\">\n<title>PrivateExtern_exploit_axiom</title>\n<g id=\"a_node16\"><a xlink:title=\"LeanTestProject.PrivateExtern\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1691.26\" rx=\"83.13\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1687.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">PrivateExtern_exploit_axiom</text>\n</a>\n</g>\n</g>\n<!-- PrivateExtern_exploit_theorem -->\n<g id=\"node65\" class=\"node\">\n<title>PrivateExtern_exploit_theorem</title>\n<g id=\"a_node65\"><a xlink:title=\"LeanTestProject.PrivateExtern\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"798.93\" cy=\"-1691.26\" rx=\"105.71\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1693.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">PrivateExtern_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1681.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- PrivateExtern_exploit_axiom&#45;&gt;PrivateExtern_exploit_theorem -->\n<g id=\"edge68\" class=\"edge\">\n<title>PrivateExtern_exploit_axiom&#45;&gt;PrivateExtern_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M563.57,-1691.26C600.14,-1691.26 643.79,-1691.26 683.46,-1691.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"683.4,-1694.06 691.4,-1691.26 683.4,-1688.46 683.4,-1694.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-1693.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- UnsafeDefinition_exploit_theorem -->\n<g id=\"node17\" class=\"node\">\n<title>UnsafeDefinition_exploit_theorem</title>\n<g id=\"a_node17\"><a xlink:title=\"LeanTestProject.UnsafeDefinition\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"798.93\" cy=\"-1752.26\" rx=\"115.26\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1754.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">UnsafeDefinition_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1742.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- helper_theorem -->\n<g id=\"node18\" class=\"node\">\n<title>helper_theorem</title>\n<g id=\"a_node18\"><a xlink:title=\"LeanTestProject.Helper\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1852.26\" rx=\"48.96\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1848.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">helper_theorem</text>\n</a>\n</g>\n</g>\n<!-- uses_helper -->\n<g id=\"node38\" class=\"node\">\n<title>uses_helper</title>\n<g id=\"a_node38\"><a xlink:title=\"LeanTestProject.Dependencies\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"798.93\" cy=\"-1828.26\" rx=\"40.53\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1824.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">uses_helper</text>\n</a>\n</g>\n</g>\n<!-- helper_theorem&#45;&gt;uses_helper -->\n<g id=\"edge41\" class=\"edge\">\n<title>helper_theorem&#45;&gt;uses_helper</title>\n<path fill=\"none\" stroke=\"black\" d=\"M528.59,-1848.67C588.06,-1844.16 689.47,-1836.48 749.44,-1831.94\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"749.42,-1834.75 757.19,-1831.35 749,-1829.16 749.42,-1834.75\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-1841.69\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- has_sorry -->\n<g id=\"node19\" class=\"node\">\n<title>has_sorry</title>\n<g id=\"a_node19\"><a xlink:title=\"LeanTestProject.DeepSorry_L0\">\n<ellipse fill=\"#dd3333\" stroke=\"#dd3333\" cx=\"142.31\" cy=\"-1906.26\" rx=\"142.31\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1908.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">has_sorry</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1896.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">HAS SORRY, USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- uses_sorry_from_l0 -->\n<g id=\"node28\" class=\"node\">\n<title>uses_sorry_from_l0</title>\n<g id=\"a_node28\"><a xlink:title=\"LeanTestProject.DeepSorry_L1\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1906.26\" rx=\"60.06\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1902.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">uses_sorry_from_l0</text>\n</a>\n</g>\n</g>\n<!-- has_sorry&#45;&gt;uses_sorry_from_l0 -->\n<g id=\"edge30\" class=\"edge\">\n<title>has_sorry&#45;&gt;uses_sorry_from_l0</title>\n<path fill=\"none\" stroke=\"black\" d=\"M284.77,-1906.26C328.21,-1906.26 374.08,-1906.26 410.35,-1906.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"410.32,-1909.06 418.32,-1906.26 410.32,-1903.46 410.32,-1909.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1908.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- LeanTestProject.CustomAxioms.HiddenInMacro.HiddenInMacro_exploit_theorem -->\n<g id=\"node20\" class=\"node\">\n<title>LeanTestProject.CustomAxioms.HiddenInMacro.HiddenInMacro_exploit_theorem</title>\n<g id=\"a_node20\"><a xlink:title=\"LeanTestProject.HiddenInMacro\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"480.17\" cy=\"-1964.26\" rx=\"110.49\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1966.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">HiddenInMacro_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1954.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.recOn -->\n<g id=\"node21\" class=\"node\">\n<title>MissingRecursor_Witness.recOn</title>\n<g id=\"a_node21\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"798.93\" cy=\"-414.26\" rx=\"27\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-410.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">recOn</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.rec -->\n<g id=\"node22\" class=\"node\">\n<title>MissingRecursor_Witness.rec</title>\n<g id=\"a_node22\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-322.26\" rx=\"27\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-318.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">rec</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.rec&#45;&gt;MissingRecursor_Witness.recOn -->\n<g id=\"edge25\" class=\"edge\">\n<title>MissingRecursor_Witness.rec&#45;&gt;MissingRecursor_Witness.recOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M507.53,-320.97C542.62,-320 606.21,-320.95 657.72,-336.51 700.89,-349.56 745.57,-377.23 772.57,-395.79\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"770.62,-397.85 778.78,-400.13 773.83,-393.26 770.62,-397.85\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-338.66\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness.casesOn -->\n<g id=\"node53\" class=\"node\">\n<title>MissingRecursor_Witness.casesOn</title>\n<g id=\"a_node53\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"798.93\" cy=\"-269.26\" rx=\"32.54\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-265.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">casesOn</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.rec&#45;&gt;MissingRecursor_Witness.casesOn -->\n<g id=\"edge56\" class=\"edge\">\n<title>MissingRecursor_Witness.rec&#45;&gt;MissingRecursor_Witness.casesOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M506.82,-317.97C561.99,-308.74 692.25,-286.95 758.2,-275.91\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"758.53,-278.7 765.95,-274.61 757.6,-273.17 758.53,-278.7\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-296.32\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- LeanTestProject.Partial.NonTerminating.loop -->\n<g id=\"node23\" class=\"node\">\n<title>LeanTestProject.Partial.NonTerminating.loop</title>\n<g id=\"a_node23\"><a xlink:title=\"LeanTestProject.PartialNonTerminating\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2025.26\" rx=\"27\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2021.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">loop</text>\n</a>\n</g>\n</g>\n<!-- LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem -->\n<g id=\"node49\" class=\"node\">\n<title>LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem</title>\n<g id=\"a_node49\"><a xlink:title=\"LeanTestProject.PartialNonTerminating\">\n<ellipse fill=\"#dd3333\" stroke=\"#dd3333\" cx=\"480.17\" cy=\"-2028.26\" rx=\"142.31\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2030.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">PartialNonTerminating_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2018.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">HAS SORRY, USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- LeanTestProject.Partial.NonTerminating.loop&#45;&gt;LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem -->\n<g id=\"edge51\" class=\"edge\">\n<title>LeanTestProject.Partial.NonTerminating.loop&#45;&gt;LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M169.66,-2025.5C204.3,-2025.81 267.87,-2026.38 328.43,-2026.92\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"328.19,-2029.72 336.21,-2026.99 328.24,-2024.12 328.19,-2029.72\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-2028.91\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- LeanTestProject.Partial.NonTerminating.loop&#45;&gt;LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem -->\n<g id=\"edge52\" class=\"edge\">\n<title>LeanTestProject.Partial.NonTerminating.loop&#45;&gt;LeanTestProject.Partial.NonTerminating.PartialNonTerminating_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M169.02,-2021.73C203.37,-2017.43 266.16,-2011.03 319.86,-2013.51 330.37,-2014 341.26,-2014.66 352.19,-2015.44\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"351.68,-2018.21 359.86,-2016.01 352.09,-2012.63 351.68,-2018.21\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-2015.66\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ProveFalse_exploit_axiom -->\n<g id=\"node24\" class=\"node\">\n<title>ProveFalse_exploit_axiom</title>\n<g id=\"a_node24\"><a xlink:title=\"LeanTestProject.ProveFalse\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1337.26\" rx=\"77.36\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1333.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ProveFalse_exploit_axiom</text>\n</a>\n</g>\n</g>\n<!-- ProveFalse_exploit_axiom&#45;&gt;ProveFalse_exploit_theorem -->\n<g id=\"edge15\" class=\"edge\">\n<title>ProveFalse_exploit_axiom&#45;&gt;ProveFalse_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M219.94,-1337.26C264.86,-1337.26 322.31,-1337.26 371.71,-1337.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"371.64,-1340.06 379.64,-1337.26 371.64,-1334.46 371.64,-1340.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1339.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- bad_axiom -->\n<g id=\"node26\" class=\"node\">\n<title>bad_axiom</title>\n<g id=\"a_node26\"><a xlink:title=\"LeanTestProject.Basic\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2089.26\" rx=\"37.42\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2085.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">bad_axiom</text>\n</a>\n</g>\n</g>\n<!-- bad_theorem -->\n<g id=\"node33\" class=\"node\">\n<title>bad_theorem</title>\n<g id=\"a_node33\"><a xlink:title=\"LeanTestProject.Basic\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"480.17\" cy=\"-2089.26\" rx=\"96.7\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2091.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">bad_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2079.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- bad_axiom&#45;&gt;bad_theorem -->\n<g id=\"edge32\" class=\"edge\">\n<title>bad_axiom&#45;&gt;bad_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M180.21,-2089.26C226.51,-2089.26 307.87,-2089.26 374.03,-2089.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"373.75,-2092.06 381.75,-2089.26 373.75,-2086.46 373.75,-2092.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-2091.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- LeanTestProject.Sorry.Direct.SorryDirect_exploit_theorem -->\n<g id=\"node27\" class=\"node\">\n<title>LeanTestProject.Sorry.Direct.SorryDirect_exploit_theorem</title>\n<g id=\"a_node27\"><a xlink:title=\"LeanTestProject.SorryDirect\">\n<ellipse fill=\"#dd3333\" stroke=\"#dd3333\" cx=\"142.31\" cy=\"-2147.26\" rx=\"142.31\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2149.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">SorryDirect_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2137.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">HAS SORRY, USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- Intermediate_exploit_theorem -->\n<g id=\"node29\" class=\"node\">\n<title>Intermediate_exploit_theorem</title>\n<g id=\"a_node29\"><a xlink:title=\"LeanTestProject.Intermediate\">\n<ellipse fill=\"#dd3333\" stroke=\"#dd3333\" cx=\"142.31\" cy=\"-2208.26\" rx=\"142.31\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2210.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">Intermediate_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2198.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">HAS SORRY, USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- unsafeProof -->\n<g id=\"node30\" class=\"node\">\n<title>unsafeProof</title>\n<g id=\"a_node30\"><a xlink:title=\"LeanTestProject.UnsafeDefinition\">\n<ellipse fill=\"#555555\" stroke=\"#555555\" cx=\"142.31\" cy=\"-2269.26\" rx=\"48.44\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2271.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">unsafeProof</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2259.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">UNSAFE</text>\n</a>\n</g>\n</g>\n<!-- unsafeProof&#45;&gt;unsafeProof -->\n<g id=\"edge31\" class=\"edge\">\n<title>unsafeProof&#45;&gt;unsafeProof</title>\n<path fill=\"none\" stroke=\"black\" d=\"M113.14,-2286.76C105.53,-2298 115.25,-2308.83 142.31,-2308.83 161.75,-2308.83 172.24,-2303.24 173.78,-2295.92\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"176.51,-2295.3 171.84,-2288.22 171.08,-2296.67 176.51,-2295.3\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2310.98\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- LeanTestProject.CustomAxioms.HiddenInMacro.hidden_axiom -->\n<g id=\"node31\" class=\"node\">\n<title>LeanTestProject.CustomAxioms.HiddenInMacro.hidden_axiom</title>\n<g id=\"a_node31\"><a xlink:title=\"LeanTestProject.HiddenInMacro\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1964.26\" rx=\"44.97\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1960.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">hidden_axiom</text>\n</a>\n</g>\n</g>\n<!-- LeanTestProject.CustomAxioms.HiddenInMacro.hidden_axiom&#45;&gt;LeanTestProject.CustomAxioms.HiddenInMacro.HiddenInMacro_exploit_theorem -->\n<g id=\"edge22\" class=\"edge\">\n<title>LeanTestProject.CustomAxioms.HiddenInMacro.hidden_axiom&#45;&gt;LeanTestProject.CustomAxioms.HiddenInMacro.HiddenInMacro_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M187.56,-1964.26C231.36,-1964.26 300.34,-1964.26 360.22,-1964.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"359.85,-1967.06 367.85,-1964.26 359.85,-1961.46 359.85,-1967.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1966.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- LeanTestProject.Valid.WithAxioms.uses_choice -->\n<g id=\"node32\" class=\"node\">\n<title>LeanTestProject.Valid.WithAxioms.uses_choice</title>\n<g id=\"a_node32\"><a xlink:title=\"LeanTestProject.WithAxioms\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2354.26\" rx=\"41.86\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2350.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">uses_choice</text>\n</a>\n</g>\n</g>\n<!-- uses_custom_axiom -->\n<g id=\"node34\" class=\"node\">\n<title>uses_custom_axiom</title>\n<g id=\"a_node34\"><a xlink:title=\"LeanTestProject.DeepAxiom_L1\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"480.17\" cy=\"-2408.26\" rx=\"96.7\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2410.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">uses_custom_axiom</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2398.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.ctorIdx -->\n<g id=\"node36\" class=\"node\">\n<title>MissingRecursor_Witness.ctorIdx</title>\n<g id=\"a_node36\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"1029.69\" cy=\"-269.26\" rx=\"27.22\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1029.69\" y=\"-265.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ctorIdx</text>\n</a>\n</g>\n</g>\n<!-- magic -->\n<g id=\"node37\" class=\"node\">\n<title>magic</title>\n<g id=\"a_node37\"><a xlink:title=\"LeanTestProject.ProveAnything\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1453.26\" rx=\"27\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1449.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">magic</text>\n</a>\n</g>\n</g>\n<!-- magic&#45;&gt;ProveAnything_exploit_theorem -->\n<g id=\"edge16\" class=\"edge\">\n<title>magic&#45;&gt;ProveAnything_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M169.66,-1453.26C210.73,-1453.26 292.47,-1453.26 361.63,-1453.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"361.35,-1456.06 369.35,-1453.26 361.35,-1450.46 361.35,-1456.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1455.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- missingRecCtor -->\n<g id=\"node39\" class=\"node\">\n<title>missingRecCtor</title>\n<g id=\"a_node39\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-176.26\" rx=\"51.18\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-172.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">missingRecCtor</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_exploit -->\n<g id=\"node44\" class=\"node\">\n<title>MissingRecursor_exploit</title>\n<g id=\"a_node44\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"798.93\" cy=\"-149.26\" rx=\"96.7\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-151.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">MissingRecursor_exploit</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-139.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- missingRecCtor&#45;&gt;MissingRecursor_exploit -->\n<g id=\"edge49\" class=\"edge\">\n<title>missingRecCtor&#45;&gt;MissingRecursor_exploit</title>\n<path fill=\"none\" stroke=\"black\" d=\"M530.31,-172.07C575.17,-168.25 642.82,-162.48 698.88,-157.71\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"698.89,-160.52 706.62,-157.05 698.41,-154.94 698.89,-160.52\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-164.1\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- seeminglySafeAdd -->\n<g id=\"node41\" class=\"node\">\n<title>seeminglySafeAdd</title>\n<g id=\"a_node41\"><a xlink:title=\"LeanTestProject.UnsafeDefinition\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1752.26\" rx=\"57.84\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1748.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">seeminglySafeAdd</text>\n</a>\n</g>\n</g>\n<!-- UnsafeDefinition_exploit_axiom -->\n<g id=\"node54\" class=\"node\">\n<title>UnsafeDefinition_exploit_axiom</title>\n<g id=\"a_node54\"><a xlink:title=\"LeanTestProject.UnsafeDefinition\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1752.26\" rx=\"91.12\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1748.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">UnsafeDefinition_exploit_axiom</text>\n</a>\n</g>\n</g>\n<!-- seeminglySafeAdd&#45;&gt;UnsafeDefinition_exploit_axiom -->\n<g id=\"edge57\" class=\"edge\">\n<title>seeminglySafeAdd&#45;&gt;UnsafeDefinition_exploit_axiom</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M200.28,-1752.26C249.22,-1752.26 320.92,-1752.26 379.37,-1752.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"379.11,-1755.06 387.11,-1752.26 379.11,-1749.46 379.11,-1755.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1754.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness.noConfusionType&#45;&gt;ManualConstructor_Witness.noConfusion -->\n<g id=\"edge8\" class=\"edge\">\n<title>ManualConstructor_Witness.noConfusionType&#45;&gt;ManualConstructor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M1078.79,-696.39C1092.7,-700.31 1107.33,-706.07 1119.22,-714.51 1139.38,-728.83 1155.22,-752.26 1165.37,-770.37\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1162.65,-771.22 1168.91,-776.94 1167.58,-768.57 1162.65,-771.22\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1110.6\" y=\"-716.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness.noConfusionType&#45;&gt;ManualConstructor_Witness.noConfusion -->\n<g id=\"edge10\" class=\"edge\">\n<title>ManualConstructor_Witness.noConfusionType&#45;&gt;ManualConstructor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" d=\"M1062.68,-702.89C1069.87,-706.61 1077.34,-710.82 1083.97,-715.26 1109.75,-732.52 1136.29,-755.97 1154.58,-773.2\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1152.59,-775.17 1160.31,-778.66 1156.45,-771.11 1152.59,-775.17\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1110.6\" y=\"-741.94\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- helper_value -->\n<g id=\"node43\" class=\"node\">\n<title>helper_value</title>\n<g id=\"a_node43\"><a xlink:title=\"LeanTestProject.Helper\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1839.26\" rx=\"41.86\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1835.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">helper_value</text>\n</a>\n</g>\n</g>\n<!-- helper_value&#45;&gt;helper_theorem -->\n<g id=\"edge20\" class=\"edge\">\n<title>helper_value&#45;&gt;helper_theorem</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M183.87,-1842.71C216.04,-1845.29 262.17,-1848.64 302.61,-1850.26 342.23,-1851.85 386.88,-1852.35 421.37,-1852.45\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"421.29,-1855.25 429.3,-1852.46 421.3,-1849.65 421.29,-1855.25\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1852.94\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- helper_value&#45;&gt;helper_theorem -->\n<g id=\"edge21\" class=\"edge\">\n<title>helper_value&#45;&gt;helper_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M184.35,-1838.41C220.15,-1837.89 273.46,-1837.63 319.86,-1839.51 354.28,-1840.91 392.78,-1843.95 423.31,-1846.72\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"422.79,-1849.48 431.01,-1847.42 423.3,-1843.9 422.79,-1849.48\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1841.66\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- helper_value&#45;&gt;uses_helper -->\n<g id=\"edge40\" class=\"edge\">\n<title>helper_value&#45;&gt;uses_helper</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M181.94,-1833.14C221.1,-1827.27 283.52,-1818.82 337.86,-1815.51 464.12,-1807.84 496.06,-1810.93 622.47,-1815.51 665.62,-1817.08 714.62,-1820.8 749.85,-1823.83\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"749.23,-1826.58 757.44,-1824.49 749.72,-1821 749.23,-1826.58\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1817.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- wrongAddImpl -->\n<g id=\"node45\" class=\"node\">\n<title>wrongAddImpl</title>\n<g id=\"a_node45\"><a xlink:title=\"LeanTestProject.DirectReplacement\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2462.26\" rx=\"46.3\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2458.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">wrongAddImpl</text>\n</a>\n</g>\n</g>\n<!-- publicAdd -->\n<g id=\"node46\" class=\"node\">\n<title>publicAdd</title>\n<g id=\"a_node46\"><a xlink:title=\"LeanTestProject.PrivateExtern\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1691.26\" rx=\"34.76\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1687.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">publicAdd</text>\n</a>\n</g>\n</g>\n<!-- publicAdd&#45;&gt;PrivateExtern_exploit_axiom -->\n<g id=\"edge18\" class=\"edge\">\n<title>publicAdd&#45;&gt;PrivateExtern_exploit_axiom</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M177.36,-1691.26C226.2,-1691.26 317.9,-1691.26 387.46,-1691.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"387.18,-1694.06 395.18,-1691.26 387.18,-1688.46 387.18,-1694.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1693.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- custom_axiom -->\n<g id=\"node48\" class=\"node\">\n<title>custom_axiom</title>\n<g id=\"a_node48\"><a xlink:title=\"LeanTestProject.DeepAxiom_L0\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2408.26\" rx=\"47.19\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2404.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">custom_axiom</text>\n</a>\n</g>\n</g>\n<!-- custom_axiom&#45;&gt;uses_custom_axiom -->\n<g id=\"edge33\" class=\"edge\">\n<title>custom_axiom&#45;&gt;uses_custom_axiom</title>\n<path fill=\"none\" stroke=\"black\" d=\"M189.65,-2408.26C236.89,-2408.26 311.8,-2408.26 373.59,-2408.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"373.48,-2411.06 381.48,-2408.26 373.48,-2405.46 373.48,-2411.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-2410.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- DirectReplacement_exploit_theorem -->\n<g id=\"node50\" class=\"node\">\n<title>DirectReplacement_exploit_theorem</title>\n<g id=\"a_node50\"><a xlink:title=\"LeanTestProject.DirectReplacement\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"798.93\" cy=\"-1630.26\" rx=\"123.21\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1632.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">DirectReplacement_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1620.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- LeanTestProject.SourcePatterns.LocalMacroRules.hidden_axiom -->\n<g id=\"node51\" class=\"node\">\n<title>LeanTestProject.SourcePatterns.LocalMacroRules.hidden_axiom</title>\n<g id=\"a_node51\"><a xlink:title=\"LeanTestProject.LocalMacroRules\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2516.26\" rx=\"44.97\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2512.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">hidden_axiom</text>\n</a>\n</g>\n</g>\n<!-- LeanTestProject.SourcePatterns.LocalMacroRules.LocalMacroRules_exploit_theorem -->\n<g id=\"node59\" class=\"node\">\n<title>LeanTestProject.SourcePatterns.LocalMacroRules.LocalMacroRules_exploit_theorem</title>\n<g id=\"a_node59\"><a xlink:title=\"LeanTestProject.LocalMacroRules\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"480.17\" cy=\"-2516.26\" rx=\"117.38\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2518.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">LocalMacroRules_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-2506.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- LeanTestProject.SourcePatterns.LocalMacroRules.hidden_axiom&#45;&gt;LeanTestProject.SourcePatterns.LocalMacroRules.LocalMacroRules_exploit_theorem -->\n<g id=\"edge64\" class=\"edge\">\n<title>LeanTestProject.SourcePatterns.LocalMacroRules.hidden_axiom&#45;&gt;LeanTestProject.SourcePatterns.LocalMacroRules.LocalMacroRules_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M187.56,-2516.26C229.66,-2516.26 295.03,-2516.26 353.22,-2516.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"352.98,-2519.06 360.98,-2516.26 352.98,-2513.46 352.98,-2519.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-2518.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- simple_theorem -->\n<g id=\"node52\" class=\"node\">\n<title>simple_theorem</title>\n<g id=\"a_node52\"><a xlink:title=\"LeanTestProject.ValidSimple\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2570.26\" rx=\"50.29\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2566.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">simple_theorem</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness.casesOn&#45;&gt;MissingRecursor_Witness.noConfusionType -->\n<g id=\"edge3\" class=\"edge\">\n<title>MissingRecursor_Witness.casesOn&#45;&gt;MissingRecursor_Witness.noConfusionType</title>\n<path fill=\"none\" stroke=\"black\" d=\"M829.37,-276.21C866.17,-284.9 929.85,-299.93 975.33,-310.67\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"974.56,-313.36 982.99,-312.48 975.84,-307.91 974.56,-313.36\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"948.77\" y=\"-307.95\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness.casesOn&#45;&gt;MissingRecursor_Witness.ctorIdx -->\n<g id=\"edge39\" class=\"edge\">\n<title>MissingRecursor_Witness.casesOn&#45;&gt;MissingRecursor_Witness.ctorIdx</title>\n<path fill=\"none\" stroke=\"black\" d=\"M831.74,-269.26C873.97,-269.26 948.35,-269.26 992.62,-269.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"992.61,-272.06 1000.61,-269.26 992.61,-266.46 992.61,-272.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"948.77\" y=\"-271.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness.casesOn&#45;&gt;MissingRecursor_Witness.noConfusion -->\n<g id=\"edge63\" class=\"edge\">\n<title>MissingRecursor_Witness.casesOn&#45;&gt;MissingRecursor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" d=\"M828.88,-261.71C863.46,-253.02 923.22,-239.13 975.4,-232.51 1026.95,-225.98 1086.39,-223.91 1127.51,-223.32\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1127.29,-226.12 1135.26,-223.23 1127.22,-220.52 1127.29,-226.12\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"1029.69\" y=\"-234.66\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- UnsafeDefinition_exploit_axiom&#45;&gt;UnsafeDefinition_exploit_theorem -->\n<g id=\"edge19\" class=\"edge\">\n<title>UnsafeDefinition_exploit_axiom&#45;&gt;UnsafeDefinition_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M571.51,-1752.26C603.49,-1752.26 640.04,-1752.26 674.31,-1752.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"673.92,-1755.06 681.92,-1752.26 673.92,-1749.46 673.92,-1755.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-1754.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- exportedAdd -->\n<g id=\"node55\" class=\"node\">\n<title>exportedAdd</title>\n<g id=\"a_node55\"><a xlink:title=\"LeanTestProject.ExportC\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1279.26\" rx=\"41.86\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1275.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">exportedAdd</text>\n</a>\n</g>\n</g>\n<!-- exportedAdd&#45;&gt;ExportC_exploit_axiom -->\n<g id=\"edge14\" class=\"edge\">\n<title>exportedAdd&#45;&gt;ExportC_exploit_axiom</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M184.49,-1279.26C238.27,-1279.26 333.53,-1279.26 401.17,-1279.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"401.01,-1282.06 409.01,-1279.26 401.01,-1276.46 401.01,-1282.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1281.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- DirectReplacement_exploit_axiom&#45;&gt;DirectReplacement_exploit_theorem -->\n<g id=\"edge53\" class=\"edge\">\n<title>DirectReplacement_exploit_axiom&#45;&gt;DirectReplacement_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M578.36,-1630.26C606.01,-1630.26 636.6,-1630.26 665.95,-1630.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"665.92,-1633.06 673.92,-1630.26 665.92,-1627.46 665.92,-1633.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-1632.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness -->\n<g id=\"node57\" class=\"node\">\n<title>MissingRecursor_Witness</title>\n<g id=\"a_node57\"><a xlink:title=\"LeanTestProject.MissingRecursor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-276.26\" rx=\"77.36\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-272.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">MissingRecursor_Witness</text>\n</a>\n</g>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusionType -->\n<g id=\"edge1\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusionType</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M148.98,-294.63C164.57,-341.38 212.91,-464.59 302.61,-512.26 366.85,-546.41 897.56,-553.65 957.4,-512.26 1010.51,-475.53 1024.1,-393.84 1027.54,-350.89\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1030.32,-351.27 1028.07,-343.1 1024.74,-350.89 1030.32,-351.27\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-542.8\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusionType -->\n<g id=\"edge2\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusionType</title>\n<path fill=\"none\" stroke=\"black\" d=\"M153.54,-294.3C178.54,-336.26 247.35,-439.77 337.86,-478.26 457.59,-529.18 806.73,-501.3 922.15,-441.26 962.71,-420.17 995.39,-376.97 1013.4,-349.1\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1015.59,-350.87 1017.49,-342.61 1010.85,-347.89 1015.59,-350.87\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-502.73\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.recOn -->\n<g id=\"edge23\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.recOn</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M162.58,-294.1C190.84,-318.99 246.27,-363.23 302.61,-382.26 467.16,-437.86 679.65,-425.75 762.58,-418.08\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"762.84,-420.87 770.54,-417.32 762.3,-415.29 762.84,-420.87\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-426.95\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.recOn -->\n<g id=\"edge24\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.recOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M157.23,-294.23C186.21,-329.97 257.06,-409.03 337.86,-438.26 489.63,-493.18 688.01,-446.61 765.2,-424.42\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"765.66,-427.2 772.55,-422.27 764.09,-421.83 765.66,-427.2\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-466.18\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.rec -->\n<g id=\"edge26\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.rec</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M209.66,-285.35C279.99,-294.98 388.41,-309.83 443.86,-317.43\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"443.45,-320.2 451.75,-318.51 444.21,-314.65 443.45,-320.2\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-301.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.ctorIdx -->\n<g id=\"edge37\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.ctorIdx</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M219.75,-277.82C243.39,-274.43 267.64,-266.38 284.61,-249.26 316.09,-217.5 285.7,-191.66 302.61,-150.26 313.17,-124.42 313.25,-111.46 337.86,-98.26 463.16,-31.1 515.69,-89.41 657.72,-95.51 775.57,-100.57 826.92,-48.66 922.15,-118.26 971.89,-154.62 932.12,-202.41 975.4,-246.26 980.94,-251.88 988.08,-256.22 995.33,-259.53\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"993.92,-261.97 1002.38,-262.39 996.02,-256.79 993.92,-261.97\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-97.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.ctorIdx -->\n<g id=\"edge38\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.ctorIdx</title>\n<path fill=\"none\" stroke=\"black\" d=\"M176.35,-292.86C214.24,-310.89 278.76,-338.54 337.86,-349.26 473.48,-373.87 836.32,-385.14 957.4,-319.26 968.8,-313.06 965.37,-304.5 975.4,-296.26 981.99,-290.85 989.84,-286.13 997.47,-282.21\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"998.25,-284.95 1004.23,-278.94 995.81,-279.9 998.25,-284.95\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-370.53\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;missingRecCtor -->\n<g id=\"edge42\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;missingRecCtor</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M219.89,-275.2C242.72,-271.52 266.46,-263.96 284.61,-249.26 300.63,-236.29 286.46,-219.33 302.61,-206.51 335.62,-180.31 383.15,-173.37 420.59,-172.65\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"420.38,-175.45 428.36,-172.6 420.34,-169.85 420.38,-175.45\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-208.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_exploit -->\n<g id=\"edge48\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_exploit</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M220,-276.31C243.1,-272.73 266.97,-264.95 284.61,-249.26 304.46,-231.61 291.12,-216.21 302.61,-192.26 314.81,-166.84 312.99,-152.81 337.86,-139.51 464.18,-72 639.21,-103.83 732.77,-128.97\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"731.93,-131.64 740.39,-131.06 733.41,-126.24 731.93,-131.64\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-141.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.casesOn -->\n<g id=\"edge54\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.casesOn</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M220,-275.44C359.29,-273.95 649.33,-270.85 756.76,-269.7\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"756.49,-272.51 764.46,-269.62 756.43,-266.91 756.49,-272.51\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-276.28\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.casesOn -->\n<g id=\"edge55\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.casesOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M211.62,-268.06C248.87,-264 295.83,-259.53 337.86,-257.51 464.21,-251.44 496.05,-253.29 622.47,-257.51 668.69,-259.06 721.64,-262.89 757.18,-265.76\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"756.56,-268.52 764.76,-266.38 757.01,-262.94 756.56,-268.52\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-259.66\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusion -->\n<g id=\"edge59\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M219.55,-278.43C243.46,-275.15 267.93,-267.01 284.61,-249.26 306.25,-226.25 290.59,-137.47 302.61,-108.26 312.41,-84.44 315.44,-74.95 337.86,-62.26 392.87,-31.14 415.96,-46.26 479.17,-46.26 479.17,-46.26 479.17,-46.26 1030.69,-46.26 1107.7,-46.26 1152.26,-146.44 1169.61,-196.06\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1166.93,-196.87 1172.14,-203.55 1172.23,-195.08 1166.93,-196.87\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-48.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusion -->\n<g id=\"edge61\" class=\"edge\">\n<title>MissingRecursor_Witness&#45;&gt;MissingRecursor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" d=\"M219.45,-278.73C243.49,-275.5 268.08,-267.31 284.61,-249.26 311.32,-220.11 285.33,-107.82 302.61,-72.26 339.65,3.95 394.42,-0.26 479.17,-0.26 479.17,-0.26 479.17,-0.26 1030.69,-0.26 1123.44,-0.26 1161.21,-136.2 1173.31,-195.81\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1170.54,-196.21 1174.81,-203.53 1176.04,-195.14 1170.54,-196.21\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-2.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- manualCtor -->\n<g id=\"node60\" class=\"node\">\n<title>manualCtor</title>\n<g id=\"a_node60\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-788.26\" rx=\"39.2\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-784.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">manualCtor</text>\n</a>\n</g>\n</g>\n<!-- manualCtor&#45;&gt;ManualConstructor_exploit -->\n<g id=\"edge13\" class=\"edge\">\n<title>manualCtor&#45;&gt;ManualConstructor_exploit</title>\n<path fill=\"none\" stroke=\"black\" d=\"M519.4,-786.42C555.39,-785.43 610.66,-785.86 657.72,-794.51 686.79,-799.86 718.03,-810.03 743.62,-819.62\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"742.54,-822.2 751.01,-822.44 744.53,-816.97 742.54,-822.2\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-796.66\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness -->\n<g id=\"node61\" class=\"node\">\n<title>ManualConstructor_Witness</title>\n<g id=\"a_node61\"><a xlink:title=\"LeanTestProject.ManualConstructor\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-842.26\" rx=\"82.69\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-838.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">ManualConstructor_Witness</text>\n</a>\n</g>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.casesOn -->\n<g id=\"edge4\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.casesOn</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M170.64,-825C207.13,-803.05 274.51,-766.23 337.86,-751.51 489.29,-716.33 676.33,-729.29 757.35,-737.53\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"756.95,-740.3 765.19,-738.35 757.53,-734.73 756.95,-740.3\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-753.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.casesOn -->\n<g id=\"edge5\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.casesOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M162.05,-824.38C194.65,-794.66 265.27,-736.22 337.86,-714.51 489.26,-669.25 680.84,-710.33 760.53,-731.48\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"759.77,-734.17 768.22,-733.56 761.23,-728.77 759.77,-734.17\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-716.66\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusion -->\n<g id=\"edge7\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M149.77,-860.37C166.89,-905.44 217.95,-1023.02 302.61,-1078.26 369.4,-1121.84 399.42,-1110.26 479.17,-1110.26 479.17,-1110.26 479.17,-1110.26 1030.69,-1110.26 1072.53,-1110.26 1091.8,-1109.86 1119.22,-1078.26 1152.29,-1040.17 1169.79,-887.03 1175.73,-823.79\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1178.51,-824.18 1176.44,-815.95 1172.93,-823.67 1178.51,-824.18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1112.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusion -->\n<g id=\"edge9\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusion</title>\n<path fill=\"none\" stroke=\"black\" d=\"M157.12,-860.43C199.15,-913.45 331.69,-1064.26 479.17,-1064.26 479.17,-1064.26 479.17,-1064.26 1030.69,-1064.26 1139.5,-1064.26 1168.56,-892.54 1175.82,-824.01\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1178.59,-824.43 1176.59,-816.19 1173.02,-823.88 1178.59,-824.43\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1066.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_exploit -->\n<g id=\"edge12\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_exploit</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M202.19,-855.08C298.04,-874.11 493.6,-905.22 657.72,-882.26 684.4,-878.53 713.13,-870.99 737.6,-863.45\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"738.17,-866.2 744.96,-861.13 736.49,-860.86 738.17,-866.2\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-892.52\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.rec -->\n<g id=\"edge17\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.rec</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M225.47,-842.26C295.16,-842.26 391.79,-842.26 443.36,-842.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"443.24,-845.06 451.24,-842.26 443.24,-839.46 443.24,-845.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-844.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.recOn -->\n<g id=\"edge27\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.recOn</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M183.97,-858.2C222.84,-872.72 283.44,-893.49 337.86,-904.26 493.74,-935.13 684.13,-940.98 762.08,-942.05\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"761.9,-944.84 769.94,-942.14 761.97,-939.24 761.9,-944.84\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-939.03\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.recOn -->\n<g id=\"edge28\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.recOn</title>\n<path fill=\"none\" stroke=\"black\" d=\"M165.91,-859.86C200.59,-885.62 270.04,-932.46 337.86,-950.26 492.17,-990.77 685.71,-963.21 763.37,-949.13\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"763.84,-951.89 771.19,-947.68 762.82,-946.38 763.84,-951.89\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-973.58\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.ctorIdx -->\n<g id=\"edge34\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.ctorIdx</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M158.39,-824.27C188.35,-790.11 259.31,-716.89 337.86,-690.26 598.68,-601.85 698.41,-607.62 957.4,-701.26 966.93,-704.71 966.84,-709.84 975.4,-715.26 982.67,-719.87 990.82,-724.33 998.53,-728.25\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"996.88,-730.56 1005.29,-731.6 999.37,-725.54 996.88,-730.56\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-629.9\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.ctorIdx -->\n<g id=\"edge35\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.ctorIdx</title>\n<path fill=\"none\" stroke=\"black\" d=\"M159.61,-860.16C190.56,-892.64 261.58,-960.25 337.86,-985.26 461.28,-1025.74 821.51,-1051.38 922.15,-969.26 994.75,-910.02 914.37,-836.37 975.4,-765.26 980.59,-759.22 987.65,-754.71 994.94,-751.37\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"995.7,-754.09 1002.1,-748.53 993.63,-748.88 995.7,-754.09\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-1025.46\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusionType -->\n<g id=\"edge45\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusionType</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M152.95,-823.93C177.14,-780.15 245.16,-669.89 337.86,-626.26 455.34,-570.98 797.64,-589.43 922.15,-626.26 950.41,-634.62 979.1,-651.93 999.57,-666.14\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"997.89,-668.38 1006.04,-670.73 1001.14,-663.82 997.89,-668.38\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-594.6\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusionType -->\n<g id=\"edge46\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;ManualConstructor_Witness.noConfusionType</title>\n<path fill=\"none\" stroke=\"black\" d=\"M150.51,-823.92C170.98,-774.67 234.78,-639.82 337.86,-588.26 395.92,-559.22 862.22,-564.3 922.15,-589.26 959.37,-604.77 991.62,-639.46 1010.61,-663.36\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"1008.26,-664.9 1015.37,-669.51 1012.68,-661.47 1008.26,-664.9\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-570.88\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- ManualConstructor_Witness&#45;&gt;manualCtor -->\n<g id=\"edge65\" class=\"edge\">\n<title>ManualConstructor_Witness&#45;&gt;manualCtor</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M210.06,-831.53C276.21,-820.9 375.73,-804.89 433.4,-795.62\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"433.67,-798.41 441.13,-794.38 432.79,-792.88 433.67,-798.41\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-817.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- WithAxiom_exploit_axiom -->\n<g id=\"node62\" class=\"node\">\n<title>WithAxiom_exploit_axiom</title>\n<g id=\"a_node62\"><a xlink:title=\"LeanTestProject.WithAxiom\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"480.17\" cy=\"-1159.26\" rx=\"76.48\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"480.17\" y=\"-1155.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">WithAxiom_exploit_axiom</text>\n</a>\n</g>\n</g>\n<!-- WithAxiom_exploit_theorem -->\n<g id=\"node63\" class=\"node\">\n<title>WithAxiom_exploit_theorem</title>\n<g id=\"a_node63\"><a xlink:title=\"LeanTestProject.WithAxiom\">\n<ellipse fill=\"#e6972b\" stroke=\"#e6972b\" cx=\"798.93\" cy=\"-1159.26\" rx=\"97.76\" ry=\"21.57\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1161.01\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">WithAxiom_exploit_theorem</text>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"798.93\" y=\"-1149.76\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">USES AXIOM, NONCOMP</text>\n</a>\n</g>\n</g>\n<!-- WithAxiom_exploit_axiom&#45;&gt;WithAxiom_exploit_theorem -->\n<g id=\"edge67\" class=\"edge\">\n<title>WithAxiom_exploit_axiom&#45;&gt;WithAxiom_exploit_theorem</title>\n<path fill=\"none\" stroke=\"black\" d=\"M557.04,-1159.26C597.28,-1159.26 647.38,-1159.26 691.46,-1159.26\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"691.25,-1162.06 699.25,-1159.26 691.25,-1156.46 691.25,-1162.06\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"649.1\" y=\"-1161.41\" font-family=\"Times,serif\" font-size=\"8.00\">value</text>\n</g>\n<!-- good_theorem -->\n<g id=\"node64\" class=\"node\">\n<title>good_theorem</title>\n<g id=\"a_node64\"><a xlink:title=\"LeanTestProject.Basic\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-2624.26\" rx=\"45.86\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-2620.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">good_theorem</text>\n</a>\n</g>\n</g>\n<!-- correctAdd -->\n<g id=\"node67\" class=\"node\">\n<title>correctAdd</title>\n<g id=\"a_node67\"><a xlink:title=\"LeanTestProject.WithAxiom\">\n<ellipse fill=\"#bbbbbb\" stroke=\"#bbbbbb\" cx=\"142.31\" cy=\"-1165.26\" rx=\"37.42\" ry=\"18\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"142.31\" y=\"-1161.39\" font-family=\"Helvetica,sans-Serif\" font-size=\"10.00\">correctAdd</text>\n</a>\n</g>\n</g>\n<!-- correctAdd&#45;&gt;correctAdd_eq_wrongAdd -->\n<g id=\"edge43\" class=\"edge\">\n<title>correctAdd&#45;&gt;correctAdd_eq_wrongAdd</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M178.3,-1170.89C232.24,-1179.56 336.85,-1196.38 407.37,-1207.72\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"406.81,-1210.47 415.16,-1208.97 407.7,-1204.94 406.81,-1210.47\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1194.41\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n<!-- correctAdd&#45;&gt;WithAxiom_exploit_axiom -->\n<g id=\"edge66\" class=\"edge\">\n<title>correctAdd&#45;&gt;WithAxiom_exploit_axiom</title>\n<path fill=\"none\" stroke=\"black\" stroke-dasharray=\"5,2\" d=\"M180,-1163.93C212.28,-1162.82 260.56,-1161.29 302.61,-1160.51 332.48,-1159.96 365.19,-1159.65 394.25,-1159.47\"/>\n<polygon fill=\"black\" stroke=\"black\" points=\"394.06,-1162.28 402.04,-1159.43 394.03,-1156.68 394.06,-1162.28\"/>\n<text xml:space=\"preserve\" text-anchor=\"middle\" x=\"311.24\" y=\"-1162.66\" font-family=\"Times,serif\" font-size=\"8.00\">type</text>\n</g>\n</g>\n</svg>\n";
         
         // Auto-load embedded data on page load
         document.addEventListener('DOMContentLoaded', function() {
